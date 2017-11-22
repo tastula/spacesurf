@@ -1,14 +1,9 @@
+#include "resources.hh"
 #include <iostream>
 #include <SDL2/SDL.h>
 
 int main()
 {
-    if(SDL_Init(SDL_INIT_EVERYTHING))
-    {
-        SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
-        return 1;
-    }
-
     std::cout << "SDL initialized." << std::endl;
 
     SDL_Window* window = SDL_CreateWindow(
