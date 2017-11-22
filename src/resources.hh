@@ -8,7 +8,6 @@ class Resources
     public:
         Resources();
         ~Resources();
-        // Working with window
         void window_clear();
         void window_draw();
 
@@ -20,10 +19,13 @@ class Resources
         SDL_Window* window;
         SDL_Renderer* renderer;
 
+        SDL_Color color_back;
     private:
         void init_sdl();
         void init_values();
         void init_winren();
+        void free_sdl();
+        void free_winren();
 };
 
 #endif

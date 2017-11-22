@@ -1,7 +1,8 @@
 project('SpaceSurf', 'cpp')
 
 src = [
-    'src/main.cc'
+    'src/main.cc',
+    'src/resources.cc'
 ]
 
 dps = [
