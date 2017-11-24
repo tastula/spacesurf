@@ -16,6 +16,7 @@ int main()
             if(res.event.type == SDL_QUIT) return 0;
         }
 
+        // Present all changes
         res.window_draw();
     }
 
