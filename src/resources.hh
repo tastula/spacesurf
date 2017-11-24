@@ -20,6 +20,8 @@ class Resources
         SDL_Renderer* renderer;
 
         SDL_Color color_back;
+
+        SDL_Event event;
     private:
         void init_sdl();
         void init_values();
