@@ -32,12 +32,29 @@ void Resources::window_draw()
 
 void Resources::init_sdl()
 {
+    // SDL2 itself
     if(SDL_Init(SDL_INIT_EVERYTHING))
     {
         SDL_Log("Error in initializing SDL");
         throw std::runtime_error(SDL_GetError());
     }
     SDL_Log("SDL initialized");
+
+    // SDL2 IMG
+    if(IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG)
+    {
+        SDL_Log("Error in initializing SDL_IMG");
+        throw std::runtime_error(SDL_GetError());
+    }
+    SDL_Log("SDL_IMG initialized");
+
+    // SDL2 TTF
+    if(TTF_Init())
+    {
+        SDL_Log("Error in initializing SDL_TTF");
+        throw std::runtime_error(SDL_GetError());
+    }
+    SDL_Log("SDL_TTF initialized");
 }
 
 void Resources::init_values()
@@ -76,6 +93,8 @@ void Resources::init_winren()
 
 void Resources::free_sdl()
 {
+    TTF_Quit();
+    IMG_Quit();
     SDL_Quit();
     SDL_Log("SDL has been quit");
 }
