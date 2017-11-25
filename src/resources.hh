@@ -19,12 +19,15 @@ class Resources
         ~Resources();
         void window_clear();
         void window_draw();
+        std::string get_pressed_key(int repeat=0);
+        std::string get_released_key(int repeat=0);
 
         int screen_w;
         int screen_h;
 
         bool game_running;
         bool game_fullscreen;
+        bool game_paused;
 
         SDL_Window* window;
         SDL_Renderer* renderer;

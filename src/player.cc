@@ -47,17 +47,17 @@ bool Player::remove()
 
 void Player::input()
 {
-    if(res.event.type == SDL_KEYDOWN and res.event.key.repeat == 0)
+    std::string key = res.get_pressed_key();
+    if(key != "")
     {
-        std::string key = SDL_GetKeyName(res.event.key.keysym.sym);
         if(key == "W") vel_y -= velocity;
         if(key == "S") vel_y += velocity;
         if(key == "A") vel_x -= velocity;
         if(key == "D") vel_x += velocity;
     }
-    else if(res.event.type == SDL_KEYUP && res.event.key.repeat == 0)
+    key = res.get_released_key();
+    if(key != "")
     {
-        std::string key = SDL_GetKeyName(res.event.key.keysym.sym);
         if(key == "W") vel_y += velocity;
         if(key == "S") vel_y -= velocity;
         if(key == "A") vel_x += velocity;

@@ -5,6 +5,7 @@ src = [
     'src/clock.cc',
     'src/effects.cc',
     'src/label.cc',
+    'src/level.cc',
     'src/main.cc',
     'src/game.cc',
     'src/object.cc',

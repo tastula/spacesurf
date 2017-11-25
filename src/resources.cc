@@ -38,6 +38,24 @@ void Resources::window_draw()
     SDL_RenderPresent(renderer);
 }
 
+std::string Resources::get_pressed_key(int repeat)
+{
+    if(event.type == SDL_KEYDOWN and event.key.repeat == repeat)
+    {
+        return SDL_GetKeyName(event.key.keysym.sym);
+    }
+    return "";
+}
+
+std::string Resources::get_released_key(int repeat)
+{
+    if(event.type == SDL_KEYUP and event.key.repeat == repeat)
+    {
+        return SDL_GetKeyName(event.key.keysym.sym);
+    }
+    return "";
+}
+
 void Resources::init_sdl()
 {
     // SDL2 itself
@@ -67,7 +85,8 @@ void Resources::init_values()
     screen_w = 1920;
     screen_h = 1080;
     game_running = true;
-    game_fullscreen = false;
+    game_fullscreen = true;
+    game_paused = false;
 
     color_back = {30, 0, 0, 0};
     color_white = {255, 255, 255, 0};

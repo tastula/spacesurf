@@ -2,15 +2,11 @@
 #include "game.hh"
 #include "object.hh"
 #include "resources.hh"
-#include "stone.hh"
 
 Game::Game(Resources &res)
-:res(res), player(res, "naut1")
+:res(res), level(res)
 {
     init();
-    player.set_position(200, 200);
-    new_ray.start();
-    new_stone.start();
 }
 
 Game::~Game()
@@ -19,20 +15,28 @@ Game::~Game()
 
 void Game::init()
 {
+    new_ray.start();
 }
 
 void Game::input()
 {
-    player.input();
+    if(res.get_pressed_key() == "Space")
+    {
+        res.game_paused = !res.game_paused;
+    }
+    
+    level.input();
 }
 
 void Game::update(float delta)
 {
-    add_rays();
-    add_stones();
-    update_layer(delta, res.layer1);
-    player.update(delta);
-    update_layer(delta, res.layer2);
+    if(!res.game_paused)
+    {
+        add_rays();
+        level.update(delta);
+        update_layer(delta, res.layer1);
+        update_layer(delta, res.layer2);
+    }
 }
 
 void Game::add_rays()
@@ -41,15 +45,6 @@ void Game::add_rays()
     {
         new_ray.restart();
         res.layer1.emplace_back(new Ray(res));
-    }
-}
-
-void Game::add_stones()
-{
-    if(new_stone.time() > 0.3)
-    {
-        new_stone.restart();
-        res.layer2.emplace_back(new Stone(res));
     }
 }
 
@@ -71,7 +66,6 @@ void Game::update_layer(float delta, std::vector<Object*>& layer)
 void Game::draw()
 {
     draw_layer(res.layer1);
-    player.draw();
     draw_layer(res.layer2);
 }
 

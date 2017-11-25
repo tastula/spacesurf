@@ -2,6 +2,7 @@
 #define SURF_GAME_HH
 
 #include "clock.hh"
+#include "level.hh"
 #include "player.hh"
 #include <vector>
 
@@ -18,15 +19,12 @@ class Game
         void draw();
     private:
         void add_rays();
-        void add_stones();
         void update_layer(float delta, std::vector<Object*>& layer);
         void draw_layer(std::vector<Object*>& layer);
 
         Resources& res;
-        Player player;
-
+        Level level;
         Clock new_ray;
-        Clock new_stone;
 };
 
 #endif
