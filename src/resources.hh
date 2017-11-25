@@ -24,6 +24,7 @@ class Resources
         SDL_Color color_back;
 
         SDL_Event event;
+        TTF_Font *font_m;
     private:
         void init_sdl();
         void init_values();

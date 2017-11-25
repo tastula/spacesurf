@@ -1,6 +1,7 @@
 project('SpaceSurf', 'cpp')
 
 src = [
+    'src/clock.cc',
     'src/label.cc',
     'src/main.cc',
     'src/game.cc',
