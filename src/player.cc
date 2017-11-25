@@ -22,6 +22,14 @@ void Player::update(float delta)
 {
     add_pos_x(vel_x*delta);
     add_pos_y(vel_y*delta);
+
+    // Keep the player on screen
+    // TODO: Remove offsets when pictures are fixed
+    if(pos_x < 10) pos_x = 10;
+    else if(pos_x > res.screen_w-w+20) pos_x = res.screen_w-w+20;
+    if(pos_y < -10) pos_y = -10;
+    else if(pos_y > res.screen_h-h-10) pos_y = res.screen_h-h-10;
+    
 }
 
 bool Player::remove()
