@@ -2,13 +2,14 @@
 #define SURF_OBJECT_HH
 
 #include <SDL2/SDL.h>
+#include <string>
 
 class Resources;
 
 class Object
 {
     public:
-        Object(Resources &res, SDL_Texture *tex);
+        Object(Resources &res,  std::string tex);
         virtual ~Object();
         virtual void init();
         virtual void draw();
@@ -17,6 +18,8 @@ class Object
         void add_pos_y(float delta);
         void add_vel_x(float delta);
         void add_vel_y(float delta);
+        void set_texture(std::string tex);
+        void set_position(float new_x, float new_y);
         void set_pos_x(float position);
         void set_pos_y(float position);
         void set_vel_x(float position);
@@ -26,7 +29,7 @@ class Object
         float get_vel_x();
         float get_vel_y();
 
-    private:
+    protected:
         Resources& res;
         SDL_Texture *tex;
         float pos_x;

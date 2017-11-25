@@ -1,5 +1,6 @@
 #include "resources.hh"
 #include <stdexcept>
+#include <vector>
 
 Resources::Resources()
 {
@@ -7,6 +8,7 @@ Resources::Resources()
     init_values();
     init_winren();
     load_fonts();
+    load_textures();
 }
 
 Resources::~Resources()
@@ -84,7 +86,7 @@ void Resources::init_winren()
 
     renderer = SDL_CreateRenderer(
         window, -1,
-        SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_ACCELERATED);
+        SDL_RENDERER_ACCELERATED);
     if(!renderer)
     {
         SDL_Log("Error in creating renderer");
@@ -93,9 +95,32 @@ void Resources::init_winren()
     SDL_Log("Renderer created");
 }
 
+//TODO: check all resources for errors
+
 void Resources::load_fonts()
 {
     font_m = TTF_OpenFont("../res/fonts/slkscr.ttf", 32);
+}
+
+void Resources::load_textures()
+{
+    std::vector<std::string> names = {
+        "naut1"
+    };
+    std::vector<std::string> paths = {
+        "../res/graphics/naut1.png"
+    };
+
+    for(unsigned i=0; i<names.size(); ++i)
+    {
+        SDL_Texture *tex = IMG_LoadTexture(renderer, paths.at(i).c_str());
+        if(!tex)
+        {
+            SDL_Log("Error in loading textures");
+            throw std::runtime_error(SDL_GetError());
+        }
+        all_textures.insert({names.at(i), tex});
+    }
 }
 
 void Resources::free_sdl()

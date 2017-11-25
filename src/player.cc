@@ -2,16 +2,25 @@
 #include "resources.hh"
 #include <string>
 
-Player::Player(Resources &res)
-:Object(res)
+Player::Player(Resources &res, std::string tex)
+:Object(res, tex)
 {
-    
+    init();
+}
+
+Player::~Player()
+{
+}
+
+void Player::init()
+{
+    velocity = 400;
 }
 
 void Player::update(float delta)
 {
-    pos_x += vel_x*delta;
-    pos_y += vel_y*delta;
+    add_pos_x(vel_x*delta);
+    add_pos_y(vel_y*delta);
 }
 
 void Player::input()

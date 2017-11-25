@@ -2,9 +2,10 @@
 #include "resources.hh"
 
 Game::Game(Resources &res)
-:res(res), test(res, "yo mate", res.font_m, 100, 100)
+:res(res), player(res, "naut1")
 {
     init();
+    player.set_position(200, 200);
 }
 
 Game::~Game()
@@ -17,13 +18,15 @@ void Game::init()
 
 void Game::input()
 {
+    player.input();
 }
 
 void Game::update(float delta)
 {
+    player.update(delta);
 }
 
 void Game::draw()
 {
-    test.draw();
+    player.draw();
 }

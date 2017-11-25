@@ -101,10 +101,7 @@ void Label::update_color_back(SDL_Color color)
 
 void Label::update_texture()
 {
-    SDL_Log(text.c_str());
-    if(font == NULL) SDL_Log("vittu");
     SDL_Surface *sur = TTF_RenderText_Solid(font, text.c_str(), color_main);
-    SDL_Log("Created Label");
     tex = SDL_CreateTextureFromSurface(res.renderer, sur);
     SDL_QueryTexture(tex, NULL, NULL, &w, &h);
     SDL_FreeSurface(sur);

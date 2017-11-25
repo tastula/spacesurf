@@ -55,7 +55,7 @@ float Clock::time()
     {
         current_time = SDL_GetTicks()-start_time;
     }
-    return current_time;
+    return current_time/1000;
 }
 
 float Clock::restart()

@@ -1,10 +1,11 @@
 #include "object.hh"
 #include "resources.hh"
 
-Object::Object(Resources& res, SDL_Texture *tex)
-:res(res), tex(tex)
+Object::Object(Resources& res, std::string tex)
+:res(res)
 {
     init();
+    set_texture(tex);
 }
 
 Object::~Object()
@@ -13,7 +14,6 @@ Object::~Object()
 
 void Object::init()
 {
-    SDL_QueryTexture(tex, NULL, NULL, &w, &h);
     angle = 0;
 }
 
@@ -47,6 +47,18 @@ void Object::add_vel_y(float delta)
 void Object::set_pos_x(float position)
 {
     pos_x = position;
+}
+
+void Object::set_texture(std::string tex)
+{
+    this->tex = res.all_textures.at(tex);
+    SDL_QueryTexture(this->tex, NULL, NULL, &w, &h);
+}
+
+void Object::set_position(float new_x, float new_y)
+{
+    set_pos_x(new_x);
+    set_pos_y(new_y);
 }
 
 void Object::set_pos_y(float position)

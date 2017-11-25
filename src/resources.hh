@@ -4,6 +4,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include <string>
+#include <map>
 
 class Resources
 {
@@ -26,11 +28,14 @@ class Resources
 
         SDL_Event event;
         TTF_Font *font_m;
+
+        std::map<std::string, SDL_Texture*> all_textures;
     private:
         void init_sdl();
         void init_values();
         void init_winren();
         void load_fonts();
+        void load_textures();
         void free_sdl();
         void free_winren();
 };

@@ -1,3 +1,4 @@
+#include "clock.hh"
 #include "game.hh"
 #include "resources.hh"
 #include <SDL2/SDL.h>
@@ -7,9 +8,13 @@ int main()
     Resources res;
     Game game(res);
 
+    Clock delta_timer;
+    float delta_time = 0;
+
     // Run the game
     while(res.game_running)
     {
+        delta_time = delta_timer.restart();
         res.window_clear();
 
         // Check for user events
@@ -20,7 +25,7 @@ int main()
         }
 
         // What's up with the game
-        game.update(0.10);
+        game.update(delta_time);
         game.draw();
 
         // Present all changes
