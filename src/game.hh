@@ -1,6 +1,8 @@
 #ifndef SURF_GAME_HH
 #define SURF_GAME_HH
 
+#include "label.hh"
+
 class Resources;
 
 class Game
@@ -14,6 +16,7 @@ class Game
         void draw();
     private:
         Resources& res;
+        Label test;
 };
 
 #endif

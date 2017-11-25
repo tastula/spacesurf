@@ -2,7 +2,7 @@
 #include "resources.hh"
 
 Game::Game(Resources &res)
-:res(res)
+:res(res), test(res, "yo mate", res.font_m, 100, 100)
 {
     init();
 }
@@ -25,4 +25,5 @@ void Game::update(float delta)
 
 void Game::draw()
 {
+    test.draw();
 }

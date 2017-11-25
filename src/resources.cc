@@ -6,6 +6,7 @@ Resources::Resources()
     init_sdl();
     init_values();
     init_winren();
+    load_fonts();
 }
 
 Resources::~Resources()
@@ -64,6 +65,7 @@ void Resources::init_values()
     game_running = true;
 
     color_back = {30, 0, 0, 0};
+    color_white = {255, 255, 255, 0};
 }
 
 void Resources::init_winren()
@@ -89,6 +91,11 @@ void Resources::init_winren()
         throw std::runtime_error(SDL_GetError());
     }
     SDL_Log("Renderer created");
+}
+
+void Resources::load_fonts()
+{
+    font_m = TTF_OpenFont("../res/fonts/slkscr.ttf", 32);
 }
 
 void Resources::free_sdl()

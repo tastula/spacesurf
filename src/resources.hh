@@ -22,6 +22,7 @@ class Resources
         SDL_Renderer* renderer;
 
         SDL_Color color_back;
+        SDL_Color color_white;
 
         SDL_Event event;
         TTF_Font *font_m;
@@ -29,6 +30,7 @@ class Resources
         void init_sdl();
         void init_values();
         void init_winren();
+        void load_fonts();
         void free_sdl();
         void free_winren();
 };
