@@ -1,13 +1,16 @@
 #ifndef SURF_RESOURCES_HH
 #define SURF_RESOURCES_HH
 
+#include <map>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <string>
-#include <map>
+#include <vector>
 
 using map_texture = std::map<std::string, SDL_Texture*>;
+
+class Object;
 
 class Resources
 {
@@ -32,6 +35,8 @@ class Resources
         TTF_Font *font_m;
 
         map_texture all_textures;
+
+        std::vector<Object*> layer1;
     private:
         void init_sdl();
         void init_values();

@@ -1,6 +1,5 @@
 #include "resources.hh"
 #include <stdexcept>
-#include <vector>
 
 Resources::Resources()
 {
@@ -88,7 +87,7 @@ void Resources::init_winren()
 
     renderer = SDL_CreateRenderer(
         window, -1,
-        SDL_RENDERER_ACCELERATED);
+        /*SDL_RENDERER_PRESENTVSYNC|*/SDL_RENDERER_ACCELERATED);
     if(!renderer)
     {
         SDL_Log("Error in creating renderer");

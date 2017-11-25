@@ -13,6 +13,7 @@ class Player: public Object
         ~Player();
         void init();
         void update(float delta);
+        bool remove();
         void input();
     private:
         int velocity;

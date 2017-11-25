@@ -15,12 +15,18 @@ Player::~Player()
 void Player::init()
 {
     velocity = 400;
+    health = 600;
 }
 
 void Player::update(float delta)
 {
     add_pos_x(vel_x*delta);
     add_pos_y(vel_y*delta);
+}
+
+bool Player::remove()
+{
+    return health < 0;
 }
 
 void Player::input()

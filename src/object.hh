@@ -9,9 +9,12 @@ class Resources;
 class Object
 {
     public:
-        Object(Resources &res,  std::string tex);
+        Object(Resources &res, std::string tex);
+        Object(Resources &res);
         virtual ~Object();
         virtual void init();
+        virtual bool remove() = 0;
+        virtual void update(float delta) = 0;
         virtual void draw();
 
         void add_pos_x(float delta);
@@ -39,6 +42,9 @@ class Object
         int w;
         int h;
         float angle;
+
+        // Everyone has these, just in case
+        int health;
 };
 
 #endif

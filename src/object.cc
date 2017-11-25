@@ -8,6 +8,13 @@ Object::Object(Resources& res, std::string tex)
     set_texture(tex);
 }
 
+Object::Object(Resources& res)
+:res(res)
+{
+    // There's no texture yet, create one asap!
+    init();
+}
+
 Object::~Object()
 {
 }
@@ -21,6 +28,7 @@ void Object::init()
     h = 0;
     w = 0;
     angle = 0;
+    health = 0;
 }
 
 void Object::draw()
