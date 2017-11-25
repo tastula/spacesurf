@@ -2,6 +2,7 @@
 #include "game.hh"
 #include "object.hh"
 #include "resources.hh"
+#include "stone.hh"
 
 Game::Game(Resources &res)
 :res(res), player(res, "naut1")
@@ -9,6 +10,7 @@ Game::Game(Resources &res)
     init();
     player.set_position(200, 200);
     new_ray.start();
+    new_stone.start();
 }
 
 Game::~Game()
@@ -26,12 +28,14 @@ void Game::input()
 
 void Game::update(float delta)
 {
-    update_rays();
-    update_layers(delta);
+    add_rays();
+    add_stones();
+    update_layer(delta, res.layer1);
     player.update(delta);
+    update_layer(delta, res.layer2);
 }
 
-void Game::update_rays()
+void Game::add_rays()
 {
     if(new_ray.time() > 0.15)
     {
@@ -40,15 +44,24 @@ void Game::update_rays()
     }
 }
 
-void Game::update_layers(float delta)
+void Game::add_stones()
 {
-    for(unsigned i=0; i<res.layer1.size(); ++i)
+    if(new_stone.time() > 0.5)
     {
-        res.layer1.at(i)->update(delta);
-        if(res.layer1.at(i)->remove())
+        new_stone.restart();
+        res.layer2.emplace_back(new Stone(res));
+    }
+}
+
+void Game::update_layer(float delta, std::vector<Object*>& layer)
+{
+    for(unsigned i=0; i<layer.size(); ++i)
+    {
+        layer.at(i)->update(delta);
+        if(layer.at(i)->remove())
         {
-            Object* del = res.layer1.at(i);
-            res.layer1.erase(res.layer1.begin()+i);
+            Object* del = layer.at(i);
+            layer.erase(layer.begin()+i);
             delete del;
             --i;
         }
@@ -57,14 +70,15 @@ void Game::update_layers(float delta)
 
 void Game::draw()
 {
-    draw_layers();
+    draw_layer(res.layer1);
     player.draw();
+    draw_layer(res.layer2);
 }
 
-void Game::draw_layers()
+void Game::draw_layer(std::vector<Object*>& layer)
 {
-    for(unsigned i=0; i<res.layer1.size(); ++i)
+    for(unsigned i=0; i<layer.size(); ++i)
     {
-        res.layer1.at(i)->draw();
+        layer.at(i)->draw();
     }
 }

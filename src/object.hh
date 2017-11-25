@@ -17,11 +17,12 @@ class Object
         virtual void update(float delta) = 0;
         virtual void draw();
 
+        void set_texture(std::string tex);
+        void set_texture(SDL_Texture *tex);
         void add_pos_x(float delta);
         void add_pos_y(float delta);
         void add_vel_x(float delta);
         void add_vel_y(float delta);
-        void set_texture(std::string tex);
         void set_position(float new_x, float new_y);
         void set_pos_x(float position);
         void set_pos_y(float position);

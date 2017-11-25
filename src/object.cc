@@ -12,6 +12,7 @@ Object::Object(Resources& res)
 :res(res)
 {
     // There's no texture yet, create one asap!
+    // Remember to manually set the texture.
     init();
 }
 
@@ -39,6 +40,18 @@ void Object::draw()
                      SDL_FLIP_NONE);
 }
 
+void Object::set_texture(std::string tex)
+{
+    this->tex = res.all_textures.at(tex);
+    SDL_QueryTexture(this->tex, NULL, NULL, &w, &h);
+}
+
+void Object::set_texture(SDL_Texture *tex)
+{
+    this->tex = tex;
+    SDL_QueryTexture(this->tex, NULL, NULL, &w, &h);
+}
+
 void Object::add_pos_x(float delta)
 {
     pos_x += delta;
@@ -62,12 +75,6 @@ void Object::add_vel_y(float delta)
 void Object::set_pos_x(float position)
 {
     pos_x = position;
-}
-
-void Object::set_texture(std::string tex)
-{
-    this->tex = res.all_textures.at(tex);
-    SDL_QueryTexture(this->tex, NULL, NULL, &w, &h);
 }
 
 void Object::set_position(float new_x, float new_y)

@@ -3,7 +3,7 @@
 #include <string>
 
 Stone::Stone(Resources& res, int size, float vel_y)
-:Object(res), size(size)
+:Object(res), size(size+1)
 {
     init();
     this->vel_y = vel_y;
@@ -11,14 +11,17 @@ Stone::Stone(Resources& res, int size, float vel_y)
 
 Stone::~Stone()
 {
+    //SDL_Log("Stone now gone");
 }
 
 void Stone::init()
 {
-    tex = res.all_textures.at(("stone"+std::to_string(size)).c_str());
+    std::string name = "stone"+std::to_string(size);
+    Object::set_texture(name);
     pos_x = res.screen_w + rand()%30;
     pos_y = rand()%res.screen_h - h/2;
-    vel_x = 350 + rand()%(size*50);
+    vel_x = -(340 + rand()%(size*80));
+    shot = false;
 }
 
 void Stone::update(float delta)

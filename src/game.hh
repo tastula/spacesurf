@@ -3,6 +3,7 @@
 
 #include "clock.hh"
 #include "player.hh"
+#include <vector>
 
 class Resources;
 
@@ -16,14 +17,16 @@ class Game
         void update(float delta);
         void draw();
     private:
-        void update_rays();
-        void update_layers(float delta);
-        void draw_layers();
+        void add_rays();
+        void add_stones();
+        void update_layer(float delta, std::vector<Object*>& layer);
+        void draw_layer(std::vector<Object*>& layer);
 
         Resources& res;
         Player player;
 
         Clock new_ray;
+        Clock new_stone;
 };
 
 #endif
