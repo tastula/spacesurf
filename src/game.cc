@@ -1,8 +1,8 @@
 #include "game.hh"
 #include "resources.hh"
 
-Game::Game(Resources& resources)
-:res(resources)
+Game::Game(Resources &res)
+:res(res)
 {
     init();
 }

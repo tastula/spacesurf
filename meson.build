@@ -3,6 +3,7 @@ project('SpaceSurf', 'cpp')
 src = [
     'src/main.cc',
     'src/game.cc',
+    'src/object.cc',
     'src/resources.cc'
 ]
 

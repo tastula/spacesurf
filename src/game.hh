@@ -6,7 +6,7 @@ class Resources;
 class Game
 {
     public:
-        Game(Resources& resources);
+        Game(Resources &res);
         ~Game();
         void init();
         void input();
