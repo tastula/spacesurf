@@ -64,8 +64,8 @@ void Resources::init_sdl()
 
 void Resources::init_values()
 {
-    screen_w = 1280;
-    screen_h = 720;
+    screen_w = 1920;
+    screen_h = 1080;
     game_running = true;
     game_fullscreen = false;
 
@@ -85,9 +85,11 @@ void Resources::init_winren()
         SDL_Log("Error in creating window");
         throw std::runtime_error(SDL_GetError());
     }
+    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    SDL_ShowCursor(0);
     renderer = SDL_CreateRenderer(
         window, -1,
-        /*SDL_RENDERER_PRESENTVSYNC|*/SDL_RENDERER_ACCELERATED);
+        SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_ACCELERATED);
     if(!renderer)
     {
         SDL_Log("Error in creating renderer");
@@ -104,12 +106,14 @@ void Resources::load_textures()
 {
     std::vector<std::string> names = {
         "naut1",
-        "stone1", "stone2", "stone3", "stone4"
+        "stone1", "stone2", "stone3", "stone4",
+        "surfboard",
     };
     std::vector<std::string> paths = {
         "res/graphics/naut1.png",
         "res/graphics/stones/stone1.png", "res/graphics/stones/stone2.png",
         "res/graphics/stones/stone3.png", "res/graphics/stones/stone4.png",
+        "res/graphics/assets/surfboard.png",
     };
 
     for(unsigned i=0; i<names.size(); ++i)

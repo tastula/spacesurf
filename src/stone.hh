@@ -19,6 +19,7 @@ class Stone: public Object
     private:
         int size;
         int shot;
+        int rotation;
 };
 
 #endif

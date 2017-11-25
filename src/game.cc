@@ -37,7 +37,7 @@ void Game::update(float delta)
 
 void Game::add_rays()
 {
-    if(new_ray.time() > 0.15)
+    if(new_ray.time() > 0.08)
     {
         new_ray.restart();
         res.layer1.emplace_back(new Ray(res));
@@ -46,7 +46,7 @@ void Game::add_rays()
 
 void Game::add_stones()
 {
-    if(new_stone.time() > 0.5)
+    if(new_stone.time() > 0.3)
     {
         new_stone.restart();
         res.layer2.emplace_back(new Stone(res));

@@ -20,14 +20,17 @@ void Stone::init()
     Object::set_texture(name);
     pos_x = res.screen_w + rand()%30;
     pos_y = rand()%res.screen_h - h/2;
-    vel_x = -(340 + rand()%(size*80));
+    vel_x = -(360 + rand()%(size*200));
     shot = false;
+    // Always positive
+    rotation = -2*(vel_x/10);
 }
 
 void Stone::update(float delta)
 {
     add_pos_x(vel_x*delta);
     add_pos_y(vel_y*delta);
+    angle -= rotation*delta;
     split();
 }
 

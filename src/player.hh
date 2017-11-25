@@ -1,6 +1,7 @@
 #ifndef SURF_PLAYER_HH
 #define SURF_PLAYER_HH
 
+#include "assets.hh"
 #include "object.hh"
 #include <string>
 
@@ -15,8 +16,10 @@ class Player: public Object
         void update(float delta);
         bool remove();
         void input();
+        void draw();
     private:
         int velocity;
+        Surfboard board;
 };
 
 #endif

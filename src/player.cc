@@ -3,7 +3,7 @@
 #include <string>
 
 Player::Player(Resources &res, std::string tex)
-:Object(res, tex)
+:Object(res, tex), board(res, "surfboard")
 {
     init();
 }
@@ -14,7 +14,7 @@ Player::~Player()
 
 void Player::init()
 {
-    velocity = 400;
+    velocity = 600;
     health = 600;
 }
 
@@ -30,7 +30,15 @@ void Player::update(float delta)
     if(pos_y < -10) pos_y = -10;
     else if(pos_y > res.screen_h-h-10) pos_y = res.screen_h-h-10;
     
+    board.update(vel_y, pos_x-10, pos_y+55);
 }
+
+void Player::draw()
+{
+    board.draw();
+    Object::draw();
+}
+
 
 bool Player::remove()
 {
