@@ -7,6 +7,8 @@
 #include <string>
 #include <map>
 
+using map_texture = std::map<std::string, SDL_Texture*>;
+
 class Resources
 {
     public:
@@ -29,13 +31,15 @@ class Resources
         SDL_Event event;
         TTF_Font *font_m;
 
-        std::map<std::string, SDL_Texture*> all_textures;
+        map_texture all_textures;
     private:
         void init_sdl();
         void init_values();
         void init_winren();
         void load_fonts();
         void load_textures();
+        void free_fonts();
+        void free_textures();
         void free_sdl();
         void free_winren();
 };

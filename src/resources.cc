@@ -13,6 +13,8 @@ Resources::Resources()
 
 Resources::~Resources()
 {
+    free_fonts();
+    free_textures();
     free_winren();
     free_sdl();
 }
@@ -95,8 +97,6 @@ void Resources::init_winren()
     SDL_Log("Renderer created");
 }
 
-//TODO: check all resources for errors
-
 void Resources::load_fonts()
 {
     font_m = TTF_OpenFont("../res/fonts/slkscr.ttf", 32);
@@ -122,6 +122,19 @@ void Resources::load_textures()
         all_textures.insert({names.at(i), tex});
     }
 }
+
+void Resources::free_fonts()
+{
+    TTF_CloseFont(font_m);
+}
+
+void Resources::free_textures()
+{
+    for(auto i=all_textures.begin(); i!=all_textures.end(); ++i)
+    {
+        SDL_DestroyTexture(all_textures.at(i->first));
+    }
+};
 
 void Resources::free_sdl()
 {

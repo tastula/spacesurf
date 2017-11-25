@@ -14,6 +14,12 @@ Object::~Object()
 
 void Object::init()
 {
+    pos_x = 0;
+    pos_y = 0;
+    vel_x = 0;
+    vel_y = 0;
+    h = 0;
+    w = 0;
     angle = 0;
 }
 
