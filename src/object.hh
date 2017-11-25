@@ -42,6 +42,7 @@ class Object
         int w;
         int h;
         float angle;
+        bool finished;
 
         // Everyone has these, just in case
         int health;

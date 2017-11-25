@@ -2,12 +2,14 @@ project('SpaceSurf', 'cpp')
 
 src = [
     'src/clock.cc',
+    'src/effects.cc',
     'src/label.cc',
     'src/main.cc',
     'src/game.cc',
     'src/object.cc',
     'src/player.cc',
-    'src/resources.cc'
+    'src/resources.cc',
+    'src/stone.cc'
 ]
 
 dps = [

@@ -8,6 +8,8 @@ Resources::Resources()
     init_winren();
     load_fonts();
     load_textures();
+
+    SDL_Log("Game initialized");
 }
 
 Resources::~Resources()
@@ -16,6 +18,8 @@ Resources::~Resources()
     free_textures();
     free_winren();
     free_sdl();
+
+    SDL_Log("Game ended succesfully");
 }
 
 void Resources::window_clear()
@@ -42,7 +46,6 @@ void Resources::init_sdl()
         SDL_Log("Error in initializing SDL");
         throw std::runtime_error(SDL_GetError());
     }
-    SDL_Log("SDL initialized");
 
     // SDL2 IMG
     if(IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG)
@@ -50,7 +53,6 @@ void Resources::init_sdl()
         SDL_Log("Error in initializing SDL_IMG");
         throw std::runtime_error(SDL_GetError());
     }
-    SDL_Log("SDL_IMG initialized");
 
     // SDL2 TTF
     if(TTF_Init())
@@ -58,14 +60,14 @@ void Resources::init_sdl()
         SDL_Log("Error in initializing SDL_TTF");
         throw std::runtime_error(SDL_GetError());
     }
-    SDL_Log("SDL_TTF initialized");
 }
 
 void Resources::init_values()
 {
-    screen_w = 800;
-    screen_h = 600;
+    screen_w = 1280;
+    screen_h = 720;
     game_running = true;
+    game_fullscreen = false;
 
     color_back = {30, 0, 0, 0};
     color_white = {255, 255, 255, 0};
@@ -77,14 +79,12 @@ void Resources::init_winren()
         "SpaceSurf",
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
-        800, 600, 0);
+        screen_w, screen_h, 0);
     if(!window)
     {
         SDL_Log("Error in creating window");
         throw std::runtime_error(SDL_GetError());
     }
-    SDL_Log("Window created");
-
     renderer = SDL_CreateRenderer(
         window, -1,
         /*SDL_RENDERER_PRESENTVSYNC|*/SDL_RENDERER_ACCELERATED);
@@ -93,7 +93,6 @@ void Resources::init_winren()
         SDL_Log("Error in creating renderer");
         throw std::runtime_error(SDL_GetError());
     }
-    SDL_Log("Renderer created");
 }
 
 void Resources::load_fonts()
@@ -104,10 +103,13 @@ void Resources::load_fonts()
 void Resources::load_textures()
 {
     std::vector<std::string> names = {
-        "naut1"
+        "naut1",
+        "stone1", "stone2", "stone3", "stone4"
     };
     std::vector<std::string> paths = {
-        "../res/graphics/naut1.png"
+        "res/graphics/naut1.png",
+        "res/graphics/stones/stone1.png", "res/graphics/stones/stone2.png",
+        "res/graphics/stones/stone3.png", "res/graphics/stones/stone4.png",
     };
 
     for(unsigned i=0; i<names.size(); ++i)
@@ -140,12 +142,10 @@ void Resources::free_sdl()
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();
-    SDL_Log("SDL has been quit");
 }
 
 void Resources::free_winren()
 {
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
-    SDL_Log("Window and renderer destroyed");
 }

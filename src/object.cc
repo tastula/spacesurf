@@ -29,6 +29,7 @@ void Object::init()
     w = 0;
     angle = 0;
     health = 0;
+    finished = false;
 }
 
 void Object::draw()

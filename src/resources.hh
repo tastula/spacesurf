@@ -24,6 +24,7 @@ class Resources
         int screen_h;
 
         bool game_running;
+        bool game_fullscreen;
 
         SDL_Window* window;
         SDL_Renderer* renderer;
@@ -37,6 +38,7 @@ class Resources
         map_texture all_textures;
 
         std::vector<Object*> layer1;
+        std::vector<Object*> layer2;
     private:
         void init_sdl();
         void init_values();
