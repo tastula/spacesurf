@@ -36,6 +36,7 @@ void Game::update(float delta)
         level.update(delta);
         update_layer(delta, res.layer1);
         update_layer(delta, res.layer2);
+
     }
 }
 
@@ -67,6 +68,8 @@ void Game::draw()
 {
     draw_layer(res.layer1);
     draw_layer(res.layer2);
+
+    level.draw();
 }
 
 void Game::draw_layer(std::vector<Object*>& layer)

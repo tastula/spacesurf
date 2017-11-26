@@ -9,11 +9,9 @@ class Clock
         void init();
         void start();
         void pause();
-        void stop();
         float time();
         float restart();
     private:
-        bool started;
         bool paused;
         float start_time;
         float pause_time;

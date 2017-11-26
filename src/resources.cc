@@ -87,6 +87,7 @@ void Resources::init_values()
     game_running = true;
     game_fullscreen = true;
     game_paused = false;
+    game_playing = true;
 
     color_back = {30, 0, 0, 0};
     color_white = {255, 255, 255, 0};
@@ -118,7 +119,12 @@ void Resources::init_winren()
 
 void Resources::load_fonts()
 {
-    font_m = TTF_OpenFont("../res/fonts/slkscr.ttf", 32);
+    font_m = TTF_OpenFont("res/fonts/slkscr.ttf", 32);
+    if(!font_m)
+    {
+        SDL_Log("Error in loading fonts");
+        throw std::runtime_error(SDL_GetError());
+    }
 }
 
 void Resources::load_textures()

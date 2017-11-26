@@ -28,6 +28,7 @@ class Resources
         bool game_running;
         bool game_fullscreen;
         bool game_paused;
+        bool game_playing;
 
         SDL_Window* window;
         SDL_Renderer* renderer;

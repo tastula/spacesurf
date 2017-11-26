@@ -5,7 +5,7 @@
 Player::Player(Resources &res, std::string tex)
 :Object(res, tex), board(res, "surfboard")
 {
-    init();
+    Player::init();
 }
 
 Player::~Player()
@@ -42,7 +42,12 @@ void Player::draw()
 
 bool Player::remove()
 {
-    return health < 0;
+    if(health <= 0)
+    {
+        res.game_playing = false;
+        return true;
+    }
+    return false;
 }
 
 void Player::input()
@@ -63,4 +68,10 @@ void Player::input()
         if(key == "A") vel_x += velocity;
         if(key == "D") vel_x -= velocity;
     }
+}
+
+void Player::collide(Object& obj)
+{
+    health -= obj.get_power();
+    if(health < 0) health = 0;
 }

@@ -16,7 +16,7 @@ class Object
         virtual bool remove();
         virtual void update(float delta) = 0;
         virtual void draw();
-        virtual void deal_collision(Object& obj);
+        virtual void collide(Object& obj);
         virtual SDL_Rect get_hitbox();
 
         void set_texture(std::string tex);
@@ -34,10 +34,14 @@ class Object
         float get_pos_y();
         float get_vel_x();
         float get_vel_y();
+        bool get_against();
+        int get_power();
+        int get_health();
 
     protected:
         Resources& res;
         SDL_Texture *tex;
+        // TODO: use matrixes B)
         float pos_x;
         float pos_y;
         float vel_x;
@@ -49,7 +53,6 @@ class Object
         bool collidable;
         bool against_player;
 
-        // Everyone has these, just in case
         int health;
         int power;
 };

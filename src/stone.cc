@@ -5,7 +5,7 @@
 Stone::Stone(Resources& res, int size, float vel_y)
 :Object(res), size(size+1)
 {
-    init();
+    Stone::init();
     this->vel_y = vel_y;
 }
 
@@ -22,6 +22,7 @@ void Stone::init()
     pos_y = rand()%res.screen_h - h/2;
     vel_x = -(360 + rand()%(size*200));
     shot = false;
+    power = 1;
     against_player = true;
     // Always positive
     rotation = -2*(vel_x/10);

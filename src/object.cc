@@ -4,7 +4,7 @@
 Object::Object(Resources& res, std::string tex)
 :res(res)
 {
-    init();
+    Object::init();
     set_texture(tex);
 }
 
@@ -48,10 +48,20 @@ SDL_Rect Object::get_hitbox()
     return {int(pos_x), int(pos_y), w, h};
 }
 
-void Object::deal_collision(Object& obj)
+void Object::collide(Object& obj)
 {
     // This is really class-specific, implementing own is a good idea
     // Not everyone uses this though
+}
+
+int Object::get_power()
+{
+    return power;
+}
+
+int Object::get_health()
+{
+    return health;
 }
 
 void Object::set_texture(std::string tex)
@@ -110,6 +120,11 @@ void Object::set_vel_x(float position)
 void Object::set_vel_y(float position)
 {
     vel_y = position;
+}
+
+bool Object::get_against()
+{
+    return against_player;
 }
 
 float Object::get_pos_x()

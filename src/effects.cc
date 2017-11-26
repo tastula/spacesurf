@@ -7,7 +7,7 @@
 Ray::Ray(Resources& res)
 :Object(res)
 {
-    init();
+    Ray::init();
 }
 
 Ray::~Ray()

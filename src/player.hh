@@ -15,8 +15,9 @@ class Player: public Object
         virtual void init();
         virtual void update(float delta);
         virtual bool remove();
-        void input();
+        virtual void collide(Object& obj);
         virtual void draw();
+        void input();
     private:
         int velocity;
         Surfboard board;
