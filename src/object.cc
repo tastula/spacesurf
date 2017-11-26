@@ -40,6 +40,11 @@ void Object::draw()
                      SDL_FLIP_NONE);
 }
 
+SDL_Rect Object::get_hitbox()
+{
+    return {int(pos_x), int(pos_y), w, h};
+}
+
 void Object::set_texture(std::string tex)
 {
     this->tex = res.all_textures.at(tex);
