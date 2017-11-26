@@ -30,7 +30,10 @@ void Object::init()
     w = 0;
     angle = 0;
     health = 1;
+    power = 0;
+    collidable = true;
     finished = false;
+    against_player = false;
 }
 
 void Object::draw()
@@ -43,6 +46,12 @@ void Object::draw()
 SDL_Rect Object::get_hitbox()
 {
     return {int(pos_x), int(pos_y), w, h};
+}
+
+void Object::deal_collision(Object& obj)
+{
+    // This is really class-specific, implementing own is a good idea
+    // Not everyone uses this though
 }
 
 void Object::set_texture(std::string tex)

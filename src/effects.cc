@@ -18,6 +18,7 @@ void Ray::init()
 {
     w = 60;
     h = 10;
+    collidable = false;
     pos_x = res.screen_w;
     pos_y = rand() % res.screen_h;
     vel_x = -1600;

@@ -16,7 +16,7 @@ class Object
         virtual bool remove();
         virtual void update(float delta) = 0;
         virtual void draw();
-        
+        virtual void deal_collision(Object& obj);
         virtual SDL_Rect get_hitbox();
 
         void set_texture(std::string tex);
@@ -46,9 +46,12 @@ class Object
         int h;
         float angle;
         bool finished;
+        bool collidable;
+        bool against_player;
 
         // Everyone has these, just in case
         int health;
+        int power;
 };
 
 #endif
