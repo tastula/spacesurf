@@ -12,7 +12,7 @@ class Surfboard: public Object
         Surfboard(Resources& res, std::string tex);
         ~Surfboard();
         void update(float vel, float x, float y);
-        void update(float delta);
-        bool remove();
+        virtual void update(float delta);
+        virtual bool remove();
 };
 #endif

@@ -29,7 +29,7 @@ void Object::init()
     h = 0;
     w = 0;
     angle = 0;
-    health = 0;
+    health = 1;
     finished = false;
 }
 
@@ -116,4 +116,10 @@ float Object::get_vel_x()
 float Object::get_vel_y()
 {
     return vel_y;
+}
+
+bool Object::remove()
+{
+    // Remove if there's no health
+    return !health;
 }

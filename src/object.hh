@@ -13,9 +13,11 @@ class Object
         Object(Resources &res);
         virtual ~Object();
         virtual void init();
-        virtual bool remove() = 0;
+        virtual bool remove();
         virtual void update(float delta) = 0;
         virtual void draw();
+        
+        virtual SDL_Rect get_hitbox();
 
         void set_texture(std::string tex);
         void set_texture(SDL_Texture *tex);

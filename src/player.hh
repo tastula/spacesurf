@@ -12,11 +12,11 @@ class Player: public Object
     public:
         Player(Resources& res, std::string tex);
         ~Player();
-        void init();
-        void update(float delta);
-        bool remove();
+        virtual void init();
+        virtual void update(float delta);
+        virtual bool remove();
         void input();
-        void draw();
+        virtual void draw();
     private:
         int velocity;
         Surfboard board;

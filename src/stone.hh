@@ -12,10 +12,10 @@ class Stone: public Object
         Stone(Resources& res, int size=rand()%4, float vel_y=0);
         ~Stone();
         
-        void init();
-        void update(float delta);
+        virtual void init();
+        virtual void update(float delta);
         void split();
-        bool remove();
+        virtual bool remove();
     private:
         int size;
         int shot;

@@ -47,3 +47,8 @@ bool Ray::remove()
     }
     return false;
 }
+
+SDL_Rect Ray::get_hitbox()
+{
+    return area;
+}
