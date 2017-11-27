@@ -15,7 +15,7 @@ Level::~Level()
 void Level::init()
 {
     new_stone.restart();
-
+    hud.set_time(0);
     player.init();
     player.set_position(200, 200);
 }

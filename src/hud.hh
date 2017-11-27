@@ -13,6 +13,8 @@ class HUD
         void update(float delta, int hp);
         void draw();
 
+        void set_time(float time);
+
     private:
         Resources& res;
         Label health;

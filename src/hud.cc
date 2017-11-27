@@ -21,7 +21,7 @@ void HUD::update(float delta, int hp)
 {
     // Update progress bar
     time_elapsed += delta; 
-    if(x_now+w < x_right)
+    if(x_now+w < x_right || time_elapsed < time_max)
     {
         float distance = x_right - x_left - w;
         x_now = x_left + distance*(time_elapsed/time_max);    
@@ -59,4 +59,9 @@ void HUD::draw()
     // Draw labels
     health.draw_right(x_left-20, 15);
     time.draw(x_right+20, 15);
+}
+
+void HUD::set_time(float time)
+{
+    time_elapsed = time;
 }
