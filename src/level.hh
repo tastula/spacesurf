@@ -2,7 +2,7 @@
 #define SURG_LEVEL_HH
 
 #include "clock.hh"
-#include "label.hh"
+#include "hud.hh"
 #include "player.hh"
 
 class Object;
@@ -26,9 +26,9 @@ class Level
         void add_stones();
 
         Resources& res;
-        Player* player;
+        Player player;
         Clock new_stone;
-        Label hp;
+        HUD hud;
 };
 
 #endif

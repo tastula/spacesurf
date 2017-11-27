@@ -31,12 +31,18 @@ void Player::update(float delta)
     else if(pos_y > res.screen_h-h-10) pos_y = res.screen_h-h-10;
     
     board.update(vel_y, pos_x-10, pos_y+55);
+
+    // Just to toggle playing and death
+    remove();
 }
 
 void Player::draw()
 {
-    board.draw();
-    Object::draw();
+    if(res.game_playing)
+    {
+        board.draw();
+        Object::draw();
+    }
 }
 
 
@@ -73,5 +79,8 @@ void Player::input()
 void Player::collide(Object& obj)
 {
     health -= obj.get_power();
-    if(health < 0) health = 0;
+    if(health < 0)
+    {
+        health = 0;
+    }
 }

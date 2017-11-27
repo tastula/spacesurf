@@ -4,6 +4,7 @@ src = [
     'src/assets.cc',
     'src/clock.cc',
     'src/effects.cc',
+    'src/hud.cc',
     'src/label.cc',
     'src/level.cc',
     'src/main.cc',

@@ -24,7 +24,12 @@ void Game::input()
     {
         res.game_paused = !res.game_paused;
     }
-    
+    else if(res.get_pressed_key() == "I")
+    {
+        res.game_playing = true;
+        level.init();
+    }
+
     level.input();
 }
 

@@ -3,7 +3,7 @@
 #include "stone.hh"
 
 Level::Level(Resources& res)
-:res(res), hp(res, ":D", res.font_m)
+:res(res), player(res, "naut1"), hud(res)
 {
     init();
 }
@@ -14,17 +14,15 @@ Level::~Level()
 
 void Level::init()
 {
-    new_stone.start();
+    new_stone.restart();
 
-    // Make sure player is first object in layer2
-    player = new Player(res, "naut1");
-    res.layer2.emplace_back(player);
-    player->set_position(200, 200);
+    player.init();
+    player.set_position(200, 200);
 }
 
 void Level::input()
 {
-    player->input();
+    player.input();
 }
 
 void Level::update(float delta)
@@ -34,22 +32,18 @@ void Level::update(float delta)
 
     for(auto o1: res.layer2)
     {
-        if(!o1->get_against())
-        {
-            for(auto o2: res.layer2)
-            {
-               handle_collision(*o1, *o2); 
-            }
-        }
+        handle_collision(*o1, player); 
     }
 
-    hp.update_text(std::to_string(player->get_health()));
+    player.update(delta);
+    hud.update(delta, player.get_health());
 }
 
 void Level::draw()
 {
     // No need to update or draw player as it's done from Game
-    hp.draw();
+    player.draw();
+    hud.draw();
 }
 
 void Level::add_stones()
