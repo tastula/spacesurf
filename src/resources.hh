@@ -40,6 +40,9 @@ class Resources
         SDL_GameController* controller;
         TTF_Font *font_m;
 
+        // Setting, load from file
+        // Can be turned into map maybe?
+        bool draw_hitbox;
 
         map_texture all_textures;
     private:
