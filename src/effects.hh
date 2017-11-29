@@ -10,8 +10,6 @@ class Ray: public GameObject
         Ray(Resources& res, Game& game);
         ~Ray();
         virtual void update(float delta);
-        virtual void draw();
-        virtual bool remove();
         virtual SDL_Rect get_hitbox();
     private:
         SDL_Rect area;

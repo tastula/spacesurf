@@ -18,6 +18,8 @@ class Object
         float get_py();
         float get_vx();
         float get_vy();
+        int get_w();
+        int get_h();
 
     protected:
         Resources& res;

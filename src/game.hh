@@ -30,7 +30,7 @@ class Game
 
         // Workarounds to allow accessing Level from GameObjects
         // Maybe passing Level reference or making it public would help?
-        void level_add_stone(Stone* stone);
+        void level_add_object(GameObject* obj);
 
     private:
         void add_rays();

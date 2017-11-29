@@ -20,7 +20,7 @@ void Game::init()
 
 void Game::input()
 {
-    if(res.get_pressed_key() == "Space")
+    if(res.get_pressed_key() == "P")
     {
         pause();
     }
@@ -76,7 +76,7 @@ bool Game::is_paused()
     return paused;
 }
 
-void Game::level_add_stone(Stone *stone)
+void Game::level_add_object(GameObject* obj)
 {
-    level.add_stone(stone);
+    level.add_object(obj);
 }

@@ -1,4 +1,6 @@
 #include "assets.hh"
+#include "game.hh"
+#include "resources.hh"
 
 // --- Surfboard ---------------------------------------------------------------
 
@@ -27,4 +29,70 @@ void Surfboard::update(float vy, float nx, float ny)
     }
 
     set_position(nx, ny);
+}
+
+// --- Gun ---------------------------------------------------------------------
+
+Gun::Gun(Resources& res, Game& game, std::string name)
+:GameObject(res, game, name)
+{
+    // Constructor
+}
+
+Gun::~Gun()
+{
+    // Destructor
+}
+
+void Gun::input()
+{
+    if(res.get_pressed_key() == "Space")
+    {
+        Bullet* bullet = new Bullet(res, game, px+w, py);
+        game.level_add_object(bullet);
+    }
+}
+
+void Gun::update(float nx, float ny)
+{
+    set_position(nx, ny);
+}
+
+// --- Bullet ------------------------------------------------------------------
+
+Bullet::Bullet(Resources& res, Game& game, int nx, int ny)
+:GameObject(res, game)
+{
+    px = nx;
+    py = ny;
+    vx = 800;
+    w = 30;
+    h = 10;
+    power = 1;
+    color = &res.color_white;
+}
+
+Bullet::~Bullet()
+{
+    // Destructor
+}
+
+void Bullet::collide(GameObject& obj)
+{
+    // Bullet did some damage (hopefully)
+    if(obj.get_against())
+    {
+        finished = true;
+        power = 0;
+    }
+}
+
+void Bullet::update(float delta)
+{
+    add_position(vx*delta, vy*delta);
+
+    if(px > res.screen_w)
+    {
+        finished = true;
+    }
 }

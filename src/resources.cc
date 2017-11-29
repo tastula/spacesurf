@@ -125,14 +125,14 @@ void Resources::load_textures()
         "naut1",
         "head1",
         "stone1", "stone2", "stone3", "stone4",
-        "surfboard",
+        "gun", "surfboard"
     };
     std::vector<std::string> paths = {
         "res/graphics/naut1.png",
         "res/graphics/heads/head1.png",
         "res/graphics/stones/stone1.png", "res/graphics/stones/stone2.png",
         "res/graphics/stones/stone3.png", "res/graphics/stones/stone4.png",
-        "res/graphics/assets/surfboard.png",
+        "res/graphics/assets/gun.png", "res/graphics/assets/surfboard.png"
     };
 
     for(unsigned i=0; i<names.size(); ++i)

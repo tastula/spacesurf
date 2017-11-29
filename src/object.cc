@@ -63,3 +63,13 @@ float Object::get_vy()
 {
     return vy;
 }
+
+int Object::get_w()
+{
+    return w;
+}
+
+int Object::get_h()
+{
+    return h;
+}

@@ -33,6 +33,13 @@ void Stone::update(float delta)
 {
     add_position(vx*delta, vy*delta);
     angle -= rotation*delta;
+
+    // Stone out of range
+    if(px < -w)
+    {
+        finished = true;
+    }
+
     split();
 }
 
@@ -47,26 +54,19 @@ void Stone::collide(GameObject &obj)
 void Stone::split()
 {
     // Time for baby stones
-    if(size < 4 and shot > 1)
+    if(shot)
     {
-        // Ugly af copy-paste code
-        Stone *new_stone = new Stone(res, game, size+1, 120+rand()%80);
-        new_stone->set_position(px, py);
-        game.level_add_stone(new_stone);
-        new_stone = new Stone(res, game, size+1, -(120+rand()%80));
-        new_stone->set_position(px, py);
-        game.level_add_stone(new_stone);
-        
+        if(size < 4)
+        {
+            // Ugly af copy-paste code
+            Stone *new_stone = new Stone(res, game, size, 120);
+            new_stone->set_position(px, py+w-new_stone->get_w());
+            game.level_add_object(new_stone);
+            new_stone = new Stone(res, game, size, -120);
+            new_stone->set_position(px, py);
+            game.level_add_object(new_stone);
+        }
         // Bye bye stone
         finished = true;
     }
-}
-
-bool Stone::remove()
-{
-    if(px < -h)
-    {
-        finished = true;
-    }
-    return finished;
 }

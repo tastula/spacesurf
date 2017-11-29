@@ -4,7 +4,8 @@
 #include <string>
 
 Player::Player(Resources &res, Game& game, std::string name)
-:GameObject(res, game, name), board(res, game, "surfboard")
+:GameObject(res, game, name), gun(res, game, "gun"),
+ board(res, game, "surfboard")
 {
     Player::init();
 }
@@ -30,6 +31,7 @@ void Player::update(float delta)
     if(py < -10) py = -10;
     else if(py > res.screen_h-h-10) py = res.screen_h-h-10;
     
+    gun.update(px+70, py+45);
     board.update(vy, px-10, py+55);
 
     // Just to toggle playing and death
@@ -40,6 +42,7 @@ void Player::draw()
 {
     if(game.is_playing())
     {
+        gun.draw();
         board.draw();
         GameObject::draw();
     }
@@ -74,6 +77,8 @@ void Player::input()
         if(key == "A") vx += velocity;
         if(key == "D") vx -= velocity;
     }
+
+    gun.input();
 }
 
 void Player::collide(GameObject& obj)

@@ -21,6 +21,7 @@ class Player: public GameObject
         void input();
     private:
         int velocity;
+        Gun gun;
         Surfboard board;
 };
 

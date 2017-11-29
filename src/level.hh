@@ -25,7 +25,7 @@ class Level
         // TODO: A ton of congigurations ad tweaking, this is the place
         // TODO: Read levels from a file, clocks with callbacks?
 
-        void add_stone(Stone* stone);
+        void add_object(GameObject* obj);
     private:
         void add_rays();
         void add_stones();
@@ -34,6 +34,7 @@ class Level
 
         std::vector<GameObject*> layer1;
         std::vector<GameObject*> layer2;
+        std::vector<GameObject*> new_objects;
 
         Resources& res;
         Game& game;

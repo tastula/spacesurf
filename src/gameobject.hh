@@ -31,6 +31,7 @@ class GameObject : public Object
 
         Game& game;
         SDL_Texture *tex;
+        SDL_Color* color;
         bool finished;
         bool collidable;
         bool against_player;

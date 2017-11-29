@@ -22,6 +22,8 @@ void Level::init()
     hud.set_time(0);
     player.init();
     player.set_position(200, 200);
+    // Update other gear, too
+    player.update(0);
 }
 
 void Level::input()
@@ -34,15 +36,22 @@ void Level::update(float delta)
     add_rays();
     add_stones();
 
-    update_layer(delta, layer1);
+    if(!layer1.empty()) update_layer(delta, layer1);
 
     for(auto o1: layer2)
     {
-        handle_collision(*o1, player); 
+        // Collide bad objects to good objects ONLY
+        if(!o1->get_against()) continue;
+
+        handle_collision(*o1, player);
+        for(auto o2: layer2)
+        {
+            handle_collision(*o1, *o2);
+        }
     }
 
     player.update(delta);
-    update_layer(delta, layer2);
+    if(!layer2.empty()) update_layer(delta, layer2);
     hud.update(delta, player.get_health());
 }
 
@@ -86,16 +95,29 @@ void Level::handle_collision(GameObject& o1, GameObject& o2)
     }
 }
 
-void Level::add_stone(Stone *stone)
+void Level::add_object(GameObject* obj)
 {
-    layer2.emplace_back(stone);
+    new_objects.push_back(obj);
 }
 
 void Level::update_layer(float delta, std::vector<GameObject*>& layer)
 {
+    // Update old objects first
+    for(auto obj: layer)
+    {
+        obj->update(delta);
+    }
+
+    // Concatenate vectors
+    if(&layer == &layer2)
+    {
+        layer.insert(layer.end(), new_objects.begin(), new_objects.end());
+        new_objects.clear();
+    }
+
+    // Delete if needed
     for(unsigned i=0; i<layer.size(); ++i)
     {
-        layer.at(i)->update(delta);
         if(layer.at(i)->remove())
         {
             Object* del = layer.at(i);

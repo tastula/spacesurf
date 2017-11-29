@@ -1,5 +1,6 @@
 #include "gameobject.hh"
 #include "resources.hh"
+#include <stdexcept>
 
 GameObject::GameObject(Resources& res, Game& game, std::string name)
 :Object(res), game(game)
@@ -11,7 +12,6 @@ GameObject::GameObject(Resources& res, Game& game, std::string name)
 GameObject::GameObject(Resources &res, Game &game)
 :Object(res), game(game)
 {
-    // NB! Texture is not set, implement own draw()
     tex = nullptr;
     init();
 }
@@ -29,13 +29,32 @@ void GameObject::init()
     angle = 0;
     health = 1;
     power = 0;
+    color = nullptr;
 }
 
 void GameObject::draw()
 {
-    SDL_Rect dts = {int(px), int(py), w, h};
-    SDL_RenderCopyEx(res.renderer, tex, NULL, &dts, int(angle),
-                     NULL, SDL_FLIP_NONE);
+    SDL_Rect dst = {int(px), int(py), w, h};
+
+    // Draw the texture
+    if(tex)
+    {
+        SDL_RenderCopyEx(res.renderer, tex, NULL, &dst, int(angle),
+                         NULL, SDL_FLIP_NONE);
+    }
+    // Draw a rectangle
+    else if(color)
+    {
+        SDL_SetRenderDrawColor(res.renderer, color->r, color->g, color->b,
+                               color->a);
+        SDL_RenderFillRect(res.renderer, &dst);
+    }
+    // Something went wrong
+    else
+    {
+        SDL_Log("Error in drawing GameObject");
+        throw std::runtime_error("No drawable target");
+    }
 }
 
 void GameObject::update(float delta)
@@ -55,8 +74,7 @@ SDL_Rect GameObject::get_hitbox()
 
 bool GameObject::remove()
 {
-    // Never destroy by default
-    return false;
+    return finished;
 }
 
 void GameObject::set_texture(std::string name)

@@ -14,4 +14,26 @@ class Surfboard: public GameObject
 
         void update(float vy, float nx, float ny);
 };
+
+class Gun: public GameObject
+{
+    public:
+        Gun(Resources& res, Game& game, std::string name);
+        virtual ~Gun();
+
+        virtual void update(float nx, float ny);
+
+        void input();
+};
+
+class Bullet: public GameObject
+{
+    public:
+        Bullet(Resources& res, Game& game, int nx, int ny);
+        virtual ~Bullet();
+
+        virtual void collide(GameObject& obj);
+        virtual void update(float delta);
+};
+
 #endif // SURF_ASSETS_HH
