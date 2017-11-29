@@ -8,12 +8,14 @@ Resources::Resources()
     init_winren();
     load_fonts();
     load_textures();
+    load_controllers();
 }
 
 Resources::~Resources()
 {
     free_fonts();
     free_textures();
+    free_controllers();
     free_winren();
     free_sdl();
 }
@@ -34,22 +36,40 @@ void Resources::window_draw()
     SDL_RenderPresent(renderer);
 }
 
-std::string Resources::get_pressed_key(int repeat)
+bool Resources::get_keyboard_key_d(std::string key, int repeat)
 {
     if(event.type == SDL_KEYDOWN and event.key.repeat == repeat)
     {
-        return SDL_GetKeyName(event.key.keysym.sym);
+        return (std::string(SDL_GetKeyName(event.key.keysym.sym)) == key);
     }
-    return "";
+    return false;
 }
 
-std::string Resources::get_released_key(int repeat)
+bool Resources::get_keyboard_key_u(std::string key, int repeat)
 {
     if(event.type == SDL_KEYUP and event.key.repeat == repeat)
     {
-        return SDL_GetKeyName(event.key.keysym.sym);
+        return std::string(SDL_GetKeyName(event.key.keysym.sym)) == key;
     }
-    return "";
+    return false;
+}
+
+bool Resources::get_controller_button_d(unsigned button)
+{
+    if(event.type == SDL_CONTROLLERBUTTONDOWN)
+    {
+        return event.cbutton.button == button;
+    }
+    return false;
+}
+
+bool Resources::get_controller_button_u(unsigned button)
+{
+    if(event.type == SDL_CONTROLLERBUTTONUP)
+    {
+        return event.cbutton.button == button;
+    }
+    return false;
 }
 
 void Resources::init_sdl()
@@ -147,6 +167,23 @@ void Resources::load_textures()
     }
 }
 
+void Resources::load_controllers()
+{
+    controller = nullptr;
+
+    // A controller exists
+    if(SDL_NumJoysticks() && SDL_IsGameController(0))
+    {
+        controller = SDL_GameControllerOpen(0);
+        // Could't open
+        if(!controller)
+        {
+            SDL_Log("Error in loading controller");
+            throw std::runtime_error(SDL_GetError());
+        }
+    }
+}
+
 void Resources::free_fonts()
 {
     TTF_CloseFont(font_m);
@@ -158,7 +195,16 @@ void Resources::free_textures()
     {
         SDL_DestroyTexture(all_textures.at(i->first));
     }
-};
+}
+
+void Resources::free_controllers()
+{
+    // Controller is in use
+    if(!controller)
+    {
+        SDL_GameControllerClose(controller);
+    }
+}
 
 void Resources::free_sdl()
 {

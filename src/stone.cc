@@ -7,7 +7,7 @@ Stone::Stone(Resources& res, Game& game, int size, float vel_y)
 :GameObject(res, game), size(size+1)
 {
     Stone::init();
-    this->vy = vel_y;
+    vy = vel_y;
 }
 
 Stone::~Stone()

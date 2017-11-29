@@ -46,11 +46,20 @@ Gun::~Gun()
 
 void Gun::input()
 {
-    if(res.get_pressed_key() == "Space")
+    if(res.get_keyboard_key_d("Space"))
     {
-        Bullet* bullet = new Bullet(res, game, px+w, py);
-        game.level_add_object(bullet);
+        shoot();
     }
+    else if(res.get_controller_button_d(SDL_CONTROLLER_BUTTON_LEFTSHOULDER))
+    {
+        shoot();
+    }
+}
+
+void Gun::shoot()
+{
+    Bullet* bullet = new Bullet(res, game, px+w, py);
+    game.level_add_object(bullet);
 }
 
 void Gun::update(float nx, float ny)

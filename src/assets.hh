@@ -24,6 +24,8 @@ class Gun: public GameObject
         virtual void update(float nx, float ny);
 
         void input();
+    private:
+        void shoot();
 };
 
 class Bullet: public GameObject

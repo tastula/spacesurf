@@ -61,21 +61,21 @@ bool Player::remove()
 
 void Player::input()
 {
-    std::string key = res.get_pressed_key();
-    if(key != "")
+    if(res.get_keyboard_key_d("W")) vy -= velocity;
+    if(res.get_keyboard_key_d("S")) vy += velocity;
+    if(res.get_keyboard_key_d("A")) vx -= velocity;
+    if(res.get_keyboard_key_d("D")) vx += velocity;
+
+    if(res.get_keyboard_key_u("W")) vy += velocity;
+    if(res.get_keyboard_key_u("S")) vy -= velocity;
+    if(res.get_keyboard_key_u("A")) vx += velocity;
+    if(res.get_keyboard_key_u("D")) vx -= velocity;
+
+    if(res.event.type == SDL_CONTROLLERAXISMOTION)
     {
-        if(key == "W") vy -= velocity;
-        if(key == "S") vy += velocity;
-        if(key == "A") vx -= velocity;
-        if(key == "D") vx += velocity;
-    }
-    key = res.get_released_key();
-    if(key != "")
-    {
-        if(key == "W") vy += velocity;
-        if(key == "S") vy -= velocity;
-        if(key == "A") vx += velocity;
-        if(key == "D") vx -= velocity;
+        float division = 32767/velocity;
+        if(res.event.caxis.axis == 0) vx = res.event.caxis.value/division;
+        if(res.event.caxis.axis == 1) vy = res.event.caxis.value/division;
     }
 
     gun.input();

@@ -20,11 +20,11 @@ void Game::init()
 
 void Game::input()
 {
-    if(res.get_pressed_key() == "P")
+    if(res.get_keyboard_key_d("P"))
     {
         pause();
     }
-    else if(res.get_pressed_key() == "I")
+    else if(res.get_keyboard_key_d("I"))
     {
         play();
         level.init();
