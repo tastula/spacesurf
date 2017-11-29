@@ -44,16 +44,14 @@ void GameObject::draw()
             NULL, SDL_FLIP_NONE);
         if(res.draw_hitbox)
         {
-            SDL_SetRenderDrawColor(res.renderer, res.color_white.r,
-                res.color_white.g, res.color_white.b, res.color_white.a);
+            res.set_render_color(&res.color_white);
             SDL_RenderDrawRect(res.renderer, &dst);
         }
     }
     // Draw a rectangle
     else if(color)
     {
-        SDL_SetRenderDrawColor(res.renderer, color->r, color->g, color->b,
-            color->a);
+        res.set_render_color(color);
         SDL_RenderFillRect(res.renderer, &dst);
     }
     // Something went wrong

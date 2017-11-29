@@ -19,6 +19,7 @@ class Resources
         ~Resources();
         void window_clear();
         void window_draw();
+        void set_render_color(SDL_Color* color);
 
         // Events
         SDL_Event event;
@@ -36,6 +37,8 @@ class Resources
 
         SDL_Color color_back;
         SDL_Color color_white;
+        SDL_Color color_red;
+        SDL_Color color_naut1;
 
         SDL_GameController* controller;
         TTF_Font *font_m;

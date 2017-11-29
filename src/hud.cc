@@ -43,7 +43,7 @@ void HUD::draw()
 
     // Line before head
     SDL_Rect r1 = {int(x_left), int(y_top), int(x_now-x_left), int(y_btm)};
-    SDL_SetRenderDrawColor(res.renderer, 140, 10, 10, 255);
+    res.set_render_color(&res.color_naut1);
     SDL_RenderFillRect(res.renderer, &r1);
 
     // Line after head

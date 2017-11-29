@@ -3,7 +3,7 @@
 
 Label::Label(Resources &res, std::string text, TTF_Font *font,
              float pos_x, float pos_y)
-:res(res), text(text), font(font), pos_x(pos_x), pos_y(pos_y)
+:Object(res), text(text), font(font), pos_x(pos_x), pos_y(pos_y)
 {
     init();
     update_texture();
@@ -17,8 +17,8 @@ Label::~Label()
 void Label::init()
 {
     angle = 0;
-    color_main = res.color_white;
-    color_back = res.color_white;
+    color_main = &res.color_white;
+    color_back = &res.color_white;
 }
 
 void Label::draw()
@@ -80,20 +80,20 @@ void Label::update_font(TTF_Font *font)
     }
 }
 
-void Label::update_color_main(SDL_Color color)
+void Label::update_color_main(SDL_Color* color)
 {
-    if(color_main.r != color.r or color_main.g != color.g or
-       color_main.b != color.b or color_main.a != color.a)
+    if(color_main->r != color->r or color_main->g != color->g or
+       color_main->b != color->b or color_main->a != color->a)
     {
         color_main = color;
         update_texture();
     }
 }
 
-void Label::update_color_back(SDL_Color color)
+void Label::update_color_back(SDL_Color* color)
 {
-    if(color_back.r != color.r or color_back.g != color.g or
-       color_back.b != color.b or color_back.a != color.a)
+    if(color_back->r != color->r or color_back->g != color->g or
+       color_back->b != color->b or color_back->a != color->a)
     {
         color_back = color;
     }
@@ -101,7 +101,7 @@ void Label::update_color_back(SDL_Color color)
 
 void Label::update_texture()
 {
-    SDL_Surface *sur = TTF_RenderText_Solid(font, text.c_str(), color_main);
+    SDL_Surface *sur = TTF_RenderText_Solid(font, text.c_str(), *color_main);
     tex = SDL_CreateTextureFromSurface(res.renderer, sur);
     SDL_QueryTexture(tex, NULL, NULL, &w, &h);
     SDL_FreeSurface(sur);

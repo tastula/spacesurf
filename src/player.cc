@@ -1,7 +1,10 @@
 #include "game.hh"
+#include "effects.hh"
 #include "player.hh"
 #include "resources.hh"
 #include <string>
+
+constexpr float HITLABEL_TIME = 0.1;
 
 Player::Player(Resources &res, Game& game, std::string name)
 :GameObject(res, game, name), gun(res, game, "gun"),
@@ -16,8 +19,10 @@ Player::~Player()
 
 void Player::init()
 {
+    new_hitlabel.restart();
     velocity = 160;
     health = 300;
+    hit_count = 0;
 }
 
 void Player::update(float delta)
@@ -36,7 +41,8 @@ void Player::update(float delta)
     if(health <= 0)
     {
         game.play(false);
-        finished = true;
+        set_active(false);
+        game.get_level()->lose();
     }
 }
 
@@ -53,14 +59,16 @@ void Player::draw()
 void Player::input()
 {
     if(res.get_keyboard_key_d("W")) vy -= velocity;
-    if(res.get_keyboard_key_d("S")) vy += velocity;
-    if(res.get_keyboard_key_d("A")) vx -= velocity;
-    if(res.get_keyboard_key_d("D")) vx += velocity;
+    else if(res.get_keyboard_key_u("W")) vy += velocity;
 
-    if(res.get_keyboard_key_u("W")) vy += velocity;
-    if(res.get_keyboard_key_u("S")) vy -= velocity;
-    if(res.get_keyboard_key_u("A")) vx += velocity;
-    if(res.get_keyboard_key_u("D")) vx -= velocity;
+    if(res.get_keyboard_key_d("S")) vy += velocity;
+    else if(res.get_keyboard_key_u("S")) vy -= velocity;
+
+    if(res.get_keyboard_key_d("A")) vx -= velocity;
+    else if(res.get_keyboard_key_u("A")) vx += velocity;
+
+    if(res.get_keyboard_key_d("D")) vx += velocity;
+    else if(res.get_keyboard_key_u("D")) vx -= velocity;
 
     if(res.event.type == SDL_CONTROLLERAXISMOTION)
     {
@@ -74,9 +82,19 @@ void Player::input()
 
 void Player::collide(GameObject& obj)
 {
-    if(both_active(obj))
+    int objpwr = obj.get_power();
+    if(objpwr > 0)
     {
-        health -= obj.get_power();
+        health -= objpwr;
+        hit_count += objpwr;
+        if(new_hitlabel.time() > HITLABEL_TIME)
+        {
+            HitLabel* hl = new HitLabel(res, game, std::to_string(hit_count),
+                                        px, py, w, h);
+            game.get_level()->add_object(hl);
+            hit_count = 0;
+            new_hitlabel.restart();
+        }
     }
     if(health < 0)
     {

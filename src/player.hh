@@ -2,8 +2,10 @@
 #define SURF_PLAYER_HH
 
 #include "assets.hh"
+#include "clock.hh"
 #include "object.hh"
 #include <string>
+#include <vector>
 
 class Game;
 class Resources;
@@ -20,8 +22,10 @@ class Player: public GameObject
         void input();
     private:
         int velocity;
+        int hit_count;
         Gun gun;
         Surfboard board;
+        Clock new_hitlabel;
 };
 
 #endif

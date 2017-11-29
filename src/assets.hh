@@ -1,6 +1,7 @@
 #ifndef SURF_ASSETS_HH
 #define SURF_ASSETS_HH
 
+#include "clock.hh"
 #include "gameobject.hh"
 #include <string>
 
@@ -26,6 +27,9 @@ class Gun: public GameObject
         void input();
     private:
         void shoot();
+
+        bool shooting;
+        Clock new_bullet;
 };
 
 class Bullet: public GameObject

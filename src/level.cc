@@ -17,8 +17,10 @@ Level::~Level()
 
 void Level::init()
 {
-    // Get rid of old influences
-    deactivate_objects();
+    // Get rid of the old influences
+    lose();
+    player.set_active(true);
+
     new_ray.restart();
     new_stone.restart();
     hud.set_time(0);
@@ -90,11 +92,16 @@ void Level::handle_collision(GameObject& o1, GameObject& o2)
     bool a1 = o1.get_against();
     bool a2 = o2.get_against();
 
-    if(a1 != a2 && SDL_HasIntersection(&r1, &r2))
+    if(a1 != a2 && SDL_HasIntersection(&r1, &r2) && o1.both_active(o2))
     {
         o1.collide(o2);
         o2.collide(o1);
     }
+}
+
+void Level::lose()
+{
+    deactivate_objects();
 }
 
 void Level::deactivate_objects()

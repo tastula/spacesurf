@@ -21,13 +21,14 @@ class Level
         void update(float delta);
         void draw();
         void handle_collision(GameObject& o1, GameObject& o2);
-        void deactivate_objects();
+        void lose();
 
         // TODO: A ton of congigurations ad tweaking, this is the place
         // TODO: Read levels from a file, clocks with callbacks?
 
         void add_object(GameObject* obj);
     private:
+        void deactivate_objects();
         void add_rays();
         void add_stones();
         void update_layer(float delta, std::vector<GameObject*>& layer);

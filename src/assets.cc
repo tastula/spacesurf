@@ -9,7 +9,7 @@ constexpr int BOARD_ANGLE = 10;
 Surfboard::Surfboard(Resources& res, Game& game, std::string name)
 :GameObject(res, game, name)
 {
-    // Constructor
+    active = false;
 }
 
 Surfboard::~Surfboard()
@@ -33,27 +33,19 @@ void Surfboard::update(float vy, float nx, float ny)
 
 // --- Gun ---------------------------------------------------------------------
 
+constexpr float BULLET_TIME = 0.3;
+
 Gun::Gun(Resources& res, Game& game, std::string name)
 :GameObject(res, game, name)
 {
-    // Constructor
+    active = false;
+    shooting = false;
+    new_bullet.restart();
 }
 
 Gun::~Gun()
 {
     // Destructor
-}
-
-void Gun::input()
-{
-    if(res.get_keyboard_key_d("Space"))
-    {
-        shoot();
-    }
-    else if(res.get_controller_button_d(SDL_CONTROLLER_BUTTON_LEFTSHOULDER))
-    {
-        shoot();
-    }
 }
 
 void Gun::shoot()
@@ -65,6 +57,33 @@ void Gun::shoot()
 void Gun::update(float nx, float ny)
 {
     set_position(nx, ny);
+
+    if(shooting && new_bullet.time() > BULLET_TIME)
+    {
+        shoot();
+        new_bullet.restart();
+    }
+}
+
+void Gun::input()
+{
+    if(res.get_keyboard_key_d("Space"))
+    {
+        shooting = true;
+    }
+    else if(res.get_keyboard_key_u("Space"))
+    {
+        shooting = false;
+    }
+
+    if(res.get_controller_button_d(SDL_CONTROLLER_BUTTON_LEFTSHOULDER))
+    {
+        shooting = true;
+    }
+    else if(res.get_controller_button_u(SDL_CONTROLLER_BUTTON_LEFTSHOULDER))
+    {
+        shooting = false;
+    }
 }
 
 // --- Bullet ------------------------------------------------------------------
@@ -74,11 +93,11 @@ Bullet::Bullet(Resources& res, Game& game, int nx, int ny)
 {
     px = nx;
     py = ny;
-    vx = 200;
+    vx = 260;
     w = 6;
     h = 2;
     power = 1;
-    color = &res.color_white;
+    color = &res.color_naut1;
 }
 
 Bullet::~Bullet()
@@ -89,7 +108,7 @@ Bullet::~Bullet()
 void Bullet::collide(GameObject& obj)
 {
     // Bullet did some damage (hopefully)
-    if(obj.get_against() && both_active(obj))
+    if(obj.get_against())
     {
         finished = true;
         power = 0;

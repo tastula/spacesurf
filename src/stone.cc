@@ -45,7 +45,7 @@ void Stone::update(float delta)
 
 void Stone::collide(GameObject &obj)
 {
-    if(obj.get_power() > 0 && both_active(obj))
+    if(obj.get_power() > 0)
     {
         shot = true;
     }

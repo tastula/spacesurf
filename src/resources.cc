@@ -24,13 +24,14 @@ Resources::~Resources()
 
 void Resources::window_clear()
 {
-    SDL_SetRenderDrawColor(
-        renderer,
-        color_back.r,
-        color_back.g,
-        color_back.b,
-        color_back.a);
+    set_render_color(&color_back);
     SDL_RenderClear(renderer);
+}
+
+void Resources::set_render_color(SDL_Color* color)
+{
+    SDL_SetRenderDrawColor(renderer, color->r,color->g,
+        color->b, color->a);
 }
 
 void Resources::window_draw()
@@ -102,8 +103,10 @@ void Resources::init_values()
 {
     color_back = {30, 0, 0, 0};
     color_white = {255, 255, 255, 0};
+    color_red = {255, 0, 0, 0};
+    color_naut1 = {140, 10, 10, 0};
 
-   draw_hitbox = false;
+    draw_hitbox = false;
 }
 
 void Resources::init_winren()
