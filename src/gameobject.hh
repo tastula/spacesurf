@@ -21,6 +21,7 @@ class GameObject : public Object
         virtual bool remove();
 
         void set_active(bool set);
+        void set_finished(bool set);
         void set_texture(std::string tex);
         void set_texture(SDL_Texture *tex);
         bool get_against();

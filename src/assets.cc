@@ -58,7 +58,7 @@ void Gun::update(float nx, float ny)
 {
     set_position(nx, ny);
 
-    if(shooting && new_bullet.time() > BULLET_TIME)
+    if(shooting && new_bullet.time() > BULLET_TIME && game.is_playing())
     {
         shoot();
         new_bullet.restart();

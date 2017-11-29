@@ -87,6 +87,11 @@ void GameObject::set_active(bool set)
     active = set;
 }
 
+void GameObject::set_finished(bool set)
+{
+    finished = set;
+}
+
 void GameObject::set_texture(std::string name)
 {
     this->tex = res.all_textures.at(name);

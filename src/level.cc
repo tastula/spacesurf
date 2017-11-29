@@ -21,6 +21,8 @@ void Level::init()
     lose();
     player.set_active(true);
 
+    game.play(true);
+
     new_ray.restart();
     new_stone.restart();
     hud.set_time(0);
