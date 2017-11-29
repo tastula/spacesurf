@@ -1,9 +1,10 @@
+#include "game.hh"
 #include "player.hh"
 #include "resources.hh"
 #include <string>
 
-Player::Player(Resources &res, std::string tex)
-:Object(res, tex), board(res, "surfboard")
+Player::Player(Resources &res, Game& game, std::string name)
+:GameObject(res, game, name), board(res, game, "surfboard")
 {
     Player::init();
 }
@@ -20,17 +21,16 @@ void Player::init()
 
 void Player::update(float delta)
 {
-    add_pos_x(vel_x*delta);
-    add_pos_y(vel_y*delta);
+    add_position(vx*delta, vy*delta);
 
     // Keep the player on screen
     // TODO: Remove offsets when pictures are fixed
-    if(pos_x < 10) pos_x = 10;
-    else if(pos_x > res.screen_w-w+20) pos_x = res.screen_w-w+20;
-    if(pos_y < -10) pos_y = -10;
-    else if(pos_y > res.screen_h-h-10) pos_y = res.screen_h-h-10;
+    if(px < 10) px = 10;
+    else if(px > res.screen_w-w+20) px = res.screen_w-w+20;
+    if(py < -10) py = -10;
+    else if(py > res.screen_h-h-10) py = res.screen_h-h-10;
     
-    board.update(vel_y, pos_x-10, pos_y+55);
+    board.update(vy, px-10, py+55);
 
     // Just to toggle playing and death
     remove();
@@ -38,10 +38,10 @@ void Player::update(float delta)
 
 void Player::draw()
 {
-    if(res.game_playing)
+    if(game.is_playing())
     {
         board.draw();
-        Object::draw();
+        GameObject::draw();
     }
 }
 
@@ -50,7 +50,7 @@ bool Player::remove()
 {
     if(health <= 0)
     {
-        res.game_playing = false;
+        game.play(false);
         return true;
     }
     return false;
@@ -61,22 +61,22 @@ void Player::input()
     std::string key = res.get_pressed_key();
     if(key != "")
     {
-        if(key == "W") vel_y -= velocity;
-        if(key == "S") vel_y += velocity;
-        if(key == "A") vel_x -= velocity;
-        if(key == "D") vel_x += velocity;
+        if(key == "W") vy -= velocity;
+        if(key == "S") vy += velocity;
+        if(key == "A") vx -= velocity;
+        if(key == "D") vx += velocity;
     }
     key = res.get_released_key();
     if(key != "")
     {
-        if(key == "W") vel_y += velocity;
-        if(key == "S") vel_y -= velocity;
-        if(key == "A") vel_x += velocity;
-        if(key == "D") vel_x -= velocity;
+        if(key == "W") vy += velocity;
+        if(key == "S") vy -= velocity;
+        if(key == "A") vx += velocity;
+        if(key == "D") vx -= velocity;
     }
 }
 
-void Player::collide(Object& obj)
+void Player::collide(GameObject& obj)
 {
     health -= obj.get_power();
     if(health < 0)

@@ -1,19 +1,21 @@
 #ifndef SURF_STONE_HH
 #define SURF_STONE_HH
 
-#include "object.hh"
+#include "gameobject.hh"
 #include <cstdlib>
 
+class Game;
 class Resources;
 
-class Stone: public Object
+class Stone: public GameObject
 {
     public:
-        Stone(Resources& res, int size=rand()%4, float vel_y=0);
+        Stone(Resources& res, Game& game, int size=rand()%4, float vy=0);
         ~Stone();
         
         virtual void init();
         virtual void update(float delta);
+        virtual void collide(GameObject &obj);
         void split();
         virtual bool remove();
     private:

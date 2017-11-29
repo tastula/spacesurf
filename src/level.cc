@@ -1,9 +1,12 @@
+#include "game.hh"
+#include "effects.hh"
 #include "level.hh"
+#include "object.hh"
 #include "resources.hh"
 #include "stone.hh"
 
-Level::Level(Resources& res)
-:res(res), player(res, "naut1"), hud(res)
+Level::Level(Resources& res, Game* g)
+:res(res), game(*g), player(res, game, "naut1"), hud(res, 100)
 {
     init();
 }
@@ -14,6 +17,7 @@ Level::~Level()
 
 void Level::init()
 {
+    new_ray.restart();
     new_stone.restart();
     hud.set_time(0);
     player.init();
@@ -27,35 +31,48 @@ void Level::input()
 
 void Level::update(float delta)
 {
-    // No need to update or draw player as it's done from Game
+    add_rays();
     add_stones();
 
-    for(auto o1: res.layer2)
+    update_layer(delta, layer1);
+
+    for(auto o1: layer2)
     {
         handle_collision(*o1, player); 
     }
 
     player.update(delta);
+    update_layer(delta, layer2);
     hud.update(delta, player.get_health());
 }
 
 void Level::draw()
 {
-    // No need to update or draw player as it's done from Game
+    draw_layer(layer1);
     player.draw();
+    draw_layer(layer2);
     hud.draw();
 }
 
 void Level::add_stones()
 {
-    if(new_stone.time() > 0.3 && res.game_playing)
+    if(new_stone.time() > 0.3 && game.is_playing())
     {
         new_stone.restart();
-        res.layer2.emplace_back(new Stone(res));
+        layer2.emplace_back(new Stone(res, game));
     }
 }
 
-void Level::handle_collision(Object& o1, Object& o2)
+void Level::add_rays()
+{
+    if(new_ray.time() > 0.08)
+    {
+        new_ray.restart();
+        layer1.emplace_back(new Ray(res, game));
+    }
+}
+
+void Level::handle_collision(GameObject& o1, GameObject& o2)
 {
     SDL_Rect r1 = o1.get_hitbox();
     SDL_Rect r2 = o2.get_hitbox();
@@ -66,5 +83,33 @@ void Level::handle_collision(Object& o1, Object& o2)
     {
         o1.collide(o2);
         o2.collide(o1);
+    }
+}
+
+void Level::add_stone(Stone *stone)
+{
+    layer2.emplace_back(stone);
+}
+
+void Level::update_layer(float delta, std::vector<GameObject*>& layer)
+{
+    for(unsigned i=0; i<layer.size(); ++i)
+    {
+        layer.at(i)->update(delta);
+        if(layer.at(i)->remove())
+        {
+            Object* del = layer.at(i);
+            layer.erase(layer.begin()+i);
+            delete del;
+            --i;
+        }
+    }
+}
+
+void Level::draw_layer(std::vector<GameObject*>& layer)
+{
+    for(unsigned i=0; i<layer.size(); ++i)
+    {
+        layer.at(i)->draw();
     }
 }

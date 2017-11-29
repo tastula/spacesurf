@@ -8,8 +8,6 @@ Resources::Resources()
     init_winren();
     load_fonts();
     load_textures();
-
-    SDL_Log("Game initialized");
 }
 
 Resources::~Resources()
@@ -18,8 +16,6 @@ Resources::~Resources()
     free_textures();
     free_winren();
     free_sdl();
-
-    SDL_Log("Game ended succesfully");
 }
 
 void Resources::window_clear()
@@ -84,10 +80,6 @@ void Resources::init_values()
 {
     screen_w = 1920;
     screen_h = 1080;
-    game_running = true;
-    game_fullscreen = true;
-    game_paused = false;
-    game_playing = true;
 
     color_back = {30, 0, 0, 0};
     color_white = {255, 255, 255, 0};

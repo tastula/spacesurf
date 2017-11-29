@@ -8,6 +8,7 @@ Clock::Clock()
 
 Clock::~Clock()
 {
+    // Destructor
 }
 
 void Clock::init()
@@ -16,11 +17,6 @@ void Clock::init()
     start_time = 0;
     pause_time = 0;
     current_time = 0;
-}
-
-void Clock::start()
-{
-    start_time = SDL_GetTicks();
 }
 
 void Clock::pause()
@@ -32,7 +28,7 @@ void Clock::pause()
         pause_time = SDL_GetTicks();
         current_time = pause_time-start_time;
     }
-    // Restart counting
+    // Continue counting
     else if(paused)
     {
         paused = false;
@@ -54,6 +50,6 @@ float Clock::restart()
 {
     float old_time = time();
     init();
-    start();
+    start_time = SDL_GetTicks();
     return old_time;
 }

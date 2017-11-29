@@ -12,7 +12,7 @@ int main()
     float delta_time = 0;
 
     // Run the game
-    while(res.game_running)
+    while(game.is_running())
     {
         delta_time = delta_timer.restart();
         res.window_clear();

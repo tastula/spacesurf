@@ -1,12 +1,13 @@
 #include "resources.hh"
 #include "stone.hh"
+#include "game.hh"
 #include <string>
 
-Stone::Stone(Resources& res, int size, float vel_y)
-:Object(res), size(size+1)
+Stone::Stone(Resources& res, Game& game, int size, float vel_y)
+:GameObject(res, game), size(size+1)
 {
     Stone::init();
-    this->vel_y = vel_y;
+    this->vy = vel_y;
 }
 
 Stone::~Stone()
@@ -17,23 +18,30 @@ Stone::~Stone()
 void Stone::init()
 {
     std::string name = "stone"+std::to_string(size);
-    Object::set_texture(name);
-    pos_x = res.screen_w + rand()%30;
-    pos_y = rand()%res.screen_h - h/2;
-    vel_x = -(360 + rand()%(size*200));
+    GameObject::set_texture(name);
+    px = res.screen_w + rand()%30;
+    py = rand()%res.screen_h - h/2;
+    vx = -(360 + rand()%(size*200));
     shot = false;
     power = 1;
     against_player = true;
     // Always positive
-    rotation = -2*(vel_x/10);
+    rotation = -2*(vx/10);
 }
 
 void Stone::update(float delta)
 {
-    add_pos_x(vel_x*delta);
-    add_pos_y(vel_y*delta);
+    add_position(vx*delta, vy*delta);
     angle -= rotation*delta;
     split();
+}
+
+void Stone::collide(GameObject &obj)
+{
+    if(obj.get_power() > 0)
+    {
+        shot = true;
+    }
 }
 
 void Stone::split()
@@ -42,12 +50,12 @@ void Stone::split()
     if(size < 4 and shot > 1)
     {
         // Ugly af copy-paste code
-        Stone *new_stone = new Stone(res, size+1, 120+rand()%80);
-        new_stone->set_position(pos_x, pos_y);
-        res.layer1.emplace_back(new_stone);
-        new_stone = new Stone(res, size+1, -(120+rand()%80));
-        new_stone->set_position(pos_x, pos_y);
-        res.layer1.emplace_back(new_stone);
+        Stone *new_stone = new Stone(res, game, size+1, 120+rand()%80);
+        new_stone->set_position(px, py);
+        game.level_add_stone(new_stone);
+        new_stone = new Stone(res, game, size+1, -(120+rand()%80));
+        new_stone->set_position(px, py);
+        game.level_add_stone(new_stone);
         
         // Bye bye stone
         finished = true;
@@ -56,7 +64,7 @@ void Stone::split()
 
 bool Stone::remove()
 {
-    if(pos_x < -h)
+    if(px < -h)
     {
         finished = true;
     }

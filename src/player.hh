@@ -5,17 +5,18 @@
 #include "object.hh"
 #include <string>
 
+class Game;
 class Resources;
 
-class Player: public Object
+class Player: public GameObject
 {
     public:
-        Player(Resources& res, std::string tex);
+        Player(Resources& res, Game& game, std::string name);
         ~Player();
         virtual void init();
         virtual void update(float delta);
         virtual bool remove();
-        virtual void collide(Object& obj);
+        virtual void collide(GameObject& obj);
         virtual void draw();
         void input();
     private:

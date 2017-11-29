@@ -2,9 +2,10 @@
 #include "game.hh"
 #include "object.hh"
 #include "resources.hh"
+#include "stone.hh"
 
 Game::Game(Resources &res)
-:res(res), level(res)
+:res(res), level(res, this), running(true), playing(true), paused(false)
 {
     init();
 }
@@ -15,18 +16,17 @@ Game::~Game()
 
 void Game::init()
 {
-    new_ray.start();
 }
 
 void Game::input()
 {
     if(res.get_pressed_key() == "Space")
     {
-        res.game_paused = !res.game_paused;
+        pause();
     }
     else if(res.get_pressed_key() == "I")
     {
-        res.game_playing = true;
+        play();
         level.init();
     }
 
@@ -35,52 +35,48 @@ void Game::input()
 
 void Game::update(float delta)
 {
-    if(!res.game_paused)
+    if(!is_paused())
     {
-        add_rays();
         level.update(delta);
-        update_layer(delta, res.layer1);
-        update_layer(delta, res.layer2);
-
-    }
-}
-
-void Game::add_rays()
-{
-    if(new_ray.time() > 0.08)
-    {
-        new_ray.restart();
-        res.layer1.emplace_back(new Ray(res));
-    }
-}
-
-void Game::update_layer(float delta, std::vector<Object*>& layer)
-{
-    for(unsigned i=0; i<layer.size(); ++i)
-    {
-        layer.at(i)->update(delta);
-        if(layer.at(i)->remove())
-        {
-            Object* del = layer.at(i);
-            layer.erase(layer.begin()+i);
-            delete del;
-            --i;
-        }
     }
 }
 
 void Game::draw()
 {
-    draw_layer(res.layer1);
-    draw_layer(res.layer2);
-
     level.draw();
 }
 
-void Game::draw_layer(std::vector<Object*>& layer)
+void Game::quit()
 {
-    for(unsigned i=0; i<layer.size(); ++i)
-    {
-        layer.at(i)->draw();
-    }
+    running = false;
+}
+
+void Game::play(bool p)
+{
+    playing = p;
+}
+
+void Game::pause()
+{
+    paused = !paused;
+}
+
+bool Game::is_running()
+{
+    return running;
+}
+
+bool Game::is_playing()
+{
+    return playing;
+}
+
+bool Game::is_paused()
+{
+    return paused;
+}
+
+void Game::level_add_stone(Stone *stone)
+{
+    level.add_stone(stone);
 }

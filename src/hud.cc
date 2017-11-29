@@ -1,6 +1,6 @@
 #include "hud.hh"
 
-#define BAR_LENGTH 600
+constexpr unsigned BAR_LENGTH = 800;
 
 HUD::HUD(Resources& res, float time_max)
 :res(res), health(res, "", res.font_m), time(res, "", res.font_m),

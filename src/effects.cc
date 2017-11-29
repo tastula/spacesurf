@@ -2,33 +2,31 @@
 #include "resources.hh"
 #include <SDL2/SDL.h>
 
-// --- Ray -------------------------------------
+// --- Ray ---------------------------------------------------------------------
 
-Ray::Ray(Resources& res)
-:Object(res)
+constexpr int RAY_W = 60;
+constexpr int RAY_H = 10;
+
+Ray::Ray(Resources& res, Game& game)
+:GameObject(res, game)
 {
-    Ray::init();
+    w = RAY_W;
+    h = RAY_H;
+    collidable = false;
+    px = res.screen_w;
+    py = rand() % res.screen_h;
+    vx = -1600;
+    area = {int(px), int(py), w, h};
 }
 
 Ray::~Ray()
 {
 }
 
-void Ray::init()
-{
-    w = 60;
-    h = 10;
-    collidable = false;
-    pos_x = res.screen_w;
-    pos_y = rand() % res.screen_h;
-    vel_x = -1600;
-    area = {int(pos_x), int(pos_y), w, h};
-}
-
 void Ray::update(float delta)
 {
-    add_pos_x(vel_x*delta);
-    area = {int(pos_x), int(pos_y), w, h};
+    add_position(vx*delta, 0);
+    area = {int(px), int(py), w, h};
 }
 
 void Ray::draw()
@@ -42,7 +40,7 @@ void Ray::draw()
 
 bool Ray::remove()
 {
-    if(pos_x < -w)
+    if(px < -w)
     {
         return true;
     }

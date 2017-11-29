@@ -1,18 +1,17 @@
 #ifndef SURF_ASSETS_HH
 #define SURF_ASSETS_HH
 
-#include "object.hh"
+#include "gameobject.hh"
 #include <string>
 
 class Resources;
 
-class Surfboard: public Object
+class Surfboard: public GameObject
 {
     public:
-        Surfboard(Resources& res, std::string tex);
-        ~Surfboard();
-        void update(float vel, float x, float y);
-        virtual void update(float delta);
-        virtual bool remove();
+        Surfboard(Resources& res, Game& game, std::string name);
+        virtual ~Surfboard();
+
+        void update(float vy, float nx, float ny);
 };
-#endif
+#endif // SURF_ASSETS_HH

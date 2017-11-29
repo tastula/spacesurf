@@ -1,154 +1,65 @@
 #include "object.hh"
 #include "resources.hh"
 
-Object::Object(Resources& res, std::string tex)
-:res(res)
-{
-    Object::init();
-    set_texture(tex);
-}
-
 Object::Object(Resources& res)
 :res(res)
 {
-    // There's no texture yet, create one asap!
-    // Remember to manually set the texture.
-    init();
+    px = 0;
+    py = 0;
+    pz = 0;
+    vx = 0;
+    vy = 0;
+    h = 0;
+    w = 0;
 }
 
 Object::~Object()
 {
+    // Destructor
 }
 
-void Object::init()
+void Object::add_position(float dx, float dy, float dz)
 {
-    pos_x = 0;
-    pos_y = 0;
-    vel_x = 0;
-    vel_y = 0;
-    h = 0;
-    w = 0;
-    angle = 0;
-    health = 1;
-    power = 0;
-    collidable = true;
-    finished = false;
-    against_player = false;
+    px += dx;
+    py += dy;
+    pz += dz;
 }
 
-void Object::draw()
+void Object::add_velocity(float dx, float dy)
 {
-    SDL_Rect dts = {int(pos_x), int(pos_y), w, h};
-    SDL_RenderCopyEx(res.renderer, tex, NULL, &dts, int(angle), NULL,
-                     SDL_FLIP_NONE);
+    vx += dx;
+    vy += dy;
 }
 
-SDL_Rect Object::get_hitbox()
+void Object::set_position(float nx, float ny, float nz)
 {
-    return {int(pos_x), int(pos_y), w, h};
+    px = nx;
+    py = ny;
+    pz = nz;
 }
 
-void Object::collide(Object& obj)
+void Object::set_velocity(float nx, float ny)
 {
-    // This is really class-specific, implementing own is a good idea
-    // Not everyone uses this though
+    vx = nx;
+    vy = ny;
 }
 
-int Object::get_power()
+float Object::get_px()
 {
-    return power;
+    return px;
 }
 
-int Object::get_health()
+float Object::get_py()
 {
-    return health;
+    return py;
 }
 
-void Object::set_texture(std::string tex)
+float Object::get_vx()
 {
-    this->tex = res.all_textures.at(tex);
-    SDL_QueryTexture(this->tex, NULL, NULL, &w, &h);
+    return vx;
 }
 
-void Object::set_texture(SDL_Texture *tex)
+float Object::get_vy()
 {
-    this->tex = tex;
-    SDL_QueryTexture(this->tex, NULL, NULL, &w, &h);
-}
-
-void Object::add_pos_x(float delta)
-{
-    pos_x += delta;
-}
-
-void Object::add_pos_y(float delta)
-{
-    pos_y += delta;
-}
-
-void Object::add_vel_x(float delta)
-{
-    vel_x += delta;
-}
-
-void Object::add_vel_y(float delta)
-{
-    vel_y += delta;
-}
-
-void Object::set_pos_x(float position)
-{
-    pos_x = position;
-}
-
-void Object::set_position(float new_x, float new_y)
-{
-    set_pos_x(new_x);
-    set_pos_y(new_y);
-}
-
-void Object::set_pos_y(float position)
-{
-    pos_y = position;
-}
-
-void Object::set_vel_x(float position)
-{
-    vel_x = position;
-}
-
-void Object::set_vel_y(float position)
-{
-    vel_y = position;
-}
-
-bool Object::get_against()
-{
-    return against_player;
-}
-
-float Object::get_pos_x()
-{
-    return pos_x;
-}
-
-float Object::get_pos_y()
-{
-    return pos_y;
-}
-
-float Object::get_vel_x()
-{
-    return vel_x;
-}
-
-float Object::get_vel_y()
-{
-    return vel_y;
-}
-
-bool Object::remove()
-{
-    // Remove if there's no health
-    return !health;
+    return vy;
 }

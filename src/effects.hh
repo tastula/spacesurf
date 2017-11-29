@@ -1,17 +1,14 @@
 #ifndef SURF_EFFECTS_HH
 #define SURF_EFFECTS_HH
 
-#include "object.hh"
+#include "gameobject.hh"
 #include <SDL2/SDL.h>
 
-class Resources;
-
-class Ray: public Object
+class Ray: public GameObject
 {
     public:
-        Ray(Resources& res);
+        Ray(Resources& res, Game& game);
         ~Ray();
-        virtual void init();
         virtual void update(float delta);
         virtual void draw();
         virtual bool remove();
@@ -20,4 +17,4 @@ class Ray: public Object
         SDL_Rect area;
 };
 
-#endif
+#endif // SURF_EFFECTS_HH

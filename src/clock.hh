@@ -6,16 +6,16 @@ class Clock
     public:
         Clock();
         ~Clock();
-        void init();
-        void start();
         void pause();
         float time();
         float restart();
     private:
+        void init();
+
         bool paused;
         float start_time;
         float pause_time;
         float current_time;
 };
 
-#endif
+#endif // SURF_CLOCK_HH

@@ -9,6 +9,7 @@ src = [
     'src/level.cc',
     'src/main.cc',
     'src/game.cc',
+    'src/gameobject.cc',
     'src/object.cc',
     'src/player.cc',
     'src/resources.cc',
