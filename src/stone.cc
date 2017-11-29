@@ -19,14 +19,14 @@ void Stone::init()
 {
     std::string name = "stone"+std::to_string(size);
     GameObject::set_texture(name);
-    px = res.screen_w + rand()%30;
+    px = res.screen_w + rand()%6;
     py = rand()%res.screen_h - h/2;
-    vx = -(360 + rand()%(size*200));
+    vx = -(72 + rand()%(size*40));
     shot = false;
     power = 1;
     against_player = true;
     // Always positive
-    rotation = -2*(vx/10);
+    rotation = -vx;
 }
 
 void Stone::update(float delta)
@@ -59,10 +59,10 @@ void Stone::split()
         if(size < 4)
         {
             // Ugly af copy-paste code
-            Stone *new_stone = new Stone(res, game, size, 120);
+            Stone *new_stone = new Stone(res, game, size, 24);
             new_stone->set_position(px, py+w-new_stone->get_w());
             game.level_add_object(new_stone);
-            new_stone = new Stone(res, game, size, -120);
+            new_stone = new Stone(res, game, size, -24);
             new_stone->set_position(px, py);
             game.level_add_object(new_stone);
         }

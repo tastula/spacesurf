@@ -15,7 +15,6 @@ int main()
     while(game.is_running())
     {
         delta_time = delta_timer.restart();
-        res.window_clear();
 
         // Check for user events
         while(SDL_PollEvent(&res.event))

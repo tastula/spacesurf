@@ -74,9 +74,9 @@ Bullet::Bullet(Resources& res, Game& game, int nx, int ny)
 {
     px = nx;
     py = ny;
-    vx = 800;
-    w = 30;
-    h = 10;
+    vx = 200;
+    w = 6;
+    h = 2;
     power = 1;
     color = &res.color_white;
 }

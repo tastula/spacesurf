@@ -43,7 +43,11 @@ void Game::update(float delta)
 
 void Game::draw()
 {
+    SDL_SetRenderTarget(res.renderer, res.framebuffer);
+    res.window_clear();
     level.draw();
+    SDL_SetRenderTarget(res.renderer, NULL);
+    SDL_RenderCopy(res.renderer, res.framebuffer, NULL, NULL);
 }
 
 void Game::quit()

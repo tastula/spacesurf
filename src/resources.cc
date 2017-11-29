@@ -1,6 +1,8 @@
 #include "resources.hh"
 #include <stdexcept>
 
+constexpr float SCALE = 5;
+
 Resources::Resources()
 {
     init_sdl();
@@ -98,13 +100,10 @@ void Resources::init_sdl()
 
 void Resources::init_values()
 {
-    screen_w = 1920;
-    screen_h = 1080;
-
     color_back = {30, 0, 0, 0};
     color_white = {255, 255, 255, 0};
 
-   draw_hitbox = false;
+   draw_hitbox = true;
 }
 
 void Resources::init_winren()
@@ -113,27 +112,34 @@ void Resources::init_winren()
         "SpaceSurf",
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
-        screen_w, screen_h, 0);
+        0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP);
     if(!window)
     {
         SDL_Log("Error in creating window");
         throw std::runtime_error(SDL_GetError());
     }
-    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
     SDL_ShowCursor(0);
     renderer = SDL_CreateRenderer(
         window, -1,
-        SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_ACCELERATED);
+        SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_ACCELERATED
+        |SDL_RENDERER_TARGETTEXTURE);
     if(!renderer)
     {
         SDL_Log("Error in creating renderer");
         throw std::runtime_error(SDL_GetError());
     }
+    SDL_Rect screen_size;
+    SDL_RenderGetViewport(renderer, &screen_size);
+    screen_w = screen_size.w / SCALE;
+    screen_h = screen_size.h / SCALE;
+
+    framebuffer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
+        SDL_TEXTUREACCESS_TARGET, screen_w, screen_h);
 }
 
 void Resources::load_fonts()
 {
-    font_m = TTF_OpenFont("res/fonts/slkscr.ttf", 32);
+    font_m = TTF_OpenFont("res/fonts/slkscr.ttf", 8);
     if(!font_m)
     {
         SDL_Log("Error in loading fonts");

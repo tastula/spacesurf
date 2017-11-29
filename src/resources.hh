@@ -44,6 +44,8 @@ class Resources
         // Can be turned into map maybe?
         bool draw_hitbox;
 
+        SDL_Texture* framebuffer;
+
         map_texture all_textures;
     private:
         void init_sdl();

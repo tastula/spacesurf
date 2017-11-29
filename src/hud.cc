@@ -1,13 +1,13 @@
 #include "hud.hh"
 
-constexpr unsigned BAR_LENGTH = 800;
+#define BAR_LENGTH(res) (res.screen_w/2)
 
 HUD::HUD(Resources& res, float time_max)
 :res(res), health(res, "", res.font_m), time(res, "", res.font_m),
  time_max(time_max), time_elapsed(0)
 {
-    x_left = res.screen_w/2 - BAR_LENGTH/2;
-    x_right = res.screen_w/2 + BAR_LENGTH/2;
+    x_left = res.screen_w/2 - BAR_LENGTH(res)/2;
+    x_right = res.screen_w/2 + BAR_LENGTH(res)/2;
     x_now = x_left;
     tex = res.all_textures.at("head1");
     SDL_QueryTexture(tex, NULL, NULL, &w, &h);
@@ -28,7 +28,7 @@ void HUD::update(float delta, int hp)
     }
     else
     {
-        x_now = x_right - 40;
+        x_now = x_right - 8;
     }
 
     // Update labels
@@ -38,8 +38,8 @@ void HUD::update(float delta, int hp)
 
 void HUD::draw()
 {
-    float y_top = 10 + 15;
-    float y_btm = 10;
+    float y_top = 2 + 3;
+    float y_btm = 2;
 
     // Line before head
     SDL_Rect r1 = {int(x_left), int(y_top), int(x_now-x_left), int(y_btm)};
@@ -52,13 +52,13 @@ void HUD::draw()
     SDL_RenderFillRect(res.renderer, &r2);
 
     // The head itself
-    SDL_Rect dts = {int(x_now), int(10), w, h};
+    SDL_Rect dts = {int(x_now), int(2), w, h};
     SDL_RenderCopy(res.renderer, tex, NULL, &dts);
 
 
     // Draw labels
-    health.draw_right(x_left-20, 15);
-    time.draw(x_right+20, 15);
+    health.draw_right(x_left-4, 3);
+    time.draw(x_right+4, 3);
 }
 
 void HUD::set_time(float time)

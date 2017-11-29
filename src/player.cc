@@ -16,7 +16,7 @@ Player::~Player()
 
 void Player::init()
 {
-    velocity = 600;
+    velocity = 160;
     health = 600;
 }
 
@@ -25,14 +25,13 @@ void Player::update(float delta)
     add_position(vx*delta, vy*delta);
 
     // Keep the player on screen
-    // TODO: Remove offsets when pictures are fixed
-    if(px < 10) px = 10;
-    else if(px > res.screen_w-w+20) px = res.screen_w-w+20;
-    if(py < -10) py = -10;
-    else if(py > res.screen_h-h-10) py = res.screen_h-h-10;
+    if(px < 0) px = 0;
+    else if(px > res.screen_w-w) px = res.screen_w-w;
+    if(py < 0) py = 0;
+    else if(py > res.screen_h-h) py = res.screen_h-h;
     
-    gun.update(px+70, py+45);
-    board.update(vy, px-10, py+55);
+    gun.update(px+w, py+5);
+    board.update(vy, px-2, py+h-3);
 
     // Just to toggle playing and death
     remove();

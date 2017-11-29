@@ -4,8 +4,9 @@
 
 // --- Ray ---------------------------------------------------------------------
 
-constexpr int RAY_W = 60;
-constexpr int RAY_H = 10;
+constexpr int RAY_W = 12;
+constexpr int RAY_H = 2;
+constexpr int RAY_VELOCITY = 320;
 
 Ray::Ray(Resources& res, Game& game)
 :GameObject(res, game)
@@ -15,7 +16,7 @@ Ray::Ray(Resources& res, Game& game)
     collidable = false;
     px = res.screen_w;
     py = rand() % res.screen_h;
-    vx = -1600;
+    vx = -RAY_VELOCITY;
     area = {int(px), int(py), w, h};
     color = &res.color_white;
 }

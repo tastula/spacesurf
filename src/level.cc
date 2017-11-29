@@ -21,7 +21,7 @@ void Level::init()
     new_stone.restart();
     hud.set_time(0);
     player.init();
-    player.set_position(200, 200);
+    player.set_position(res.screen_w/6, res.screen_h/2);
     // Update other gear, too
     player.update(0);
 }
