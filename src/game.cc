@@ -20,11 +20,13 @@ void Game::init()
 
 void Game::input()
 {
-    if(res.get_keyboard_key_d("P"))
+    if(res.get_keyboard_key_d("P") ||
+       res.get_controller_button_d(SDL_CONTROLLER_BUTTON_A))
     {
         pause();
     }
-    else if(res.get_keyboard_key_d("I"))
+    else if(res.get_keyboard_key_d("I") ||
+            res.get_controller_button_d(SDL_CONTROLLER_BUTTON_B))
     {
         play();
         level.init();
@@ -43,6 +45,7 @@ void Game::update(float delta)
 
 void Game::draw()
 {
+    // Cool pixel art n stuff
     SDL_SetRenderTarget(res.renderer, res.framebuffer);
     res.window_clear();
     level.draw();

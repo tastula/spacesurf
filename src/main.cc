@@ -19,7 +19,12 @@ int main()
         // Check for user events
         while(SDL_PollEvent(&res.event))
         {
-            if(res.event.type == SDL_QUIT) return 0;
+            if(res.event.type == SDL_QUIT ||
+               res.get_keyboard_key_d("Escape") ||
+               res.get_controller_button_d(SDL_CONTROLLER_BUTTON_Y))
+            {
+                return 0;
+            }
             game.input();
         }
 

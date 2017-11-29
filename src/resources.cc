@@ -103,7 +103,7 @@ void Resources::init_values()
     color_back = {30, 0, 0, 0};
     color_white = {255, 255, 255, 0};
 
-   draw_hitbox = true;
+   draw_hitbox = false;
 }
 
 void Resources::init_winren()
