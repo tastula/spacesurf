@@ -28,10 +28,7 @@ class Game
         bool is_playing();
         bool is_paused();
 
-        // Workarounds to allow accessing Level from GameObjects
-        // Maybe passing Level reference or making it public would help?
-        void level_add_object(GameObject* obj);
-
+        Level* get_level();
     private:
         void add_rays();
 

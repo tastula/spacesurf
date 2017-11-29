@@ -83,7 +83,7 @@ bool Game::is_paused()
     return paused;
 }
 
-void Game::level_add_object(GameObject* obj)
+Level* Game::get_level()
 {
-    level.add_object(obj);
+    return &level;
 }

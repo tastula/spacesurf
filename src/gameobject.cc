@@ -23,6 +23,7 @@ GameObject::~GameObject()
 
 void GameObject::init()
 {
+    active = true;
     finished = false;
     collidable = true;
     against_player = false;
@@ -83,6 +84,11 @@ bool GameObject::remove()
     return finished;
 }
 
+void GameObject::set_active(bool set)
+{
+    active = set;
+}
+
 void GameObject::set_texture(std::string name)
 {
     this->tex = res.all_textures.at(name);
@@ -98,6 +104,16 @@ void GameObject::set_texture(SDL_Texture* tex)
 bool GameObject::get_against()
 {
     return against_player;
+}
+
+bool GameObject::get_active()
+{
+    return active;
+}
+
+bool GameObject::both_active(GameObject &obj)
+{
+    return (active && obj.get_active());
 }
 
 int GameObject::get_power()

@@ -17,7 +17,7 @@ Player::~Player()
 void Player::init()
 {
     velocity = 160;
-    health = 600;
+    health = 300;
 }
 
 void Player::update(float delta)
@@ -33,8 +33,11 @@ void Player::update(float delta)
     gun.update(px+w, py+5);
     board.update(vy, px-2, py+h-3);
 
-    // Just to toggle playing and death
-    remove();
+    if(health <= 0)
+    {
+        game.play(false);
+        finished = true;
+    }
 }
 
 void Player::draw()
@@ -45,17 +48,6 @@ void Player::draw()
         board.draw();
         GameObject::draw();
     }
-}
-
-
-bool Player::remove()
-{
-    if(health <= 0)
-    {
-        game.play(false);
-        return true;
-    }
-    return false;
 }
 
 void Player::input()
@@ -82,7 +74,10 @@ void Player::input()
 
 void Player::collide(GameObject& obj)
 {
-    health -= obj.get_power();
+    if(both_active(obj))
+    {
+        health -= obj.get_power();
+    }
     if(health < 0)
     {
         health = 0;

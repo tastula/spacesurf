@@ -59,7 +59,7 @@ void Gun::input()
 void Gun::shoot()
 {
     Bullet* bullet = new Bullet(res, game, px+w, py);
-    game.level_add_object(bullet);
+    game.get_level()->add_object(bullet);
 }
 
 void Gun::update(float nx, float ny)
@@ -89,7 +89,7 @@ Bullet::~Bullet()
 void Bullet::collide(GameObject& obj)
 {
     // Bullet did some damage (hopefully)
-    if(obj.get_against())
+    if(obj.get_against() && both_active(obj))
     {
         finished = true;
         power = 0;

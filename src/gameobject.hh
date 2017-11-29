@@ -20,9 +20,12 @@ class GameObject : public Object
         virtual SDL_Rect get_hitbox();
         virtual bool remove();
 
+        void set_active(bool set);
         void set_texture(std::string tex);
         void set_texture(SDL_Texture *tex);
         bool get_against();
+        bool get_active();
+        bool both_active(GameObject& obj);
         int get_power();
         int get_health();
 
@@ -32,6 +35,7 @@ class GameObject : public Object
         Game& game;
         SDL_Texture *tex;
         SDL_Color* color;
+        bool active;
         bool finished;
         bool collidable;
         bool against_player;

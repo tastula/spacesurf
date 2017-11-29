@@ -15,7 +15,6 @@ class Player: public GameObject
         ~Player();
         virtual void init();
         virtual void update(float delta);
-        virtual bool remove();
         virtual void collide(GameObject& obj);
         virtual void draw();
         void input();

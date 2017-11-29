@@ -17,6 +17,8 @@ Level::~Level()
 
 void Level::init()
 {
+    // Get rid of old influences
+    deactivate_objects();
     new_ray.restart();
     new_stone.restart();
     hud.set_time(0);
@@ -92,6 +94,14 @@ void Level::handle_collision(GameObject& o1, GameObject& o2)
     {
         o1.collide(o2);
         o2.collide(o1);
+    }
+}
+
+void Level::deactivate_objects()
+{
+    for(auto obj: layer2)
+    {
+        obj->set_active(false);
     }
 }
 

@@ -45,7 +45,7 @@ void Stone::update(float delta)
 
 void Stone::collide(GameObject &obj)
 {
-    if(obj.get_power() > 0)
+    if(obj.get_power() > 0 && both_active(obj))
     {
         shot = true;
     }
@@ -61,10 +61,10 @@ void Stone::split()
             // Ugly af copy-paste code
             Stone *new_stone = new Stone(res, game, size, 24);
             new_stone->set_position(px, py+w-new_stone->get_w());
-            game.level_add_object(new_stone);
+            game.get_level()->add_object(new_stone);
             new_stone = new Stone(res, game, size, -24);
             new_stone->set_position(px, py);
-            game.level_add_object(new_stone);
+            game.get_level()->add_object(new_stone);
         }
         // Bye bye stone
         finished = true;

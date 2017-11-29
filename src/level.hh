@@ -21,6 +21,7 @@ class Level
         void update(float delta);
         void draw();
         void handle_collision(GameObject& o1, GameObject& o2);
+        void deactivate_objects();
 
         // TODO: A ton of congigurations ad tweaking, this is the place
         // TODO: Read levels from a file, clocks with callbacks?
