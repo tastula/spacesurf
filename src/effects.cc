@@ -19,7 +19,7 @@ Ray::Ray(Resources& res, Game& game)
     py = rand() % res.screen_h;
     vx = -RAY_VELOCITY;
     area = {int(px), int(py), w, h};
-    color = &res.color_white;
+    color = res.get_color(COLOR_WHITE);
 }
 
 Ray::~Ray()
@@ -58,7 +58,7 @@ HitLabel::HitLabel(Resources &res, Game &game, std::string hit,
     this->py = (h/2)+py;
     this->vy = VELOCITY;
 
-    label.update_color_main(&res.color_red);
+    label.update_color_main(res.get_color(COLOR_RED));
     label.update_pos(this->px, this->py);
     destruction.restart();
 }

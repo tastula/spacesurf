@@ -17,8 +17,8 @@ Label::~Label()
 void Label::init()
 {
     angle = 0;
-    color_main = &res.color_white;
-    color_back = &res.color_white;
+    color_main = res.get_color(COLOR_WHITE);
+    color_back = res.get_color(COLOR_WHITE);
 }
 
 void Label::draw()

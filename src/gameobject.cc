@@ -44,7 +44,7 @@ void GameObject::draw()
             NULL, SDL_FLIP_NONE);
         if(res.draw_hitbox)
         {
-            res.set_render_color(&res.color_white);
+            res.set_render_color(res.get_color(COLOR_WHITE));
             SDL_RenderDrawRect(res.renderer, &dst);
         }
     }

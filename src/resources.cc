@@ -24,7 +24,7 @@ Resources::~Resources()
 
 void Resources::window_clear()
 {
-    set_render_color(&color_back);
+    set_render_color(get_color(COLOR_BACK));
     SDL_RenderClear(renderer);
 }
 
@@ -38,6 +38,8 @@ void Resources::window_draw()
 {
     SDL_RenderPresent(renderer);
 }
+
+// --- Getters -----------------------------------------------------------------
 
 bool Resources::get_keyboard_key_d(std::string key, int repeat)
 {
@@ -75,6 +77,13 @@ bool Resources::get_controller_button_u(unsigned button)
     return false;
 }
 
+SDL_Color* Resources::get_color(unsigned index)
+{
+    return &all_colors.at(index);
+}
+
+// --- Initialization ----------------------------------------------------------
+
 void Resources::init_sdl()
 {
     // SDL2 itself
@@ -101,10 +110,13 @@ void Resources::init_sdl()
 
 void Resources::init_values()
 {
-    color_back = {30, 0, 0, 0};
-    color_white = {255, 255, 255, 0};
-    color_red = {255, 0, 0, 0};
-    color_naut1 = {140, 10, 10, 0};
+    current_naut = int(COLOR_NAUT1);
+
+    all_colors.push_back({255, 255, 255, 0}); // White
+    all_colors.push_back({0, 0, 0, 0});       // Black
+    all_colors.push_back({30, 0, 0, 0});      // Background
+    all_colors.push_back({255, 0, 0, 0});     // Red
+    all_colors.push_back({140, 10, 10, 0});   // Naut 1
 
     draw_hitbox = false;
 }
@@ -139,6 +151,8 @@ void Resources::init_winren()
     framebuffer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,
         SDL_TEXTUREACCESS_TARGET, screen_w, screen_h);
 }
+
+// --- Loading -----------------------------------------------------------------
 
 void Resources::load_fonts()
 {
@@ -194,6 +208,8 @@ void Resources::load_controllers()
         }
     }
 }
+
+// --- Freeing -----------------------------------------------------------------
 
 void Resources::free_fonts()
 {

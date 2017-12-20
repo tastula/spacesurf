@@ -43,12 +43,12 @@ void HUD::draw()
 
     // Line before head
     SDL_Rect r1 = {int(x_left), int(y_top), int(x_now-x_left), int(y_btm)};
-    res.set_render_color(&res.color_naut1);
+    res.set_render_color(res.get_color(res.current_naut));
     SDL_RenderFillRect(res.renderer, &r1);
 
     // Line after head
     SDL_Rect r2 = {int(x_now), int(y_top), int(x_right-x_now), int(y_btm)};
-    SDL_SetRenderDrawColor(res.renderer, 255, 255, 255, 255);
+    res.set_render_color(res.get_color(COLOR_WHITE));
     SDL_RenderFillRect(res.renderer, &r2);
 
     // The head itself

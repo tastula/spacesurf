@@ -28,17 +28,15 @@ class Resources
         bool get_controller_button_u(unsigned button);
         bool get_controller_button_d(unsigned button);
 
+        SDL_Color* get_color(unsigned index);
+
         int screen_w;
         int screen_h;
 
+        int current_naut;
 
         SDL_Window* window;
         SDL_Renderer* renderer;
-
-        SDL_Color color_back;
-        SDL_Color color_white;
-        SDL_Color color_red;
-        SDL_Color color_naut1;
 
         SDL_GameController* controller;
         TTF_Font *font_m;
@@ -50,6 +48,7 @@ class Resources
         SDL_Texture* framebuffer;
 
         map_texture all_textures;
+        std::vector<SDL_Color> all_colors;
     private:
         void init_sdl();
         void init_values();
@@ -64,6 +63,18 @@ class Resources
         void free_controllers();
         void free_sdl();
         void free_winren();
+};
+
+enum colors
+{
+    COLOR_WHITE = 0,
+    COLOR_BLACK,
+    COLOR_BACK,
+    COLOR_RED,
+    COLOR_NAUT1,
+    COLOR_NAUT2,
+    COLOR_NAUT3,
+    COLOR_NAUT4
 };
 
 #endif

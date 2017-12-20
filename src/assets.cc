@@ -97,7 +97,7 @@ Bullet::Bullet(Resources& res, Game& game, int nx, int ny)
     w = 6;
     h = 2;
     power = 1;
-    color = &res.color_naut1;
+    color = res.get_color(res.current_naut);
 }
 
 Bullet::~Bullet()
