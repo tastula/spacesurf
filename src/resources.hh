@@ -77,4 +77,16 @@ enum colors
     COLOR_NAUT4
 };
 
+enum game_state
+{
+    STATE_MENU = 0,
+    STATE_GAME
+};
+
+enum menus
+{
+    MENU_MAIN = 0,
+    MENU_OPTIONS
+};
+
 #endif

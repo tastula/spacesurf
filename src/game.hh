@@ -3,6 +3,7 @@
 
 #include "clock.hh"
 #include "level.hh"
+#include "menu.hh"
 #include "player.hh"
 #include <vector>
 
@@ -38,6 +39,10 @@ class Game
         bool running;
         bool playing;
         bool paused;
+
+        std::vector<Menu*> menus;
+        Menu* current_menu;
+        game_state state;
 };
 
 #endif

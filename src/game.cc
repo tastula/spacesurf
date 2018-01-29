@@ -5,41 +5,63 @@
 #include "stone.hh"
 
 Game::Game(Resources &res)
-:res(res), level(res, this), running(true), playing(true), paused(false)
+:res(res), level(res, this), running(true), playing(true), paused(false),
+ state(STATE_GAME)
 {
     init();
 }
 
 Game::~Game()
 {
+    for(auto menu: menus)
+        delete menu;
 }
 
 void Game::init()
 {
+    // Build the menus
+    Menu* new_menu = new Menu(res, this);
+    menus.push_back(new_menu);
+
+    current_menu = menus.at(MENU_MAIN);
 }
 
 void Game::input()
 {
-    if(res.get_keyboard_key_d("P") ||
-       res.get_controller_button_d(SDL_CONTROLLER_BUTTON_A))
+    if(state == STATE_MENU)
     {
-        pause();
+    
     }
-    else if(res.get_keyboard_key_d("I") ||
-            res.get_controller_button_d(SDL_CONTROLLER_BUTTON_B))
+    else if(state == STATE_GAME)
     {
-        play();
-        level.init();
-    }
+        if(res.get_keyboard_key_d("P") ||
+           res.get_controller_button_d(SDL_CONTROLLER_BUTTON_A))
+        {
+            pause();
+        }
+        else if(res.get_keyboard_key_d("I") ||
+                res.get_controller_button_d(SDL_CONTROLLER_BUTTON_B))
+        {
+            play();
+            level.init();
+        }
 
-    level.input();
+        level.input();
+    }
 }
 
 void Game::update(float delta)
 {
-    if(!is_paused())
+    if(state == STATE_MENU)
     {
-        level.update(delta);
+    
+    }
+    else if(state == STATE_GAME)
+    {
+        if(!is_paused())
+        {
+            level.update(delta);
+        }
     }
 }
 
@@ -48,7 +70,16 @@ void Game::draw()
     // Cool pixel art n stuff
     SDL_SetRenderTarget(res.renderer, res.framebuffer);
     res.window_clear();
-    level.draw();
+    
+    if(state == STATE_MENU)
+    {
+    
+    }
+    else if(state == STATE_GAME)
+    {
+        level.draw();
+    }
+
     SDL_SetRenderTarget(res.renderer, NULL);
     SDL_RenderCopy(res.renderer, res.framebuffer, NULL, NULL);
 }

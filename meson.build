@@ -8,6 +8,7 @@ src = [
     'src/label.cc',
     'src/level.cc',
     'src/main.cc',
+    'src/menu.cc',
     'src/game.cc',
     'src/gameobject.cc',
     'src/object.cc',
