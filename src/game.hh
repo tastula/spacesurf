@@ -20,10 +20,7 @@ class Game
         void input();
         void update(float delta);
         void draw();
-        
-        void quit();
         void play(bool p = true);
-        void pause();
 
         bool is_running();
         bool is_playing();
@@ -31,6 +28,8 @@ class Game
 
         Level* get_level();
     private:
+        void quit();
+        void pause();
         void add_rays();
 
         Resources& res;
@@ -39,6 +38,9 @@ class Game
         bool running;
         bool playing;
         bool paused;
+        
+        Clock new_ray;
+        std::vector<GameObject*> layer_effects;
 
         std::vector<Menu*> menus;
         Menu* current_menu;

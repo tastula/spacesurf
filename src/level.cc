@@ -22,8 +22,7 @@ void Level::init()
     player.set_active(true);
 
     game.play(true);
-
-    new_ray.restart();
+    
     new_stone.restart();
     hud.set_time(0);
     player.init();
@@ -39,10 +38,7 @@ void Level::input()
 
 void Level::update(float delta)
 {
-    add_rays();
     add_stones();
-
-    if(!layer1.empty()) update_layer(delta, layer1);
 
     for(auto o1: layer2)
     {
@@ -63,7 +59,6 @@ void Level::update(float delta)
 
 void Level::draw()
 {
-    draw_layer(layer1);
     player.draw();
     draw_layer(layer2);
     hud.draw();
@@ -75,15 +70,6 @@ void Level::add_stones()
     {
         new_stone.restart();
         layer2.emplace_back(new Stone(res, game));
-    }
-}
-
-void Level::add_rays()
-{
-    if(new_ray.time() > 0.08)
-    {
-        new_ray.restart();
-        layer1.emplace_back(new Ray(res, game));
     }
 }
 

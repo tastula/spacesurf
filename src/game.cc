@@ -30,16 +30,19 @@ void Game::init()
     menus.at(MENU_MAIN)->add_drawable(new MenuLabel(res, logo));
     menus.at(MENU_MAIN)->add_item(new MenuLabel(res, "play", res.font_m));
     menus.at(MENU_MAIN)->add_item(new MenuLabel(res, "options", res.font_m));
+    menus.at(MENU_MAIN)->add_item(new MenuLabel(res, "exit", res.font_m));
 
     // Set current menu to main menu
     current_menu = menus.at(MENU_MAIN);
+    
+    new_ray.restart();
 }
 
 void Game::input()
 {
     if(state == STATE_MENU)
     {
-    
+        current_menu->input();
     }
     else if(state == STATE_GAME)
     {
@@ -61,9 +64,13 @@ void Game::input()
 
 void Game::update(float delta)
 {
+    // Always update effects
+    add_rays();
+    level.update_layer(delta, layer_effects);
+
     if(state == STATE_MENU)
     {
-        current_menu->update(); 
+        current_menu->update(delta);
     }
     else if(state == STATE_GAME)
     {
@@ -80,6 +87,9 @@ void Game::draw()
     SDL_SetRenderTarget(res.renderer, res.framebuffer);
     res.window_clear();
     
+    // Always draw the effect layer
+    level.draw_layer(layer_effects);
+
     if(state == STATE_MENU)
     {
         current_menu->draw();    
@@ -91,6 +101,15 @@ void Game::draw()
 
     SDL_SetRenderTarget(res.renderer, NULL);
     SDL_RenderCopy(res.renderer, res.framebuffer, NULL, NULL);
+}
+
+void Game::add_rays()
+{
+    if(new_ray.time() > 0.08)
+    {
+        new_ray.restart();
+        layer_effects.emplace_back(new Ray(res, *this));
+    }
 }
 
 void Game::quit()

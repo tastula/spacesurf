@@ -25,7 +25,7 @@ void Menu::add_drawable(MenuItem* item)
 
 void Menu::input()
 {
-    if(res.get_keyboard_key_d("D") && index < items.size()-1) index++;
+    if(res.get_keyboard_key_d("S") && index < items.size()-1) index++;
     if(res.get_keyboard_key_d("W") && index > 0) index--;
 }
 

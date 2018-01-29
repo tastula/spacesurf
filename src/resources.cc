@@ -164,7 +164,7 @@ void Resources::load_fonts()
         SDL_Log("Error in loading fonts");
         throw std::runtime_error(SDL_GetError());
     }
-    font_l = TTF_OpenFont("res/fonts/slkscr.ttf", 8*3);
+    font_l = TTF_OpenFont("res/fonts/slkscr.ttf", 8*4);
     if(!font_l)
     {
         SDL_Log("Error in loading fonts");
