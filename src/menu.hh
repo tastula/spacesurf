@@ -38,6 +38,7 @@ class MenuItem
 {
     public:
         MenuItem(Resources& res);
+        MenuItem(Resources& res, Label* label);
         MenuItem(Resources& res, std::string text, TTF_Font* font);
         virtual ~MenuItem();
         virtual void input();

@@ -26,13 +26,14 @@ void Game::init()
     // Create menus
     menus.push_back(new Menu(res, this)); // MENU_MAIN
     menus.push_back(new Menu(res, this)); // MENU_OPTIONS
-/*
+
     // Add content to main menu
+    // TODO: move logo from one menu to Game
     Label* logo = new Label(res, "spacesurf", res.font_l);
     logo->update_color_main(res.get_color(COLOR_BLUE));
     logo->update_pos(res.screen_w/2, 30);
-    menus.at(MENU_MAIN)->add_drawable(new MenuLabel(res, logo));
-*/
+    menus.at(MENU_MAIN)->add_drawable(new MenuItem(res, logo));
+
     menus.at(MENU_MAIN)->add_item(new MenuLabel(
         res, "play", res.font_m,
         std::bind(&Game::quit, this)));

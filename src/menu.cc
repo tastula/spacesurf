@@ -68,6 +68,11 @@ MenuItem::MenuItem(Resources& res, std::string text, TTF_Font* font)
     label_name = new Label(res, text, font);
 }
 
+MenuItem::MenuItem(Resources& res, Label* label)
+: res(res), label_name(label)
+{
+}
+
 MenuItem::~MenuItem()
 {
 }
