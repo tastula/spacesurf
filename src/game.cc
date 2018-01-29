@@ -3,6 +3,10 @@
 #include "object.hh"
 #include "resources.hh"
 #include "stone.hh"
+#include <functional>
+#include <iostream>
+#include <string>
+#include <typeinfo>
 
 Game::Game(Resources &res)
 :res(res), level(res, this), running(true), playing(true), paused(false),
@@ -22,15 +26,22 @@ void Game::init()
     // Create menus
     menus.push_back(new Menu(res, this)); // MENU_MAIN
     menus.push_back(new Menu(res, this)); // MENU_OPTIONS
-
+/*
     // Add content to main menu
     Label* logo = new Label(res, "spacesurf", res.font_l);
     logo->update_color_main(res.get_color(COLOR_BLUE));
     logo->update_pos(res.screen_w/2, 30);
     menus.at(MENU_MAIN)->add_drawable(new MenuLabel(res, logo));
-    menus.at(MENU_MAIN)->add_item(new MenuLabel(res, "play", res.font_m));
-    menus.at(MENU_MAIN)->add_item(new MenuLabel(res, "options", res.font_m));
-    menus.at(MENU_MAIN)->add_item(new MenuLabel(res, "exit", res.font_m));
+*/
+    menus.at(MENU_MAIN)->add_item(new MenuLabel(
+        res, "play", res.font_m,
+        std::bind(&Game::quit, this)));
+    menus.at(MENU_MAIN)->add_item(new MenuLabel(
+        res, "options", res.font_m,
+        std::bind(&Game::quit, this)));
+    menus.at(MENU_MAIN)->add_item(new MenuLabel(
+        res, "exit", res.font_m,
+        std::bind(&Game::quit, this)));
 
     // Set current menu to main menu
     current_menu = menus.at(MENU_MAIN);

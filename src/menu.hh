@@ -3,6 +3,7 @@
 
 #include "label.hh"
 #include "resources.hh"
+#include <functional>
 #include <vector>
 #include <SDL2/SDL_ttf.h>
 
@@ -36,9 +37,10 @@ class Menu
 class MenuItem
 {
     public:
-        MenuItem();
+        MenuItem(Resources& res);
         MenuItem(Resources& res, std::string text, TTF_Font* font);
         virtual ~MenuItem();
+        virtual void input();
         virtual void draw();
         virtual void draw(int x, int y);
         virtual void update_pos(int x, int y);
@@ -46,6 +48,7 @@ class MenuItem
 
     // TODO: inherit from Object
     protected:
+        Resources& res;
         Label* label_name;
         int x; int y;
         int w; int h;
@@ -54,16 +57,21 @@ class MenuItem
 class MenuLabel: public MenuItem
 {
     public:
-        MenuLabel(Resources& res, std::string text, TTF_Font* font);
-        MenuLabel(Resources& res, Label* label);
+        MenuLabel(Resources& res, std::string text, TTF_Font* font,
+                  std::function<void()> callback);
         virtual ~MenuLabel();
+        virtual void input();
+    private:
+        std::function<void()> callback;
 };
 
+/*
 class MenuPair: public MenuItem
 {
     public:
         MenuPair();
         ~MenuPair();
 };
+*/
 
 #endif

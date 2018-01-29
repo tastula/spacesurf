@@ -27,12 +27,15 @@ void Menu::input()
 {
     if(res.get_keyboard_key_d("S") && index < items.size()-1) index++;
     if(res.get_keyboard_key_d("W") && index > 0) index--;
+
+    items.at(index)->input();
 }
 
 void Menu::update(float delta)
 {
-    for(int i = 0; i < items.size(); ++i){
-        items.at(i)->update_pos(res.screen_w/2, res.screen_h/2 + (i-index)*20);
+    for(unsigned i = 0; i < items.size(); ++i){
+        items.at(i)->update_pos(res.screen_w/2, res.screen_h/2
+                                + ((int)i-index)*20);
         if(i == index)
             items.at(i)->get_label()->update_color_main(
                     res.get_color(COLOR_NAUT1
@@ -54,17 +57,24 @@ void Menu::draw()
 
 // --- MenuItem ----------------------------------------------------------------
 
-MenuItem::MenuItem()
+MenuItem::MenuItem(Resources& res)
+: res(res)
 {
 }
 
 MenuItem::MenuItem(Resources& res, std::string text, TTF_Font* font)
+: res(res)
 {
     label_name = new Label(res, text, font);
 }
 
 MenuItem::~MenuItem()
 {
+}
+
+void MenuItem::input()
+{
+    // Nothing by default
 }
 
 void MenuItem::draw()
@@ -89,14 +99,10 @@ Label* MenuItem::get_label()
 
 // --- MenuLabel ---------------------------------------------------------------
 
-MenuLabel::MenuLabel(Resources& res, std::string text, TTF_Font* font)
-: MenuItem(res, text, font)
+MenuLabel::MenuLabel(Resources& res, std::string text, TTF_Font* font,
+                     std::function<void()> callback)
+: MenuItem(res, text, font), callback(callback)
 {
-}
-
-MenuLabel::MenuLabel(Resources& res, Label* label)
-{
-    label_name = label;
 }
 
 MenuLabel::~MenuLabel()
@@ -104,8 +110,14 @@ MenuLabel::~MenuLabel()
     delete label_name;
 }
 
+void MenuLabel::input()
+{
+    if(res.get_keyboard_key_d("Space")) callback();
+}
+
 // --- MenuPair ----------------------------------------------------------------
 
+/*
 MenuPair::MenuPair()
 {
 }
@@ -114,3 +126,4 @@ MenuPair::~MenuPair()
 
 {
 }
+*/
