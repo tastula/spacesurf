@@ -40,6 +40,7 @@ class Resources
 
         SDL_GameController* controller;
         TTF_Font *font_m;
+        TTF_Font *font_l;
 
         // Setting, load from file
         // Can be turned into map maybe?
@@ -71,6 +72,8 @@ enum colors
     COLOR_BLACK,
     COLOR_BACK,
     COLOR_RED,
+    COLOR_GREEN,
+    COLOR_BLUE,
     COLOR_NAUT1,
     COLOR_NAUT2,
     COLOR_NAUT3,

@@ -114,8 +114,10 @@ void Resources::init_values()
 
     all_colors.push_back({255, 255, 255, 0}); // White
     all_colors.push_back({0, 0, 0, 0});       // Black
-    all_colors.push_back({30, 0, 0, 0});      // Background
+    all_colors.push_back({20, 0, 0, 0});      // Background
     all_colors.push_back({255, 0, 0, 0});     // Red
+    all_colors.push_back({0, 255, 0, 0});     // Green
+    all_colors.push_back({0, 0, 255, 0});     // Blue
     all_colors.push_back({140, 10, 10, 0});   // Naut 1
 
     draw_hitbox = false;
@@ -156,8 +158,14 @@ void Resources::init_winren()
 
 void Resources::load_fonts()
 {
-    font_m = TTF_OpenFont("res/fonts/slkscr.ttf", 8);
+    font_m = TTF_OpenFont("res/fonts/slkscr.ttf", 8*2);
     if(!font_m)
+    {
+        SDL_Log("Error in loading fonts");
+        throw std::runtime_error(SDL_GetError());
+    }
+    font_l = TTF_OpenFont("res/fonts/slkscr.ttf", 8*3);
+    if(!font_l)
     {
         SDL_Log("Error in loading fonts");
         throw std::runtime_error(SDL_GetError());

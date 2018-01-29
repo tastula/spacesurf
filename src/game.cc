@@ -6,7 +6,7 @@
 
 Game::Game(Resources &res)
 :res(res), level(res, this), running(true), playing(true), paused(false),
- state(STATE_GAME)
+ state(STATE_MENU)
 {
     init();
 }
@@ -19,10 +19,19 @@ Game::~Game()
 
 void Game::init()
 {
-    // Build the menus
-    Menu* new_menu = new Menu(res, this);
-    menus.push_back(new_menu);
+    // Create menus
+    menus.push_back(new Menu(res, this)); // MENU_MAIN
+    menus.push_back(new Menu(res, this)); // MENU_OPTIONS
 
+    // Add content to main menu
+    Label* logo = new Label(res, "spacesurf", res.font_l);
+    logo->update_color_main(res.get_color(COLOR_BLUE));
+    logo->update_pos(res.screen_w/2, 30);
+    menus.at(MENU_MAIN)->add_drawable(new MenuLabel(res, logo));
+    menus.at(MENU_MAIN)->add_item(new MenuLabel(res, "play", res.font_m));
+    menus.at(MENU_MAIN)->add_item(new MenuLabel(res, "options", res.font_m));
+
+    // Set current menu to main menu
     current_menu = menus.at(MENU_MAIN);
 }
 
@@ -54,7 +63,7 @@ void Game::update(float delta)
 {
     if(state == STATE_MENU)
     {
-    
+        current_menu->update(); 
     }
     else if(state == STATE_GAME)
     {
@@ -73,7 +82,7 @@ void Game::draw()
     
     if(state == STATE_MENU)
     {
-    
+        current_menu->draw();    
     }
     else if(state == STATE_GAME)
     {
