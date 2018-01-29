@@ -3,7 +3,7 @@
 #define BAR_LENGTH(res) (res.screen_w/2)
 
 HUD::HUD(Resources& res, float time_max)
-:res(res), health(res, "", res.font_m), time(res, "", res.font_m),
+:res(res), health(res, "", res.font_s), time(res, "", res.font_s),
  time_max(time_max), time_elapsed(0)
 {
     x_left = res.screen_w/2 - BAR_LENGTH(res)/2;

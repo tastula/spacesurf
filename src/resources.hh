@@ -39,6 +39,7 @@ class Resources
         SDL_Renderer* renderer;
 
         SDL_GameController* controller;
+        TTF_Font *font_s;
         TTF_Font *font_m;
         TTF_Font *font_l;
 

@@ -31,6 +31,8 @@ class Game
         void quit();
         void pause();
         void add_rays();
+        void change_menu(unsigned menu);
+        void change_state(game_state state);
 
         Resources& res;
         Level level;
@@ -43,6 +45,7 @@ class Game
         std::vector<GameObject*> layer_effects;
 
         std::vector<Menu*> menus;
+        std::vector<Label*> labels;
         Menu* current_menu;
         game_state state;
 };

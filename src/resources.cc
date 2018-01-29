@@ -158,6 +158,12 @@ void Resources::init_winren()
 
 void Resources::load_fonts()
 {
+    font_s = TTF_OpenFont("res/fonts/slkscr.ttf", 8);
+    if(!font_s)
+    {
+        SDL_Log("Error in loading fonts");
+        throw std::runtime_error(SDL_GetError());
+    }
     font_m = TTF_OpenFont("res/fonts/slkscr.ttf", 8*2);
     if(!font_m)
     {

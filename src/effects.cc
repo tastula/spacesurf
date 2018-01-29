@@ -50,7 +50,7 @@ constexpr float ACCELERATION = 300;
 
 HitLabel::HitLabel(Resources &res, Game &game, std::string hit,
                    float px, float py, float w, float h)
-:GameObject(res, game), label(res, hit, res.font_m)
+:GameObject(res, game), label(res, hit, res.font_s)
 {
     active = false;
 

@@ -19,6 +19,10 @@ Game::~Game()
 {
     for(auto menu: menus)
         delete menu;
+    for(auto label: labels)
+        delete label;
+    for(auto effect: layer_effects)
+        delete effect;
 }
 
 void Game::init()
@@ -28,21 +32,30 @@ void Game::init()
     menus.push_back(new Menu(res, this)); // MENU_OPTIONS
 
     // Add content to main menu
-    // TODO: move logo from one menu to Game
     Label* logo = new Label(res, "spacesurf", res.font_l);
     logo->update_color_main(res.get_color(COLOR_BLUE));
     logo->update_pos(res.screen_w/2, 30);
-    menus.at(MENU_MAIN)->add_drawable(new MenuItem(res, logo));
+    labels.push_back(logo);
 
     menus.at(MENU_MAIN)->add_item(new MenuLabel(
         res, "play", res.font_m,
-        std::bind(&Game::quit, this)));
+        std::bind(&Game::change_state, this, STATE_GAME)));
     menus.at(MENU_MAIN)->add_item(new MenuLabel(
         res, "options", res.font_m,
-        std::bind(&Game::quit, this)));
+        std::bind(&Game::change_menu, this, MENU_OPTIONS)));
     menus.at(MENU_MAIN)->add_item(new MenuLabel(
         res, "exit", res.font_m,
         std::bind(&Game::quit, this)));
+
+    menus.at(MENU_OPTIONS)->add_item(new MenuLabel(
+        res, "model", res.font_m,
+        std::bind(&Game::quit, this)));
+    menus.at(MENU_OPTIONS)->add_item(new MenuLabel(
+        res, "difficulty", res.font_m,
+        std::bind(&Game::quit, this)));
+    menus.at(MENU_OPTIONS)->add_item(new MenuLabel(
+        res, "back", res.font_m,
+        std::bind(&Game::change_menu, this, MENU_MAIN)));
 
     // Set current menu to main menu
     current_menu = menus.at(MENU_MAIN);
@@ -104,6 +117,8 @@ void Game::draw()
 
     if(state == STATE_MENU)
     {
+        for(auto label: labels)
+            label->draw_center();
         current_menu->draw();    
     }
     else if(state == STATE_GAME)
@@ -122,6 +137,16 @@ void Game::add_rays()
         new_ray.restart();
         layer_effects.emplace_back(new Ray(res, *this));
     }
+}
+
+void Game::change_menu(unsigned menu)
+{
+    current_menu = menus.at(menu);
+}
+
+void Game::change_state(game_state state)
+{
+    this->state = state;
 }
 
 void Game::quit()
