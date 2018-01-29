@@ -45,8 +45,8 @@ SDL_Rect Ray::get_hitbox()
 // --- HitLabel ----------------------------------------------------------------
 
 constexpr float LIFESPAN = 1.5;
-constexpr float VELOCITY = -120;
-constexpr float ACCELERATION = 300;
+constexpr float VELOCITY = 100;
+constexpr float ACCELERATION = -600;
 
 HitLabel::HitLabel(Resources &res, Game &game, std::string hit,
                    float px, float py, float w, float h)
@@ -56,7 +56,7 @@ HitLabel::HitLabel(Resources &res, Game &game, std::string hit,
 
     this->px = (w/2)+px;
     this->py = (h/2)+py;
-    this->vy = VELOCITY;
+    this->vx = VELOCITY;
 
     label.update_color_main(res.get_color(COLOR_RED));
     label.update_pos(this->px, this->py);
@@ -77,8 +77,8 @@ void HitLabel::update(float delta)
     }
 
     // Physics yay
-    vy += ACCELERATION*delta;
-    py += vy*delta;
+    vx += ACCELERATION*delta;
+    px += vx*delta;
 }
 
 void HitLabel::draw()
