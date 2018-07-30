@@ -4,9 +4,11 @@
 #include "object.hh"
 #include "resources.hh"
 #include "stone.hh"
+#include "cutscene.hh"
 
 Level::Level(Resources& res, Game* g)
-:res(res), game(*g), player(res, game, "naut1"), hud(res, 100)
+:res(res), game(*g), player(res, game, "naut1"), hud(res, 100),
+ current_act(nullptr)
 {
     init();
 }

@@ -14,7 +14,8 @@ src = [
     'src/object.cc',
     'src/player.cc',
     'src/resources.cc',
-    'src/stone.cc'
+    'src/stone.cc',
+    'src/cutscene.cc'
 ]
 
 dps = [

@@ -21,15 +21,11 @@ void Clock::init()
 
 void Clock::pause()
 {
-    // Pause the clock
-    if(!paused)
-    {
-        paused = true;
-        pause_time = SDL_GetTicks();
-        current_time = pause_time-start_time;
-    }
+    // Try to stop the clock if it's running
+    stop();
+
     // Continue counting
-    else if(paused)
+    if(paused)
     {
         paused = false;
         start_time = SDL_GetTicks()-pause_time;
@@ -52,4 +48,19 @@ float Clock::restart()
     init();
     start_time = SDL_GetTicks();
     return old_time;
+}
+
+void Clock::stop()
+{
+    if(!paused)
+    {
+        paused = true;
+        pause_time = SDL_GetTicks();
+        current_time = pause_time-start_time;
+    }
+}
+
+bool Clock::is_running()
+{
+    return !paused;
 }

@@ -7,8 +7,11 @@ class Clock
         Clock();
         ~Clock();
         void pause();
+        void stop();
         float time();
         float restart();
+
+        bool is_running();
     private:
         void init();
 

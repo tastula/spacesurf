@@ -101,3 +101,8 @@ void Player::collide(GameObject& obj)
         health = 0;
     }
 }
+
+float Player::get_velocity()
+{
+    return velocity;
+}

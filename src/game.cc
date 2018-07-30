@@ -87,21 +87,21 @@ void Game::input()
     }
 }
 
-void Game::update(float delta)
+void Game::update(float delta_time)
 {
     // Always update effects
     add_rays();
-    level.update_layer(delta, layer_effects);
+    level.update_layer(delta_time, layer_effects);
 
     if(state == STATE_MENU)
     {
-        current_menu->update(delta);
+        current_menu->update(delta_time);
     }
     else if(state == STATE_GAME)
     {
         if(!is_paused())
         {
-            level.update(delta);
+            level.update(delta_time);
         }
     }
 }

@@ -10,6 +10,7 @@ class Game;
 class GameObject;
 class Resources;
 class Stone;
+class Act;
 
 class Level
 {
@@ -38,11 +39,15 @@ class Level
         std::vector<GameObject*> layer2;
         std::vector<GameObject*> new_objects;
 
+        // If a scene is playing. Player can't take input during one.
+        bool is_scene;
+
         Resources& res;
         Game& game;
         Player player;
         Clock new_stone;
         HUD hud;
+        Act* current_act;
 };
 
 #endif

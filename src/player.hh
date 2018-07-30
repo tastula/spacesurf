@@ -19,9 +19,10 @@ class Player: public GameObject
         virtual void update(float delta);
         virtual void collide(GameObject& obj);
         virtual void draw();
+        float get_velocity();
         void input();
     private:
-        int velocity;
+        float velocity;
         int hit_count;
         Gun gun;
         Surfboard board;
