@@ -3,6 +3,7 @@
 
 class Player;
 class Clock;
+class Resources;
 
 //! A class that contains commands for executing a non-playable cutscene. Every
 //! CutScene should be a unique object derived from the main class. Cutscenes
@@ -52,20 +53,22 @@ class StartCutScene : public CutScene
         //! Control player's movement and delay the rocks until the player is
         //! ready to start.
         //! @brief A CutScene that starts every level.
-        //! @param Pointer to player model.
-        //! @param Pointer to rock timer.
-        StartCutScene(Player* player, Clock* rocks, float pos_x, float pos_y);
+        //! @param Reference to player model.
+        //! @param Reference to rock timer.
+        //! @param Reference to game resources.
+        StartCutScene(Player& player, Clock& rocks, Resources& res);
 
         virtual ~StartCutScene();
 
-        void init(float screen_w, float screen_h);
+        void init() override;
         virtual void end() override;
         virtual void update(float delta) override;
         virtual bool is_finished() override;
 
     private:
-        Player* player;
-        Clock* rocks;
+        Player& player;
+        Clock& rocks;
+        Resources& res;
         const float end_pos_x;
 };
 

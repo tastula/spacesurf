@@ -1,6 +1,8 @@
+#include "resources.hh"
 #include "cutscene.hh"
 #include "clock.hh"
 #include "player.hh"
+#include <iostream>
 
 CutScene::CutScene()
 : finished(false)
@@ -13,13 +15,13 @@ CutScene::~CutScene()
     // Pass
 }
 
-StartCutScene::StartCutScene(Player* player, Clock* rocks,
-                   float screen_w, float screen_h)
+StartCutScene::StartCutScene(Player& player, Clock& rocks, Resources& res)
 : player(player),
   rocks(rocks),
-  end_pos_x(screen_w/6)
+  res(res),
+  end_pos_x(res.screen_w/4)
 {
-    init(screen_w, screen_h);
+    init();
 }
 
 StartCutScene::~StartCutScene()
@@ -27,15 +29,19 @@ StartCutScene::~StartCutScene()
     // Pass
 }
 
-void StartCutScene::init(float screen_w, float screen_h)
+void StartCutScene::init()
 {
+    //std::cout << "Cutscene initialized" << std::endl;
     finished = false;
-    player->set_position(screen_w-200, screen_h/2);
+    player.set_active(false);
+    player.set_position(-100, res.screen_h/2);
 }
 
 void StartCutScene::end()
 {
-    player->set_position(end_pos_x, 0);
+    //std::cout << "Cutscene over" << std::endl;
+    player.set_active(true);
+    player.set_position(end_pos_x, res.screen_h/2);
     finished = true;
 }
 
@@ -43,9 +49,10 @@ void StartCutScene::update(float delta)
 {
     if(!finished)
     {
-        if(player->get_px() < end_pos_x)
+        if(player.get_px() < end_pos_x)
         {
-            player->add_position(player->get_vx()*delta, 0);
+            player.add_position(player.get_velocity()*delta*0.75, 0);
+            //std::cout << "Cutscene updated" << std::endl;
         }
         else
         {

@@ -39,7 +39,7 @@ void Game::init()
 
     menus.at(MENU_MAIN)->add_item(new MenuLabel(
         res, "play", res.font_m,
-        std::bind(&Game::change_state, this, STATE_GAME)));
+        std::bind(&Game::start_level, this, STATE_GAME)));
     menus.at(MENU_MAIN)->add_item(new MenuLabel(
         res, "options", res.font_m,
         std::bind(&Game::change_menu, this, MENU_OPTIONS)));
@@ -147,6 +147,12 @@ void Game::change_menu(unsigned menu)
 void Game::change_state(game_state state)
 {
     this->state = state;
+}
+
+void Game::start_level(game_state state)
+{
+    this->state = state;
+    //level.init();
 }
 
 void Game::quit()

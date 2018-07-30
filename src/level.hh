@@ -10,7 +10,7 @@ class Game;
 class GameObject;
 class Resources;
 class Stone;
-class Act;
+class CutScene;
 
 class Level
 {
@@ -47,7 +47,7 @@ class Level
         Player player;
         Clock new_stone;
         HUD hud;
-        Act* current_act;
+        CutScene* current_cutscene;
 };
 
 #endif

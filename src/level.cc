@@ -5,10 +5,11 @@
 #include "resources.hh"
 #include "stone.hh"
 #include "cutscene.hh"
+#include <iostream>
 
 Level::Level(Resources& res, Game* g)
 :res(res), game(*g), player(res, game, "naut1"), hud(res, 100),
- current_act(nullptr)
+ current_cutscene(nullptr)
 {
     init();
 }
@@ -24,13 +25,19 @@ void Level::init()
     player.set_active(true);
 
     game.play(true);
-    
-    new_stone.restart();
-    hud.set_time(0);
+
     player.init();
     player.set_position(res.screen_w/6, res.screen_h/2);
+
+    current_cutscene = new StartCutScene(player, new_stone, res);
+    
+    new_stone.stop();
+    //new_stone.restart();
+    hud.set_time(0);
     // Update other gear, too
-    player.update(0);
+    //player.update(0);
+
+    //std::cout << "Level initialized" << std::endl;
 }
 
 void Level::input()
@@ -40,7 +47,23 @@ void Level::input()
 
 void Level::update(float delta)
 {
-    add_stones();
+    // Don't update anything but the cutscene if one is active.
+    if(current_cutscene && !current_cutscene->is_finished())
+    {
+        current_cutscene->update(delta);
+    }
+    // The cutscene is over, delete it and continue the game normally.
+    else if(current_cutscene && current_cutscene->is_finished())
+    {
+        delete current_cutscene;
+        current_cutscene = nullptr;
+    }
+    // No cutscene.
+    else
+    {
+        add_stones();
+        hud.update(delta, player.get_health());
+    }
 
     for(auto o1: layer2)
     {
@@ -56,7 +79,8 @@ void Level::update(float delta)
 
     player.update(delta);
     if(!layer2.empty()) update_layer(delta, layer2);
-    hud.update(delta, player.get_health());
+
+    //std::cout << "Level updated" << std::endl;
 }
 
 void Level::draw()
@@ -64,6 +88,8 @@ void Level::draw()
     player.draw();
     draw_layer(layer2);
     hud.draw();
+
+    //std::cout << "Level drawn" << std::endl;
 }
 
 void Level::add_stones()

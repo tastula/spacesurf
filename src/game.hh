@@ -33,6 +33,7 @@ class Game
         void add_rays();
         void change_menu(unsigned menu);
         void change_state(game_state state);
+        void start_level(game_state state);
 
         Resources& res;
         Level level;

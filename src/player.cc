@@ -23,18 +23,22 @@ void Player::init()
     velocity = 160;
     health = 300;
     hit_count = 0;
+    update(0);
 }
 
 void Player::update(float delta)
 {
-    add_position(vx*delta, vy*delta);
+    if(active)
+    {
+        add_position(vx*delta, vy*delta);
 
-    // Keep the player on screen
-    if(px < 0) px = 0;
-    else if(px > res.screen_w-w) px = res.screen_w-w;
-    if(py < 0) py = 0;
-    else if(py > res.screen_h-h) py = res.screen_h-h;
-    
+        // Keep the player on screen
+        if(px < 0) px = 0;
+        else if(px > res.screen_w-w) px = res.screen_w-w;
+        if(py < 0) py = 0;
+        else if(py > res.screen_h-h) py = res.screen_h-h;
+    }
+
     gun.update(px+w, py+5);
     board.update(vy, px-2, py+h-3);
 
