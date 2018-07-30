@@ -9,9 +9,21 @@ bar?
 
 ## Dependencies
 
-* SDL2
-* SDL2-image
-* SDL2-ttf
+SpaceSurf needs the following libraries and packages.
+* libsdl2
+* libsdl2-image
+* libsdl2-ttf
+* meson
+* ninja-build
+
+## Installation
+
+After all dependencies are installed successfully, run the following commands.
+``` bash
+meson build
+ninja -C make
+build/surf
+```
 
 ## Screenshots
 
