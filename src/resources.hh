@@ -70,6 +70,9 @@ class Resources
 enum colors
 {
     COLOR_WHITE = 0,
+    COLOR_GREY1,
+    COLOR_GREY2,
+    COLOR_GREY3,
     COLOR_BLACK,
     COLOR_BACK,
     COLOR_RED,

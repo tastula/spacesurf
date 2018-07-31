@@ -113,6 +113,9 @@ void Resources::init_values()
     current_naut = int(COLOR_NAUT1);
 
     all_colors.push_back({255, 255, 255, 0}); // White
+    all_colors.push_back({193, 193, 193, 0}); // Grey1 (light)
+    all_colors.push_back({140, 140, 140, 0}); // Grey2 (medium)
+    all_colors.push_back({100, 100, 100, 0}); // Grey3 (dark)
     all_colors.push_back({0, 0, 0, 0});       // Black
     all_colors.push_back({20, 0, 0, 0});      // Background
     all_colors.push_back({255, 0, 0, 0});     // Red
