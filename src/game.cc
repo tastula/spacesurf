@@ -89,9 +89,11 @@ void Game::input()
 
 void Game::update(float delta_time)
 {
-    // Always update effects
-    add_rays();
-    level.update_layer(delta_time, layer_effects);
+    if(!paused)
+    {
+        add_rays();
+        level.update_layer(delta_time, layer_effects);
+    }
 
     if(state == STATE_MENU)
     {
