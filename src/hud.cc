@@ -44,7 +44,10 @@ void HUD::update(float delta, int hp)
 
     // Update labels
     health.update_text(std::to_string(hp));
-    time.update_text(std::to_string(int(time_elapsed)));
+    if(time_max > int(time_elapsed))
+        time.update_text(std::to_string(int(time_elapsed)));
+    else
+        time.update_text(std::to_string(int(time_max)));
 }
 
 void HUD::draw()
@@ -65,7 +68,6 @@ void HUD::draw()
     // The head itself
     SDL_Rect dts = {int(x_now), int(2), w, h};
     SDL_RenderCopy(res.renderer, tex, NULL, &dts);
-
 
     // Draw labels
     health.draw_right(x_left-4, 3);
