@@ -110,3 +110,8 @@ float Player::get_velocity()
 {
     return velocity;
 }
+
+void Player::add_general_velocity(float vel)
+{
+    velocity += vel;
+}

@@ -53,7 +53,7 @@ constexpr float ACCELERATION = -600;
 
 HitLabel::HitLabel(Resources &res, Game &game, std::string hit,
                    float px, float py, float w, float h)
-:GameObject(res, game), label(res, hit, res.font_s)
+:GameObject(res, game), label(res, hit, res.font_s), elapsed_time(0)
 {
     active = false;
 
@@ -65,7 +65,6 @@ HitLabel::HitLabel(Resources &res, Game &game, std::string hit,
 
     label.update_color_main(res.get_color(COLOR_RED));
     label.update_pos(this->px, this->py);
-    destruction.restart();
 }
 
 HitLabel::~HitLabel()
@@ -76,7 +75,7 @@ HitLabel::~HitLabel()
 void HitLabel::update(float delta)
 {
     elapsed_time += delta;
-    if(destruction.time() > LIFESPAN)
+    if(elapsed_time > LIFESPAN)
     {
         finished = true;
     }

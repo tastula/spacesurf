@@ -27,8 +27,6 @@ class HitLabel: public GameObject
         virtual void draw();
     private:
         Label label;
-        Clock destruction;
-
         float elapsed_time;
 };
 

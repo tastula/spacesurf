@@ -87,3 +87,8 @@ void HUD::set_time(float time)
 {
     time_elapsed = time;
 }
+
+float HUD::get_time()
+{
+    return time_elapsed;
+}

@@ -15,6 +15,7 @@ class HUD
         void draw();
 
         void set_time(float time);
+        float get_time();
 
     private:
         Resources& res;

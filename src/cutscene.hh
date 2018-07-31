@@ -1,8 +1,9 @@
 #ifndef SURF_CUTSCENE_HH
 #define SURF_CUTSCENE_HH
 
+#include "clock.hh"
+
 class Player;
-class Clock;
 class Resources;
 
 //! A class that contains commands for executing a non-playable cutscene. Every
@@ -39,7 +40,7 @@ class CutScene
         //! If all critical variables have met the end conditions, the CutScene
         //! is marked as finished.
         //! @brief Check if the CutScene is over.
-        virtual bool is_finished() = 0;
+        virtual bool is_finished();
 
     protected:
         bool finished;
@@ -63,11 +64,29 @@ class StartCutScene : public CutScene
         void init() override;
         virtual void end() override;
         virtual void update(float delta) override;
-        virtual bool is_finished() override;
 
     private:
         Player& player;
         Clock& rocks;
+        Resources& res;
+        const float end_pos_x;
+};
+
+class WinCutScene : public CutScene
+{
+    public:
+        WinCutScene(Player& player, Clock& rocks, Resources& res);
+
+        virtual ~WinCutScene();
+
+        void init() override;
+        virtual void end() override;
+        virtual void update(float delta) override;
+
+    private:
+        Player& player;
+        Clock& rocks;
+        Clock wait;
         Resources& res;
         const float end_pos_x;
 };
