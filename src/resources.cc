@@ -122,6 +122,11 @@ void Resources::init_values()
     all_colors.push_back({0, 255, 0, 0});     // Green
     all_colors.push_back({0, 0, 255, 0});     // Blue
     all_colors.push_back({140, 10, 10, 0});   // Naut 1
+    all_colors.push_back({91, 192, 235, 0});  // Confetti 1 (blue jeans)
+    all_colors.push_back({235, 231, 76, 0});  // Confetti 2 (gargoyle gas)
+    all_colors.push_back({155, 197, 61, 0});  // Confetti 3 (android green)
+    all_colors.push_back({229, 89, 52, 0});   // Confetti 4 (flame)
+    all_colors.push_back({250, 121, 33, 0});  // Confetti 5 (princeton orange)
 
     draw_hitbox = false;
 }

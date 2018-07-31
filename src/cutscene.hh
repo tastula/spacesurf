@@ -2,9 +2,12 @@
 #define SURF_CUTSCENE_HH
 
 #include "clock.hh"
+#include <vector>
 
 class Player;
 class Resources;
+class Game;
+class GameObject;
 
 //! A class that contains commands for executing a non-playable cutscene. Every
 //! CutScene should be a unique object derived from the main class. Cutscenes
@@ -75,7 +78,8 @@ class StartCutScene : public CutScene
 class WinCutScene : public CutScene
 {
     public:
-        WinCutScene(Player& player, Clock& rocks, Resources& res);
+        WinCutScene(Player& player, Clock& rocks, Resources& res, Game& game,
+                    std::vector<GameObject*>& layer, int hp);
 
         virtual ~WinCutScene();
 
@@ -88,7 +92,12 @@ class WinCutScene : public CutScene
         Clock& rocks;
         Clock wait;
         Resources& res;
+        Game& game;
+        std::vector<GameObject*>& layer;
         const float end_pos_x;
+        Clock confetti;
+        unsigned confetti_left = 10;
+        const unsigned confetti_burst = 12;
 };
 
 #endif // SURF_CUTSCENE_HH

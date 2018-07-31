@@ -7,7 +7,7 @@
 #include "cutscene.hh"
 #include <iostream>
 
-constexpr float LEVEL_TIME = 30;
+constexpr float LEVEL_TIME = 15;
 
 Level::Level(Resources& res, Game* g)
 :res(res), game(*g), player(res, game, "naut1"), hud(res, LEVEL_TIME),
@@ -42,8 +42,12 @@ void Level::input()
 
 void Level::update(float delta)
 {
-    if(hud.get_time() >= LEVEL_TIME)
-        current_cutscene = new WinCutScene(player, new_stone, res);
+    if(hud.get_time() >= LEVEL_TIME && !current_cutscene)
+    {
+        current_cutscene = new WinCutScene(
+            player, new_stone, res, game, layer2, player.get_health()
+        );
+    }
 
     // Don't update anything but the cutscene if one is active.
     if(current_cutscene && !current_cutscene->is_finished())

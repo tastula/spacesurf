@@ -30,4 +30,25 @@ class HitLabel: public GameObject
         float elapsed_time;
 };
 
+class Particle: public GameObject
+{
+    public:
+        Particle(Resources& res, Game& game,
+                 int size, float px, float py, float vx, float vy,
+                 float lifespan, unsigned color);
+        virtual ~Particle();
+        virtual void update(float delta) override;
+        virtual void draw() override;
+
+    private:
+        void check_lifespan(float delta);
+        void apply_gravity(float delta);
+
+        unsigned size;
+        float elapsed_time;
+        float lifespan;
+        unsigned color;
+        float acceleration = -200;
+};
+
 #endif // SURF_EFFECTS_HH

@@ -90,3 +90,50 @@ void HitLabel::draw()
 {
     label.draw_center(px, py);
 }
+
+// --- Particle ----------------------------------------------------------------
+
+Particle::Particle(Resources &res, Game &game,
+                   int size, float px, float py, float vx, float vy,
+                   float lifespan, unsigned color)
+: GameObject(res, game), size(size), lifespan(lifespan), color(color)
+{
+    this->px = px;
+    this->py = py;
+    this->vx = vx;
+    this->vy = vy;
+}
+
+Particle::~Particle()
+{
+    // Pass
+}
+
+void Particle::update(float delta)
+{
+    this->add_position(vx*delta, vy*delta);
+    check_lifespan(delta);
+    apply_gravity(delta);
+}
+
+void Particle::draw()
+{
+    SDL_Rect rect = {int(px), int(py), int(size), int(size)};
+    res.set_render_color(res.get_color(color));
+    SDL_RenderFillRect(res.renderer, &rect);
+}
+
+void Particle::check_lifespan(float delta)
+{
+    elapsed_time += delta;
+    if(elapsed_time > lifespan)
+    {
+        finished = true;
+    }
+}
+
+void Particle::apply_gravity(float delta)
+{
+    this->add_velocity(acceleration*delta, 0);
+    this->add_position(vx*delta, vy*delta);
+}
