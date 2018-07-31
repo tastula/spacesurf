@@ -3,18 +3,28 @@
 #define BAR_LENGTH(res) (res.screen_w/2)
 
 HUD::HUD(Resources& res, float time_max)
-:res(res), health(res, "", res.font_s), time(res, "", res.font_s),
+:res(res), health(res, "", res.font_s),
+ time(res, "", res.font_s),
  time_max(time_max), time_elapsed(0)
+{
+    init();
+}
+
+HUD::~HUD()
+{
+}
+
+void HUD::init()
 {
     x_left = res.screen_w/2 - BAR_LENGTH(res)/2;
     x_right = res.screen_w/2 + BAR_LENGTH(res)/2;
     x_now = x_left;
     tex = res.all_textures.at("head1");
     SDL_QueryTexture(tex, NULL, NULL, &w, &h);
-}
+    set_time(0);
 
-HUD::~HUD()
-{
+    health.update_text("");
+    time.update_text("");
 }
 
 void HUD::update(float delta, int hp)

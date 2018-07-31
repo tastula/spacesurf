@@ -10,6 +10,7 @@ class HUD
     public:
         HUD(Resources& res, float time_max = 15);
         ~HUD();
+        void init();
         void update(float delta, int hp);
         void draw();
 

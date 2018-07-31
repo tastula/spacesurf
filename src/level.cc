@@ -22,21 +22,14 @@ void Level::init()
 {
     // Get rid of the old influences
     lose();
-    player.set_active(true);
 
     game.play(true);
 
     player.init();
-    player.set_position(res.screen_w/6, res.screen_h/2);
+    hud.init();
 
     current_cutscene = new StartCutScene(player, new_stone, res);
     
-    new_stone.stop();
-    //new_stone.restart();
-    hud.set_time(0);
-    // Update other gear, too
-    //player.update(0);
-
     //std::cout << "Level initialized" << std::endl;
 }
 
@@ -64,6 +57,7 @@ void Level::update(float delta)
         add_stones();
         hud.update(delta, player.get_health());
     }
+
 
     for(auto o1: layer2)
     {

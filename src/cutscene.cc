@@ -32,9 +32,10 @@ StartCutScene::~StartCutScene()
 void StartCutScene::init()
 {
     //std::cout << "Cutscene initialized" << std::endl;
-    finished = false;
     player.set_active(false);
     player.set_position(-100, res.screen_h/2);
+    rocks.stop();
+    finished = false;
 }
 
 void StartCutScene::end()
@@ -42,6 +43,7 @@ void StartCutScene::end()
     //std::cout << "Cutscene over" << std::endl;
     player.set_active(true);
     player.set_position(end_pos_x, res.screen_h/2);
+    rocks.restart();
     finished = true;
 }
 
