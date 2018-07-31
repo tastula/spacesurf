@@ -1,4 +1,5 @@
 #include "hud.hh"
+#include <iostream>
 
 #define BAR_LENGTH(res) (res.screen_w/2)
 
@@ -51,15 +52,15 @@ void HUD::draw()
     float y_top = 2 + 3;
     float y_btm = 2;
 
+    // Line after head
+    SDL_Rect r2 = {int(x_left), int(y_top), BAR_LENGTH(res), int(y_btm)};
+    res.set_render_color(res.get_color(COLOR_WHITE));
+    SDL_RenderFillRect(res.renderer, &r2);
+
     // Line before head
     SDL_Rect r1 = {int(x_left), int(y_top), int(x_now-x_left), int(y_btm)};
     res.set_render_color(res.get_color(res.current_naut));
     SDL_RenderFillRect(res.renderer, &r1);
-
-    // Line after head
-    SDL_Rect r2 = {int(x_now), int(y_top), int(x_right-x_now), int(y_btm)};
-    res.set_render_color(res.get_color(COLOR_WHITE));
-    SDL_RenderFillRect(res.renderer, &r2);
 
     // The head itself
     SDL_Rect dts = {int(x_now), int(2), w, h};
