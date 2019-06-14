@@ -1,9 +1,11 @@
 #include "resources.hh"
 #include <stdexcept>
+#include <iostream>
 
 constexpr float SCALE = 5;
 
 Resources::Resources()
+: naut_model(NAUT_RED)
 {
     init_sdl();
     init_values();
@@ -32,6 +34,32 @@ void Resources::set_render_color(SDL_Color* color)
 {
     SDL_SetRenderDrawColor(renderer, color->r,color->g,
         color->b, color->a);
+}
+
+void Resources::set_naut_model(unsigned model)
+{
+    std::cout << "Changing naut model to " << model << std::endl;
+    naut_model = model;
+}
+
+SDL_Texture* Resources::get_naut_texture()
+{
+    return naut_textures[naut_model];
+}
+
+SDL_Texture* Resources::get_naut_head()
+{
+    return naut_heads[naut_model];
+}
+
+SDL_Color* Resources::get_naut_color()
+{
+    return naut_colors[naut_model];
+}
+
+SDL_Color* Resources::get_color(unsigned index)
+{
+    return &all_colors.at(index);
 }
 
 void Resources::window_draw()
@@ -77,11 +105,6 @@ bool Resources::get_controller_button_u(unsigned button)
     return false;
 }
 
-SDL_Color* Resources::get_color(unsigned index)
-{
-    return &all_colors.at(index);
-}
-
 // --- Initialization ----------------------------------------------------------
 
 void Resources::init_sdl()
@@ -110,8 +133,6 @@ void Resources::init_sdl()
 
 void Resources::init_values()
 {
-    current_naut = int(COLOR_NAUT1);
-
     all_colors.push_back({255, 255, 255, 0}); // White
     all_colors.push_back({193, 193, 193, 0}); // Grey1 (light)
     all_colors.push_back({140, 140, 140, 0}); // Grey2 (medium)
@@ -121,12 +142,16 @@ void Resources::init_values()
     all_colors.push_back({255, 0, 0, 0});     // Red
     all_colors.push_back({0, 255, 0, 0});     // Green
     all_colors.push_back({0, 0, 255, 0});     // Blue
-    all_colors.push_back({140, 10, 10, 0});   // Naut 1
     all_colors.push_back({91, 192, 235, 0});  // Confetti 1 (blue jeans)
     all_colors.push_back({235, 231, 76, 0});  // Confetti 2 (gargoyle gas)
     all_colors.push_back({155, 197, 61, 0});  // Confetti 3 (android green)
     all_colors.push_back({229, 89, 52, 0});   // Confetti 4 (flame)
     all_colors.push_back({250, 121, 33, 0});  // Confetti 5 (princeton orange)
+
+    naut_colors = {
+        new SDL_Color({191, 14, 14, 0}),
+        new SDL_Color({230, 217, 34, 0})
+    };
 
     draw_hitbox = false;
 }
@@ -189,17 +214,23 @@ void Resources::load_fonts()
 void Resources::load_textures()
 {
     std::vector<std::string> names = {
-        "naut1",
-        "head1",
         "stone1", "stone2", "stone3", "stone4",
         "gun", "surfboard"
     };
     std::vector<std::string> paths = {
-        "res/graphics/naut1.png",
-        "res/graphics/heads/head1.png",
         "res/graphics/stones/stone1.png", "res/graphics/stones/stone2.png",
         "res/graphics/stones/stone3.png", "res/graphics/stones/stone4.png",
         "res/graphics/assets/gun.png", "res/graphics/assets/surfboard.png"
+    };
+
+    naut_textures = {
+        load_texture("res/graphics/naut1.png"),
+        load_texture("res/graphics/naut2.png")
+    };
+
+    naut_heads = {
+        load_texture("res/graphics/heads/head1.png"),
+        load_texture("res/graphics/heads/head2.png")
     };
 
     for(unsigned i=0; i<names.size(); ++i)
@@ -212,6 +243,17 @@ void Resources::load_textures()
         }
         all_textures.insert({names.at(i), tex});
     }
+}
+
+SDL_Texture* Resources::load_texture(std::string path)
+{
+    SDL_Texture *tex = IMG_LoadTexture(renderer, path.c_str());
+    if(!tex)
+    {
+        SDL_Log("Error in loading texture");
+        throw std::runtime_error(SDL_GetError());
+    }
+    return tex;
 }
 
 void Resources::load_controllers()

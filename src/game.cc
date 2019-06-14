@@ -30,6 +30,7 @@ void Game::init()
     // Create menus
     menus.push_back(new Menu(res, this)); // MENU_MAIN
     menus.push_back(new Menu(res, this)); // MENU_OPTIONS
+    menus.push_back(new Menu(res, this)); // MENU_MODEL
 
     // Add content to main menu
     Label* logo = new Label(res, "spacesurf", res.font_l);
@@ -49,13 +50,26 @@ void Game::init()
 
     menus.at(MENU_OPTIONS)->add_item(new MenuLabel(
         res, "model", res.font_m,
-        std::bind(&Game::quit, this)));
+        std::bind(&Game::change_menu, this, MENU_MODEL)));
     menus.at(MENU_OPTIONS)->add_item(new MenuLabel(
         res, "difficulty", res.font_m,
         std::bind(&Game::quit, this)));
     menus.at(MENU_OPTIONS)->add_item(new MenuLabel(
         res, "back", res.font_m,
         std::bind(&Game::change_menu, this, MENU_MAIN)));
+
+    menus.at(MENU_MODEL)->add_item(new MenuLabel(
+        res, "Red", res.font_m,
+        std::bind([&](){res.set_naut_model(NAUT_RED);})
+    ));
+    menus.at(MENU_MODEL)->add_item(new MenuLabel(
+        res, "Yella", res.font_m,
+        std::bind([&](){res.set_naut_model(NAUT_YELLOW);})
+    ));
+    menus.at(MENU_MODEL)->add_item(new MenuLabel(
+        res, "back", res.font_m,
+        std::bind(&Game::change_menu, this, MENU_OPTIONS)
+    ));
 
     // Set current menu to main menu
     current_menu = menus.at(MENU_MAIN);
@@ -154,7 +168,7 @@ void Game::change_state(game_state state)
 void Game::start_level(game_state state)
 {
     this->state = state;
-    //level.init();
+    level.init();
 }
 
 void Game::quit()

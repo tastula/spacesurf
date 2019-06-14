@@ -13,7 +13,7 @@ class Resources;
 class Player: public GameObject
 {
     public:
-        Player(Resources& res, Game& game, std::string name);
+        Player(Resources& res, Game& game);
         ~Player();
         virtual void init();
         virtual void update(float delta);

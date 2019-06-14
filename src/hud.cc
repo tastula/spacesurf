@@ -21,7 +21,7 @@ void HUD::init()
     x_left = res.screen_w/2 - BAR_LENGTH(res)/2;
     x_right = res.screen_w/2 + BAR_LENGTH(res)/2;
     x_now = x_left - 2*HUD_BORDER;
-    tex = res.all_textures.at("head1");
+    tex = res.get_naut_head();
     SDL_QueryTexture(tex, NULL, NULL, &w, &h);
     set_time(0);
 
@@ -71,7 +71,7 @@ void HUD::draw()
 
     // Line before head
     SDL_Rect r3 = {int(x_left), int(y_top), int(x_now-x_left), int(y_btm)};
-    res.set_render_color(res.get_color(res.current_naut));
+    res.set_render_color(res.get_naut_color());
     SDL_RenderFillRect(res.renderer, &r3);
 
     // The head itself

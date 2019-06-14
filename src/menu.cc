@@ -38,8 +38,8 @@ void Menu::update(float delta)
                                 + ((int)i-index)*20);
         if(i == index)
             items.at(i)->get_label()->update_color_main(
-                    res.get_color(COLOR_NAUT1
-            ));
+                    res.get_naut_color()
+            );
         else 
             items.at(i)->get_label()->update_color_main(
                     res.get_color(COLOR_WHITE

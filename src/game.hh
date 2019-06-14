@@ -27,6 +27,7 @@ class Game
         bool is_paused();
 
         Level* get_level();
+
     private:
         void quit();
         void pause();

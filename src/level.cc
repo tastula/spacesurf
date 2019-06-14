@@ -10,7 +10,7 @@
 constexpr float LEVEL_TIME = 15;
 
 Level::Level(Resources& res, Game* g)
-:res(res), game(*g), player(res, game, "naut1"), hud(res, LEVEL_TIME),
+:res(res), game(*g), player(res, game), hud(res, LEVEL_TIME),
  current_cutscene(nullptr)
 {
     init();
@@ -28,6 +28,7 @@ void Level::init()
     game.play(true);
 
     player.init();
+    player.set_texture(res.get_naut_texture());
     hud.init();
 
     current_cutscene = new StartCutScene(player, new_stone, res);

@@ -20,6 +20,10 @@ class Resources
         void window_clear();
         void window_draw();
         void set_render_color(SDL_Color* color);
+        void set_naut_model(unsigned model);
+        SDL_Texture* get_naut_texture();
+        SDL_Texture* get_naut_head();
+        SDL_Color* get_naut_color();
 
         // Events
         SDL_Event event;
@@ -33,7 +37,7 @@ class Resources
         int screen_w;
         int screen_h;
 
-        int current_naut;
+        unsigned naut_model;
 
         SDL_Window* window;
         SDL_Renderer* renderer;
@@ -65,6 +69,13 @@ class Resources
         void free_controllers();
         void free_sdl();
         void free_winren();
+
+        SDL_Texture* load_texture(std::string path);
+
+
+        std::vector<SDL_Color*> naut_colors;
+        std::vector<SDL_Texture*> naut_textures;
+        std::vector<SDL_Texture*> naut_heads;
 };
 
 enum colors
@@ -78,10 +89,6 @@ enum colors
     COLOR_RED,
     COLOR_GREEN,
     COLOR_BLUE,
-    COLOR_NAUT1,
-    //COLOR_NAUT2,
-    //COLOR_NAUT3,
-    //COLOR_NAUT4,
     COLOR_CONFETTI1,
     COLOR_CONFETTI2,
     COLOR_CONFETTI3,
@@ -98,7 +105,14 @@ enum game_state
 enum menus
 {
     MENU_MAIN = 0,
-    MENU_OPTIONS
+    MENU_OPTIONS,
+    MENU_MODEL
+};
+
+enum nauts
+{
+    NAUT_RED = 0,
+    NAUT_YELLOW
 };
 
 #endif

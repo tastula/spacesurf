@@ -6,8 +6,9 @@
 
 constexpr float HITLABEL_TIME = 0.1;
 
-Player::Player(Resources &res, Game& game, std::string name)
-:GameObject(res, game, name), gun(res, game, "gun"),
+// Texture has to be set later
+Player::Player(Resources &res, Game& game)
+:GameObject(res, game), gun(res, game, "gun"),
  board(res, game, "surfboard")
 {
     Player::init();
