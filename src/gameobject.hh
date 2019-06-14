@@ -11,10 +11,11 @@ class Resources;
 class GameObject : public Object
 {
     public:
-        GameObject(Resources &res, Game& game, std::string name);
-        GameObject(Resources &res, Game& game);
+        GameObject(Resources &res, std::string name);
+        GameObject(Resources &res);
         virtual ~GameObject();
         virtual void draw();
+        void draw_mul(int mul);
         virtual void update(float delta);
         virtual void collide(GameObject& obj);
         virtual SDL_Rect get_hitbox();
@@ -33,7 +34,6 @@ class GameObject : public Object
     protected:
         void init();
 
-        Game& game;
         SDL_Texture *tex;
         SDL_Color* color;
         bool active;

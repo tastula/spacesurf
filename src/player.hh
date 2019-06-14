@@ -20,11 +20,13 @@ class Player: public GameObject
         virtual void collide(GameObject& obj);
         virtual void draw();
         float get_velocity();
+        void set_skills();
         void add_general_velocity(float vel);
         void input();
     private:
         float velocity;
         int hit_count;
+        Game& game;
         Gun gun;
         Surfboard board;
         Clock new_hitlabel;

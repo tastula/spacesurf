@@ -38,7 +38,6 @@ void Resources::set_render_color(SDL_Color* color)
 
 void Resources::set_naut_model(unsigned model)
 {
-    std::cout << "Changing naut model to " << model << std::endl;
     naut_model = model;
 }
 
@@ -55,6 +54,14 @@ SDL_Texture* Resources::get_naut_head()
 SDL_Color* Resources::get_naut_color()
 {
     return naut_colors[naut_model];
+}
+
+std::map<std::string, int> Resources::get_naut_skills()
+{
+    return {
+        { "speed", naut_skills.at("speed")[naut_model] },
+        { "health", naut_skills.at("health")[naut_model] }
+    };
 }
 
 SDL_Color* Resources::get_color(unsigned index)
@@ -154,6 +161,11 @@ void Resources::init_values()
     };
 
     draw_hitbox = false;
+
+    naut_skills = {
+        { "speed", { 120, 200 } },
+        { "health", { 300, 200 } }
+    };
 }
 
 void Resources::init_winren()

@@ -28,9 +28,9 @@ Game::~Game()
 void Game::init()
 {
     // Create menus
-    menus.push_back(new Menu(res, this)); // MENU_MAIN
-    menus.push_back(new Menu(res, this)); // MENU_OPTIONS
-    menus.push_back(new Menu(res, this)); // MENU_MODEL
+    menus.push_back(new Menu(res)); // MENU_MAIN
+    menus.push_back(new Menu(res)); // MENU_OPTIONS
+    menus.push_back(new ModelMenu(res)); // MENU_MODEL
 
     // Add content to main menu
     Label* logo = new Label(res, "spacesurf", res.font_l);
@@ -151,7 +151,7 @@ void Game::add_rays()
     if(new_ray.time() > 0.08)
     {
         new_ray.restart();
-        layer_effects.emplace_back(new Ray(res, *this));
+        layer_effects.emplace_back(new Ray(res));
     }
 }
 

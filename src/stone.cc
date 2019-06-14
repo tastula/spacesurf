@@ -4,7 +4,7 @@
 #include <string>
 
 Stone::Stone(Resources& res, Game& game, int size, float vel_y)
-:GameObject(res, game), size(size+1)
+:GameObject(res), game(game), size(size+1)
 {
     Stone::init();
     vy = vel_y;

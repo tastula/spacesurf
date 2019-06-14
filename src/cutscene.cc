@@ -134,7 +134,7 @@ void WinCutScene::update(float delta)
                     const int color = random_interval(0, 100);
 
                     Particle* conf = new Particle(
-                        res, game, 2,conf_px, conf_py, conf_vx, conf_vy, 100,
+                        res, 2,conf_px, conf_py, conf_vx, conf_vy, 100,
                         possible_colors[color%5]
                     );
                     layer.emplace_back(conf);

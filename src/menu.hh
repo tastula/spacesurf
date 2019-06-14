@@ -3,12 +3,15 @@
 
 #include "label.hh"
 #include "resources.hh"
+#include "gameobject.hh"
 #include <functional>
 #include <vector>
 #include <SDL2/SDL_ttf.h>
 
 class Resources;
+class GameObject;
 class Game;
+class Label;
 
 class MenuItem;
 class MenuLabel;
@@ -17,21 +20,33 @@ class MenuPair;
 class Menu
 {
     public:
-        Menu(Resources &res, Game* game);
-        ~Menu();
+        Menu(Resources &res);
+        virtual ~Menu();
         void add_item(MenuItem* item);
-        void add_drawable(MenuItem* item);
-        void input();
-        void update(float delta);
-        void draw();
+        void add_drawable(GameObject* item);
+        virtual void input();
+        virtual void update(float delta);
+        virtual void draw();
 
-    private:
+    protected:
         Resources& res;
-        Game* game;
         unsigned index;
 
         std::vector<MenuItem*> items;
-        std::vector<MenuItem*> drawables;
+        std::vector<GameObject*> drawables;
+};
+
+class ModelMenu: public Menu
+{
+    public:
+        ModelMenu(Resources& res);
+        virtual ~ModelMenu();
+        virtual void update(float delta);
+        virtual void draw();
+
+    private:
+        GameObject* model;
+        std::vector<Label*> labels;
 };
 
 class MenuItem
@@ -43,6 +58,7 @@ class MenuItem
         virtual ~MenuItem();
         virtual void input();
         virtual void draw();
+        virtual void draw_left();
         virtual void draw(int x, int y);
         virtual void update_pos(int x, int y);
         virtual Label* get_label();

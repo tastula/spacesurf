@@ -24,6 +24,7 @@ class Resources
         SDL_Texture* get_naut_texture();
         SDL_Texture* get_naut_head();
         SDL_Color* get_naut_color();
+        std::map<std::string, int> get_naut_skills();
 
         // Events
         SDL_Event event;
@@ -76,6 +77,7 @@ class Resources
         std::vector<SDL_Color*> naut_colors;
         std::vector<SDL_Texture*> naut_textures;
         std::vector<SDL_Texture*> naut_heads;
+        std::map<std::string, std::vector<int>> naut_skills;
 };
 
 enum colors

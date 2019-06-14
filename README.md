@@ -27,4 +27,8 @@ build/surf
 
 ## Screenshots
 
+In-game action
 ![Screenshot of gameplay](res/screenshots/shot1.png)
+
+Unique nauts
+![Screenshot of player selection](res/screenshots/shot2.png)

@@ -14,7 +14,7 @@ class Label: public Object
         Label(Resources &res, std::string text, TTF_Font *font,
               float pos_x=0, float pos_y=0);
         virtual ~Label();
-        virtual void draw();
+        virtual void draw(bool center=false);
         void draw_right();
         void draw_center();
         void draw(float new_x, float new_y);

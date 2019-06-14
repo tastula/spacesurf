@@ -9,7 +9,7 @@
 class Ray: public GameObject
 {
     public:
-        Ray(Resources& res, Game& game);
+        Ray(Resources& res);
         virtual ~Ray();
         virtual void update(float delta);
         virtual SDL_Rect get_hitbox();
@@ -20,7 +20,7 @@ class Ray: public GameObject
 class HitLabel: public GameObject
 {
     public:
-        HitLabel(Resources& res, Game& game, std::string hit,
+        HitLabel(Resources& res, std::string hit,
                  float px, float py, float w, float h);
         virtual ~HitLabel();
         virtual void update(float delta);
@@ -33,7 +33,7 @@ class HitLabel: public GameObject
 class Particle: public GameObject
 {
     public:
-        Particle(Resources& res, Game& game,
+        Particle(Resources& res,
                  int size, float px, float py, float vx, float vy,
                  float lifespan, unsigned color);
         virtual ~Particle();

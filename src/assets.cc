@@ -6,8 +6,8 @@
 
 constexpr int BOARD_ANGLE = 10;
 
-Surfboard::Surfboard(Resources& res, Game& game, std::string name)
-:GameObject(res, game, name)
+Surfboard::Surfboard(Resources& res, std::string name)
+:GameObject(res, name)
 {
     active = false;
 }
@@ -36,7 +36,7 @@ void Surfboard::update(float vy, float nx, float ny)
 constexpr float BULLET_TIME = 0.3;
 
 Gun::Gun(Resources& res, Game& game, std::string name)
-:GameObject(res, game, name)
+:GameObject(res, name), game(game)
 {
     active = false;
     shooting = false;
@@ -50,7 +50,7 @@ Gun::~Gun()
 
 void Gun::shoot()
 {
-    Bullet* bullet = new Bullet(res, game, px+w, py);
+    Bullet* bullet = new Bullet(res, px+w, py);
     game.get_level()->add_object(bullet);
 }
 
@@ -88,8 +88,8 @@ void Gun::input()
 
 // --- Bullet ------------------------------------------------------------------
 
-Bullet::Bullet(Resources& res, Game& game, int nx, int ny)
-:GameObject(res, game)
+Bullet::Bullet(Resources& res, int nx, int ny)
+:GameObject(res)
 {
     px = nx;
     py = ny;

@@ -10,8 +10,8 @@ constexpr int RAY_W = 12;
 constexpr int RAY_H = 2;
 constexpr int RAY_VELOCITY = 320;
 
-Ray::Ray(Resources& res, Game& game)
-:GameObject(res, game)
+Ray::Ray(Resources& res)
+:GameObject(res)
 {
     active = false;
     w = RAY_W;
@@ -51,9 +51,9 @@ constexpr float VELOCITY_X = 100;
 constexpr float VELOCITY_Y = 50;
 constexpr float ACCELERATION = -600;
 
-HitLabel::HitLabel(Resources &res, Game &game, std::string hit,
+HitLabel::HitLabel(Resources &res, std::string hit,
                    float px, float py, float w, float h)
-:GameObject(res, game), label(res, hit, res.font_s), elapsed_time(0)
+:GameObject(res), label(res, hit, res.font_s), elapsed_time(0)
 {
     active = false;
 
@@ -93,10 +93,10 @@ void HitLabel::draw()
 
 // --- Particle ----------------------------------------------------------------
 
-Particle::Particle(Resources &res, Game &game,
+Particle::Particle(Resources &res,
                    int size, float px, float py, float vx, float vy,
                    float lifespan, unsigned color)
-: GameObject(res, game), size(size), lifespan(lifespan), color(color)
+: GameObject(res), size(size), lifespan(lifespan), color(color)
 {
     this->px = px;
     this->py = py;

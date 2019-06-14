@@ -21,9 +21,12 @@ void Label::init()
     color_back = res.get_color(COLOR_WHITE);
 }
 
-void Label::draw()
+void Label::draw(bool center)
 {
-    draw(pos_x, pos_y);
+    if(!center)
+        draw(pos_x, pos_y);
+    else
+        draw(pos_x, pos_y-h/2);
 }
 
 void Label::draw_right()

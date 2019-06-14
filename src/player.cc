@@ -8,8 +8,8 @@ constexpr float HITLABEL_TIME = 0.1;
 
 // Texture has to be set later
 Player::Player(Resources &res, Game& game)
-:GameObject(res, game), gun(res, game, "gun"),
- board(res, game, "surfboard")
+:GameObject(res), game(game), gun(res, game, "gun"),
+ board(res, "surfboard")
 {
     Player::init();
 }
@@ -20,11 +20,17 @@ Player::~Player()
 
 void Player::init()
 {
+    set_skills();
     new_hitlabel.restart();
-    velocity = 160;
-    health = 300;
     hit_count = 0;
     update(0);
+}
+
+void Player::set_skills()
+{
+    auto skills = res.get_naut_skills();
+    velocity = skills.at("speed");
+    health = skills.at("health");
 }
 
 void Player::update(float delta)
@@ -94,7 +100,7 @@ void Player::collide(GameObject& obj)
         hit_count += objpwr;
         if(new_hitlabel.time() > HITLABEL_TIME)
         {
-            HitLabel* hl = new HitLabel(res, game, std::to_string(hit_count),
+            HitLabel* hl = new HitLabel(res, std::to_string(hit_count),
                                         px, py, w, h);
             game.get_level()->add_object(hl);
             hit_count = 0;

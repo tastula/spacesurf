@@ -6,11 +6,12 @@
 #include <string>
 
 class Resources;
+class Game;
 
 class Surfboard: public GameObject
 {
     public:
-        Surfboard(Resources& res, Game& game, std::string name);
+        Surfboard(Resources& res, std::string name);
         virtual ~Surfboard();
 
         void update(float vy, float nx, float ny);
@@ -28,6 +29,7 @@ class Gun: public GameObject
     private:
         void shoot();
 
+        Game& game;
         bool shooting;
         Clock new_bullet;
 };
@@ -35,7 +37,7 @@ class Gun: public GameObject
 class Bullet: public GameObject
 {
     public:
-        Bullet(Resources& res, Game& game, int nx, int ny);
+        Bullet(Resources& res, int nx, int ny);
         virtual ~Bullet();
 
         virtual void collide(GameObject& obj);

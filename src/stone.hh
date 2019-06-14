@@ -18,6 +18,7 @@ class Stone: public GameObject
         virtual void collide(GameObject &obj);
         void split();
     private:
+        Game& game;
         bool shot;
         int size;
         int rotation;
