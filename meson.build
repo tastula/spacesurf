@@ -1,4 +1,4 @@
-project('SpaceSurf', 'cpp')
+project('SpaceSurf', 'cpp', default_options: ['cpp_std=c++17'])
 
 src = [
     'src/assets.cc',

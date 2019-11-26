@@ -1,16 +1,18 @@
 #include "game.hh"
 #include "effects.hh"
 #include "level.hh"
+#include "levelinfo.hh"
 #include "object.hh"
 #include "resources.hh"
 #include "stone.hh"
 #include "cutscene.hh"
 #include <iostream>
 
-constexpr float LEVEL_TIME = 15;
+// Load level information from file
+LevelInfo level = load_level("res/levels/tutorial.sl");
 
 Level::Level(Resources& res, Game* g)
-:res(res), game(*g), player(res, game), hud(res, LEVEL_TIME),
+:res(res), game(*g), player(res, game), hud(res, level.length),
  current_cutscene(nullptr)
 {
     init();
@@ -43,7 +45,7 @@ void Level::input()
 
 void Level::update(float delta)
 {
-    if(hud.get_time() >= LEVEL_TIME && !current_cutscene)
+    if(hud.get_time() >= level.length && !current_cutscene)
     {
         current_cutscene = new WinCutScene(
             player, new_stone, res, game, layer2, player.get_health()
@@ -98,7 +100,7 @@ void Level::draw()
 
 void Level::add_stones()
 {
-    if(new_stone.time() > 0.3 && game.is_playing())
+    if(new_stone.time()*1000 > level.spawn_min && game.is_playing())
     {
         new_stone.restart();
         layer2.emplace_back(new Stone(res, game));
