@@ -203,19 +203,20 @@ void Resources::init_winren()
 
 void Resources::load_fonts()
 {
-    font_s = TTF_OpenFont("res/fonts/slkscr.ttf", 8);
+    const char* font = "res/fonts/joystix.ttf";
+    font_s = TTF_OpenFont(font, 8);
     if(!font_s)
     {
         SDL_Log("Error in loading fonts");
         throw std::runtime_error(SDL_GetError());
     }
-    font_m = TTF_OpenFont("res/fonts/slkscr.ttf", 8*2);
+    font_m = TTF_OpenFont(font, 8*2);
     if(!font_m)
     {
         SDL_Log("Error in loading fonts");
         throw std::runtime_error(SDL_GetError());
     }
-    font_l = TTF_OpenFont("res/fonts/slkscr.ttf", 8*4);
+    font_l = TTF_OpenFont(font, 8*4);
     if(!font_l)
     {
         SDL_Log("Error in loading fonts");
