@@ -1,3 +1,4 @@
+#include "dialogue.hh"
 #include "game.hh"
 #include "effects.hh"
 #include "level.hh"
@@ -13,13 +14,14 @@ LevelInfo level = load_level("res/levels/tutorial.sl");
 
 Level::Level(Resources& res, Game* g)
 :res(res), game(*g), player(res, game), hud(res, level.length),
- current_cutscene(nullptr)
+ current_cutscene(nullptr), dialogue(res, "res/dialogue/dia1.json")
 {
     init();
 }
 
 Level::~Level()
 {
+    delete current_cutscene;
 }
 
 void Level::init()
@@ -94,6 +96,7 @@ void Level::draw()
     player.draw();
     draw_layer(layer2);
     hud.draw();
+    dialogue.draw();
 
     //std::cout << "Level drawn" << std::endl;
 }

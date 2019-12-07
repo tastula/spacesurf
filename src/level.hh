@@ -1,6 +1,7 @@
 #ifndef SURF_LEVEL_HH
 #define SURF_LEVEL_HH
 
+#include "dialogue.hh"
 #include "clock.hh"
 #include "hud.hh"
 #include "player.hh"
@@ -48,6 +49,7 @@ class Level
         Clock new_stone;
         HUD hud;
         CutScene* current_cutscene;
+        Dialogue dialogue;
 };
 
 #endif
