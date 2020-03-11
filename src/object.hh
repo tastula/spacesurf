@@ -1,6 +1,4 @@
 #ifndef SURF_OBJECT_HH
-
-Dialogue::~Dialogue() {}
 #define SURF_OBJECT_HH
 
 class Resources;
