@@ -43,6 +43,10 @@ void Cutscene::update(float delta)
         }
         else if(action == 2 && action_confirm_dialogue()) {
             delete dialogue; dialogue = nullptr;
+            clock.restart();
+            action++;
+        }
+        else if(action == 3 && action_wait(0.5)) {
             level.scene_playing = false;
         }
     }

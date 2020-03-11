@@ -46,6 +46,14 @@ SDL_Texture* Resources::get_naut_texture()
     return naut_textures[naut_model];
 }
 
+SDL_Texture* Resources::get_dialogue_head(std::string head)
+{
+    if(head == "player") return naut_heads[naut_model];
+    else if(head == "red") return naut_heads[0];
+    else if(head == "yellow") return naut_heads[1];
+    else if(head == "andromeda") return naut_heads[2];
+}
+
 SDL_Texture* Resources::get_naut_head()
 {
     return naut_heads[naut_model];
@@ -242,8 +250,10 @@ void Resources::load_textures()
     };
 
     naut_heads = {
+        // TODO: Change this to all heads
         load_texture("res/graphics/heads/head1.png"),
-        load_texture("res/graphics/heads/head2.png")
+        load_texture("res/graphics/heads/head2.png"),
+        load_texture("res/graphics/heads/andromeda.png")
     };
 
     for(unsigned i=0; i<names.size(); ++i)

@@ -26,6 +26,8 @@ class Dialogue: public Object
         bool is_read();
         
     private:
+        void load_dialogue();
+
         int border_outer;
         int border_inner;
         int dia_w;
@@ -40,9 +42,13 @@ class Dialogue: public Object
 
         bool all_displayed;
 
+        // Index of dialogue currently presenting from JSON
+        unsigned ongoing;
+
         std::vector<std::string> lines;
         std::vector<Label> line_labels;
-        json information;
+        json info;
+        SDL_Texture* head;
 
         Clock indicator;
         bool display_indicator;

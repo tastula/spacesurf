@@ -23,6 +23,7 @@ class Resources
         void set_naut_model(unsigned model);
         SDL_Texture* get_naut_texture();
         SDL_Texture* get_naut_head();
+        SDL_Texture* get_dialogue_head(std::string head);
         SDL_Color* get_naut_color();
         std::map<std::string, int> get_naut_skills();
 

@@ -1,3 +1,20 @@
 {
-    "test": "OH MY GOD it has been such a painful path to get a working cutscene system, let alone add dialogues to it. But it seems like this thing actually works now. Next step: multi-person dialogues and inserting dialogues in the middle of a game!"
+    "dialogue": [
+        {
+            "head": "andromeda",
+            "text": "This is Leena from Andromeda Intergalaktinen. Can you hear me?"
+        },
+        {
+            "head": "player",
+            "text": "Hey boss! I can hear you."
+        },
+        {
+            "head": "andromeda",
+            "text": "Good. I hope you've understood the basics of surfing by now. Otherwise you're going to face some hard times. There's an asteroid swarm coming towards you. Use your gun to avoid getting crushed. I'll call you once you're on safe skies."
+        },
+        {
+            "head": "player",
+            "text": "Got it, boss! I will try my best not to die and let you down!"
+        }
+    ]
 }

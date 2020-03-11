@@ -7,11 +7,11 @@
 
 
 Dialogue::Dialogue(Resources& res, std::string path)
-:Object(res)
+:Object(res), ongoing(0), head(nullptr)
 {
     // Load dialogue information from file
     std::ifstream stream(path);
-    stream >> information;
+    stream >> info;
     stream.close();
 
     border_outer = 10;
@@ -26,7 +26,7 @@ Dialogue::Dialogue(Resources& res, std::string path)
     back_y = res.screen_h - border_outer - border_inner - dia_h;
     text_w = (dia_w - 36) / 8;
 
-    lines = split_text(information["test"], text_w);
+    load_dialogue();
 
     for(unsigned i = 0; i < 3; ++i) {
         line_labels.push_back(Label(res, "", res.font_s));
@@ -38,14 +38,28 @@ Dialogue::Dialogue(Resources& res, std::string path)
 }
 
 
-Dialogue::~Dialogue() {}
+Dialogue::~Dialogue() {
+    head = nullptr;
+}
+
+void Dialogue::load_dialogue() {
+    lines = split_text(info["dialogue"][ongoing]["text"], text_w);
+    head = res.get_dialogue_head(info["dialogue"][ongoing]["head"]);
+    ongoing++;
+}
 
 void Dialogue::input()
 {
     // Advance dialogue if there's lines to show
     if(res.get_keyboard_key_d("Space")) {
         if(lines.size() > 3) lines.erase(lines.begin(), lines.begin()+3);
-        else all_displayed = true;
+        else {
+            if(ongoing < info["dialogue"].size()) {
+                load_dialogue();
+
+            }
+            else all_displayed = true;
+        }
     }
 }
 
@@ -74,7 +88,6 @@ void Dialogue::draw()
 
     // Talking head
     int w, h;
-    SDL_Texture* head = res.get_naut_head();
     SDL_QueryTexture(head, NULL, NULL, &w, &h);
     SDL_Rect head_box = { dia_x+6, dia_y+6, w*3, h*3 };
     SDL_RenderCopy(res.renderer, head, NULL, &head_box);
@@ -90,7 +103,7 @@ void Dialogue::draw()
     }
 
     // If there's more to display, signal it with a dot
-    if(lines.size() > 3 && display_indicator)
+    if((lines.size() > 3 || info["dialogue"].size() > ongoing) && display_indicator)
     {
         SDL_Rect rect = {
             res.screen_w-border_outer-border_inner-10,

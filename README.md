@@ -28,7 +28,7 @@ build/surf
 ## Screenshots
 
 In-game action
-![Screenshot of gameplay](res/screenshots/shot1.png)
+![Screenshot of gameplay](res/screenshots/ss-game.png)
 
-Unique nauts
-![Screenshot of player selection](res/screenshots/shot2.png)
+Dialogue and story
+![Screenshot of player selection](res/screenshots/ss-dialogue.png)
