@@ -4,6 +4,7 @@
 #include "json.hpp"
 #include "label.hh"
 #include "object.hh"
+#include "clock.hh"
 #include <string>
 #include <vector>
 
@@ -18,8 +19,11 @@ class Dialogue: public Object
         Dialogue(Resources& res, std::string path);
         ~Dialogue();
 
-        void draw();
+        void input();
         void update(float delta);
+        void draw();
+
+        bool is_read();
         
     private:
         int border_outer;
@@ -34,9 +38,14 @@ class Dialogue: public Object
         int back_y;
         int text_w;
 
+        bool all_displayed;
+
         std::vector<std::string> lines;
         std::vector<Label> line_labels;
         json information;
+
+        Clock indicator;
+        bool display_indicator;
 
         std::vector<std::string> split_text(const std::string& text, unsigned w);
 };

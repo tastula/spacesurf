@@ -9,9 +9,9 @@ class Object
         Object(Resources &res);
         virtual ~Object();
 
-        void add_position(float dx, float dy, float dz = 0);
+        virtual void add_position(float dx, float dy, float dz = 0);
+        virtual void set_position(float nx, float ny, float nz = 0);
         void add_velocity(float dx, float dy);
-        void set_position(float nx, float ny, float nz = 0);
         void set_velocity(float nx, float ny);
 
         float get_px();

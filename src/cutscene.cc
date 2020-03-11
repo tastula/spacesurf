@@ -5,26 +5,96 @@
 #include "gameobject.hh"
 #include "helpers.hh"
 #include "effects.hh"
+#include "level.hh"
 #include <iostream>
 
-CutScene::CutScene()
-: finished(false)
+Cutscene::Cutscene(Resources& res, Level& level)
+: res(res), level(level), finished(false), dialogue(nullptr)
+{
+    level.scene_playing = true;
+}
+
+Cutscene::~Cutscene()
 {
     // Pass
 }
 
-CutScene::~CutScene()
+void Cutscene::init() {}
+
+void Cutscene::end() {}
+
+void Cutscene::input()
 {
-    // Pass
+    if(dialogue) dialogue->input();
 }
 
-bool CutScene::is_finished()
+void Cutscene::update(float delta)
+{
+    if(dialogue) dialogue->update(delta);
+
+    if(level.scene_playing) {
+        if(action == 0 && action_move_player(delta, 100, res.screen_h/2)) {
+            clock.restart();
+            action++;
+        }
+        else if(action == 1 && action_wait(1)) {
+            dialogue = new Dialogue(res, "res/dialogue/dia1.json");
+            action++;
+        }
+        else if(action == 2 && action_confirm_dialogue()) {
+            delete dialogue; dialogue = nullptr;
+            level.scene_playing = false;
+        }
+    }
+}
+
+void Cutscene::draw() {
+    if(dialogue) dialogue->draw();
+}
+
+bool Cutscene::is_finished()
 {
     return finished;
 }
 
-StartCutScene::StartCutScene(Player& player, Clock& rocks, Resources& res)
-: player(player),
+bool Cutscene::action_move_player(float delta, float px, float py) {
+    // Calculate direction to move towards
+    int dx1 = px-level.player.get_px(); if(dx1 != 0) dx1 = dx1/abs(dx1);
+    int dy1 = py-level.player.get_py(); if(dy1 != 0) dy1 = dy1/abs(dy1);
+
+    // Move the player
+    level.player.add_position(
+        dx1*delta*level.player.get_velocity(),
+        dy1*delta*level.player.get_velocity()
+    );
+
+    // Calculate current direction
+    int dx2 = px-level.player.get_px(); if(dx2 != 0) dx2 = dx2/abs(dx2);
+    int dy2 = py-level.player.get_py(); if(dy2 != 0) dy2 = dy2/abs(dy2);
+
+    // Set the player to target point if moved past it
+    if(dx1 != dx2) level.player.set_position(px, level.player.get_py());
+    if(dy1 != dy2) level.player.set_position(level.player.get_px(), py);
+
+    // Action completed if the player is on target point
+    return px == level.player.get_px() && py == level.player.get_py();
+
+}
+
+bool Cutscene::action_wait(float time) {
+    // Action completed when wanted time has passed
+    return clock.time() > time;
+}
+
+bool Cutscene::action_confirm_dialogue() {
+    // Action completed when all dialogue is read
+    return dialogue->is_read();
+}
+
+
+/**
+StartCutscene::StartCutscene(Player& player, Clock& rocks, Resources& res, Level& level)
+: Cutscene(level), player(player),
   rocks(rocks),
   res(res),
   end_pos_x(res.screen_w/4)
@@ -32,12 +102,12 @@ StartCutScene::StartCutScene(Player& player, Clock& rocks, Resources& res)
     init();
 }
 
-StartCutScene::~StartCutScene()
+StartCutscene::~StartCutscene()
 {
     // Pass
 }
 
-void StartCutScene::init()
+void StartCutscene::init()
 {
     //std::cout << "Cutscene initialized" << std::endl;
     player.set_active(false);
@@ -46,7 +116,7 @@ void StartCutScene::init()
     finished = false;
 }
 
-void StartCutScene::end()
+void StartCutscene::end()
 {
     //std::cout << "Cutscene over" << std::endl;
     player.set_active(true);
@@ -55,7 +125,7 @@ void StartCutScene::end()
     finished = true;
 }
 
-void StartCutScene::update(float delta)
+void StartCutscene::update(float delta)
 {
     if(!finished)
     {
@@ -74,9 +144,10 @@ void StartCutScene::update(float delta)
 
 constexpr float ACCELERATION = 10;
 
-WinCutScene::WinCutScene(Player& player, Clock& rocks, Resources& res,
+WinCutscene::WinCutscene(Level& level, Player& player, Clock& rocks, Resources& res,
                          Game& game, std::vector<GameObject*>& layer, int hp)
-: player(player),
+: Cutscene(level),
+  player(player),
   rocks(rocks),
   res(res),
   game(game),
@@ -87,12 +158,12 @@ WinCutScene::WinCutScene(Player& player, Clock& rocks, Resources& res,
     init();
 }
 
-WinCutScene::~WinCutScene()
+WinCutscene::~WinCutscene()
 {
     // Pass
 }
 
-void WinCutScene::init()
+void WinCutscene::init()
 {
     //std::cout << "Cutscene initialized" << std::endl;
     player.set_active(false);
@@ -100,13 +171,13 @@ void WinCutScene::init()
     finished = false;
 }
 
-void WinCutScene::end()
+void WinCutscene::end()
 {
     //std::cout << "Cutscene over" << std::endl;
     finished = true;
 }
 
-void WinCutScene::update(float delta)
+void WinCutscene::update(float delta)
 {
     if(!finished)
     {
@@ -151,3 +222,4 @@ void WinCutScene::update(float delta)
         }
     }
 }
+**/

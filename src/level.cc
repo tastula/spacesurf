@@ -15,17 +15,12 @@ LevelInfo level = load_level("res/levels/tutorial.sl");
 
 Level::Level(Resources& res, Game* g)
 :res(res), game(*g), player(res, game), hud(res, level.length)
- //current_cutscene(nullptr),
- //current_dialogue(res, "res/dialogue/dia1.json")
- //current_dialogue(nullptr)
 {
     init();
 }
 
 Level::~Level()
 {
-    //delete current_cutscene;
-    //delete current_dialogue;
 }
 
 void Level::init()
@@ -36,12 +31,9 @@ void Level::init()
     game.play(true);
 
     player.init();
-    player.set_texture(res.get_naut_texture());
+    player.set_position(-80, res.screen_h/2);
     hud.init();
 
-    //current_cutscene = new StartCutScene(res, this);
-    
-    //std::cout << "Level initialized" << std::endl;
 }
 
 void Level::input()
@@ -51,34 +43,8 @@ void Level::input()
 
 void Level::update(float delta)
 {
-    //if(hud.get_time() >= level.length && !current_cutscene) {
-    //    current_cutscene = new WinCutScene(
-    //        player, new_stone, res, game, layer2, player.get_health()
-    //    );
-    //}
-
-    /**
-    if(current_cutscene) {
-        // Update ongoing cutscene
-        if(current_cutscene->is_finished() == false)
-        {
-            current_cutscene->update(delta);
-        }
-        // The cutscene is over, delete it and continue the game normally
-        else if(current_cutscene->is_finished())
-        {
-            delete current_cutscene;
-            //delete current_dialogue;
-            current_cutscene = nullptr;
-            //current_dialogue = nullptr;
-        }
-    }
-    **/
-
-    //if(!current_cutscene) {
-        add_stones();
-        hud.update(delta, player.get_health());
-    //}
+    add_stones();
+    hud.update(delta, player.get_health());
 
     for(auto o1: layer2)
     {
@@ -94,8 +60,6 @@ void Level::update(float delta)
 
     player.update(delta);
     if(!layer2.empty()) update_layer(delta, layer2);
-
-    //std::cout << "Level updated" << std::endl;
 }
 
 void Level::draw()
@@ -103,13 +67,6 @@ void Level::draw()
     player.draw();
     draw_layer(layer2);
     hud.draw();
-
-    //std::cout << current_dialogue << " " << (current_dialogue == nullptr) << std::endl;
-    //if(current_dialogue != nullptr) current_dialogue->draw();
-
-    //if(current_dialogue != nullptr) current_dialogue->draw();
-
-    //std::cout << "Level drawn" << std::endl;
 }
 
 void Level::add_stones()

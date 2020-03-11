@@ -24,18 +24,39 @@ Dialogue::Dialogue(Resources& res, std::string path)
     back_h = dia_h + 2*border_inner;
     back_x = border_outer - border_inner;
     back_y = res.screen_h - border_outer - border_inner - dia_h;
-    text_w = ((res.screen_w-border_outer-border_inner) - (10+2+40)) / 8;
+    text_w = (dia_w - 36) / 8;
 
     lines = split_text(information["test"], text_w);
 
     for(unsigned i = 0; i < 3; ++i) {
         line_labels.push_back(Label(res, "", res.font_s));
     }
+
+    all_displayed = false;
+    indicator.restart();
+    display_indicator = false;
 }
 
 
 Dialogue::~Dialogue() {}
 
+void Dialogue::input()
+{
+    // Advance dialogue if there's lines to show
+    if(res.get_keyboard_key_d("Space")) {
+        if(lines.size() > 3) lines.erase(lines.begin(), lines.begin()+3);
+        else all_displayed = true;
+    }
+}
+
+void Dialogue::update(float delta)
+{
+    // Update indicator dot visibility to make it flash
+    if(indicator.time() > 0.5) {
+        display_indicator = !display_indicator;
+        indicator.restart();
+    }
+}
 
 void Dialogue::draw()
 {
@@ -53,20 +74,37 @@ void Dialogue::draw()
 
     // Talking head
     int w, h;
-    int x = 10+2;
-    int y = res.screen_h-50+2;
     SDL_Texture* head = res.get_naut_head();
     SDL_QueryTexture(head, NULL, NULL, &w, &h);
-    SDL_Rect head_box = { x+5, y+5, w*3, h*3 };
+    SDL_Rect head_box = { dia_x+6, dia_y+6, w*3, h*3 };
     SDL_RenderCopy(res.renderer, head, NULL, &head_box);
 
-    // The text
-    for(unsigned i = 0; i < line_labels.size(); ++i) {
-        line_labels[i].update_text(lines[i]);
-        line_labels[i].update_pos(x+40, y+5 + 10*i);
-        line_labels[i].draw();
+    // Update text
+    for(unsigned i = 0; i < line_labels.size(); ++i)
+    {
+        if(i < lines.size()) {
+            line_labels[i].update_text(lines[i]);
+            line_labels[i].update_pos(dia_x+2*6+w*3, dia_y+6 + 10*i);
+            line_labels[i].draw();
+        }
     }
 
+    // If there's more to display, signal it with a dot
+    if(lines.size() > 3 && display_indicator)
+    {
+        SDL_Rect rect = {
+            res.screen_w-border_outer-border_inner-10,
+            res.screen_h-border_outer-border_inner-10,
+            6, 6
+        };
+        res.set_render_color(res.get_color(COLOR_WHITE));
+        SDL_RenderFillRect(res.renderer, &rect);
+    }
+
+}
+
+bool Dialogue::is_read() {
+    return all_displayed;
 }
 
 std::vector<std::string> Dialogue::split_text(const std::string& text, unsigned w) {
@@ -82,21 +120,23 @@ std::vector<std::string> Dialogue::split_text(const std::string& text, unsigned 
     std::string::const_iterator it_l = text.cbegin();
     std::string::const_iterator it_r = text.cbegin() + w;
 
-    // Iterate the whole text to split lines
-    while(it_l != text.cend()) {
+    // Iterate the whole text
+    while(it_l < text.cend()) {
         // Find a break point (space)
-        if(it_r != text.cend() && *it_r != ' ') {
+        if(it_r < text.cend() && *it_r != ' ') {
             --it_r;
         }
-        // Save a substring as a separate line and continue
+        // Save substrings as a separate line
         else {
-            // Save the first line as is
-            if(it_l == text.cbegin()) {
-                split_lines.push_back(std::string(it_l, it_r));
+            // Cut space out from lines that come after the first
+            int space = it_l == text.cbegin() ? 0 : 1;
+            // The line is shorter
+            if(it_r >= text.cend()) {
+                split_lines.push_back(std::string(it_l+space, text.cend()));
             }
-            // Save the other lines without space in the beginning
+            // The line fits or is too long
             else {
-                split_lines.push_back(std::string(it_l + 1, it_r));
+                split_lines.push_back(std::string(it_l+space, it_r));
             }
             it_l = it_r;
             it_r = it_l + w;

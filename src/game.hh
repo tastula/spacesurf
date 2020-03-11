@@ -2,6 +2,7 @@
 #define SURF_GAME_HH
 
 #include "clock.hh"
+#include "cutscene.hh"
 #include "level.hh"
 #include "menu.hh"
 #include "player.hh"
@@ -49,7 +50,11 @@ class Game
         std::vector<Menu*> menus;
         std::vector<Label*> labels;
         Menu* current_menu;
+
+        Cutscene scene;
+
         game_state state;
+        bool asd = false;
 };
 
 #endif

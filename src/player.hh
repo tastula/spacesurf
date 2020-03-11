@@ -19,6 +19,8 @@ class Player: public GameObject
         virtual void update(float delta);
         virtual void collide(GameObject& obj);
         virtual void draw();
+        virtual void add_position(float dx, float dy, float dz = 0) override;
+        virtual void set_position(float nx, float ny, float nz = 0) override;
         float get_velocity();
         void set_skills();
         void add_general_velocity(float vel);

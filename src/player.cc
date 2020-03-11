@@ -21,6 +21,7 @@ Player::~Player()
 void Player::init()
 {
     set_skills();
+    set_texture(res.get_naut_texture());
     new_hitlabel.restart();
     hit_count = 0;
     update(0);
@@ -121,4 +122,16 @@ float Player::get_velocity()
 void Player::add_general_velocity(float vel)
 {
     velocity += vel;
+}
+
+void Player::add_position(float dx, float dy, float dz) {
+    Object::add_position(dx, dy, dz);
+    gun.add_position(dx, dy, dz);
+    board.add_position(dx, dy, dz);
+}
+
+void Player::set_position(float dx, float dy, float dz) {
+    Object::set_position(dx, dy, dz);
+    gun.set_position(dx+w, dy+5, dz);
+    board.set_position(dx-2, dy+h-3, dz);
 }

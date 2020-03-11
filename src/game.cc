@@ -10,6 +10,7 @@
 
 Game::Game(Resources &res)
 :res(res), level(res, this), running(true), playing(true), paused(false),
+ scene(res, level),
  state(STATE_MENU)
 {
     init();
@@ -98,6 +99,7 @@ void Game::input()
         }
 
         level.input();
+        scene.input();
     }
 }
 
@@ -115,7 +117,9 @@ void Game::update(float delta_time)
     }
     else if(state == STATE_GAME)
     {
-        if(!is_paused())
+        scene.update(delta_time);
+
+        if(!is_paused() && !level.scene_playing)
         {
             level.update(delta_time);
         }
@@ -140,6 +144,7 @@ void Game::draw()
     else if(state == STATE_GAME)
     {
         level.draw();
+        scene.draw();
     }
 
     SDL_SetRenderTarget(res.renderer, NULL);

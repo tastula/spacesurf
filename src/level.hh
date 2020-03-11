@@ -12,11 +12,12 @@ class Dialogue;
 class GameObject;
 class Resources;
 class Stone;
-class CutScene;
+class Cutscene;
 
 class Level
 {
     friend class Game;
+    friend class Cutscene;
 
     public:
         Level(Resources& res, Game* g);
@@ -44,16 +45,14 @@ class Level
         std::vector<GameObject*> layer2;
         std::vector<GameObject*> new_objects;
 
-        // If a scene is playing. Player can't take input during one.
-        bool is_scene;
+        bool scene_playing;
+        bool game_playing;
 
         Resources& res;
         Game& game;
         Player player;
         Clock new_stone;
         HUD hud;
-        //CutScene current_cutscene;
-        //Dialogue current_dialogue;
 };
 
 #endif

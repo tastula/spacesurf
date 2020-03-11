@@ -2,67 +2,67 @@
 #define SURF_CUTSCENE_HH
 
 #include "clock.hh"
+#include "dialogue.hh"
 #include <vector>
 
 class Player;
 class Resources;
 class Game;
 class GameObject;
+class Level;
 
-//! A class that contains commands for executing a non-playable cutscene. Every
-//! CutScene should be a unique object derived from the main class. Cutscenes
-//! shouldn't be able to draw anything, just control and update other objects
-//! that are given as pointers in the constructor.
-class CutScene
+class Cutscene
 {
+
     public:
-        //! Base class constructor sets the state of cutscene as active.
-        //! @brief Constructor for class CutScene.
-        CutScene();
+        Cutscene(Resources& res, Level& level);
 
-        //! Base class destructor shoudln't do anything.
-        //! @brief Dummy destructor for class CutScene.
-        virtual ~CutScene() = 0;
+        virtual ~Cutscene();
 
-        //! Initializer where the state of objects in the cutscene is modified.
-        //! Can be called to reset the cutscene.
-        //! @brief Initialize the cutscene.
-        virtual void init() = 0;
+        virtual void init();
 
-        //! End the current CutScene by setting critical variables to their end
-        //! value. End conditions are checked in update().
-        //! @brief End the current CutScene.
-        virtual void end() = 0;
+        virtual void end();
 
-        //! Update the CutScene variables. Check if the CutScene is over by comparing
-        //! critical variables to their end conditions.
-        //! @brief Update the CutScene.
-        //! @param Time passed since last call.
-        virtual void update(float delta) = 0;
+        virtual void input();
 
-        //! If all critical variables have met the end conditions, the CutScene
-        //! is marked as finished.
-        //! @brief Check if the CutScene is over.
+        virtual void update(float delta);
+
+        virtual void draw();
+
         virtual bool is_finished();
 
     protected:
+        Resources& res;
+        Level& level;
         bool finished;
+        Clock clock;
+        Dialogue* dialogue;
+        unsigned action = 0;
+
+        bool action_move_player(float delta, float px, float py);
+        bool action_wait(float time);
+        bool action_confirm_dialogue();
 };
 
-//! A class that creates a level starting CutScene. Player hovers from the left,
+
+
+/**
+//! A class that creates a level starting Cutscene. Player hovers from the left,
 //! outside of the screen and starts the level at the same time as the rocks.
-class StartCutScene : public CutScene
+class StartCutscene : public Cutscene
 {
+    friend class Level;
+
     public:
         //! Control player's movement and delay the rocks until the player is
         //! ready to start.
-        //! @brief A CutScene that starts every level.
+        //! @brief A Cutscene that starts every level.
         //! @param Reference to player model.
         //! @param Reference to rock timer.
         //! @param Reference to game resources.
-        StartCutScene(Player& player, Clock& rocks, Resources& res);
+        StartCutscene(Player& player, Clock& rocks, Resources& res, Level& level);
 
-        virtual ~StartCutScene();
+        virtual ~StartCutscene();
 
         void init() override;
         virtual void end() override;
@@ -75,13 +75,14 @@ class StartCutScene : public CutScene
         const float end_pos_x;
 };
 
-class WinCutScene : public CutScene
+
+class WinCutscene : public Cutscene
 {
     public:
-        WinCutScene(Player& player, Clock& rocks, Resources& res, Game& game,
+        WinCutscene(Level& level, Player& player, Clock& rocks, Resources& res, Game& game,
                     std::vector<GameObject*>& layer, int hp);
 
-        virtual ~WinCutScene();
+        virtual ~WinCutscene();
 
         void init() override;
         virtual void end() override;
@@ -99,5 +100,6 @@ class WinCutScene : public CutScene
         unsigned confetti_left = 10;
         const unsigned confetti_burst = 12;
 };
+**/
 
 #endif // SURF_CUTSCENE_HH
