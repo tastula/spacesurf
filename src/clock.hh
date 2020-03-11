@@ -8,6 +8,7 @@ class Clock
         ~Clock();
         void pause();
         void stop();
+        void reset();
         float time();
         float restart();
 

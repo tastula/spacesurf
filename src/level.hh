@@ -1,13 +1,14 @@
 #ifndef SURF_LEVEL_HH
 #define SURF_LEVEL_HH
 
-#include "dialogue.hh"
 #include "clock.hh"
+#include "dialogue.hh"
 #include "hud.hh"
 #include "player.hh"
 #include <vector>
 
 class Game;
+class Dialogue;
 class GameObject;
 class Resources;
 class Stone;
@@ -31,7 +32,10 @@ class Level
         // TODO: Read levels from a file, clocks with callbacks?
 
         void add_object(GameObject* obj);
+
     private:
+        friend class CutScene;
+
         void deactivate_objects();
         void add_stones();
         void draw_layer(std::vector<GameObject*>& layer);
@@ -48,8 +52,8 @@ class Level
         Player player;
         Clock new_stone;
         HUD hud;
-        CutScene* current_cutscene;
-        Dialogue dialogue;
+        //CutScene current_cutscene;
+        //Dialogue current_dialogue;
 };
 
 #endif

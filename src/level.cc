@@ -7,21 +7,25 @@
 #include "resources.hh"
 #include "stone.hh"
 #include "cutscene.hh"
+#include "dialogue.hh"
 #include <iostream>
 
 // Load level information from file
 LevelInfo level = load_level("res/levels/tutorial.sl");
 
 Level::Level(Resources& res, Game* g)
-:res(res), game(*g), player(res, game), hud(res, level.length),
- current_cutscene(nullptr), dialogue(res, "res/dialogue/dia1.json")
+:res(res), game(*g), player(res, game), hud(res, level.length)
+ //current_cutscene(nullptr),
+ //current_dialogue(res, "res/dialogue/dia1.json")
+ //current_dialogue(nullptr)
 {
     init();
 }
 
 Level::~Level()
 {
-    delete current_cutscene;
+    //delete current_cutscene;
+    //delete current_dialogue;
 }
 
 void Level::init()
@@ -35,7 +39,7 @@ void Level::init()
     player.set_texture(res.get_naut_texture());
     hud.init();
 
-    current_cutscene = new StartCutScene(player, new_stone, res);
+    //current_cutscene = new StartCutScene(res, this);
     
     //std::cout << "Level initialized" << std::endl;
 }
@@ -47,31 +51,34 @@ void Level::input()
 
 void Level::update(float delta)
 {
-    if(hud.get_time() >= level.length && !current_cutscene)
-    {
-        current_cutscene = new WinCutScene(
-            player, new_stone, res, game, layer2, player.get_health()
-        );
-    }
+    //if(hud.get_time() >= level.length && !current_cutscene) {
+    //    current_cutscene = new WinCutScene(
+    //        player, new_stone, res, game, layer2, player.get_health()
+    //    );
+    //}
 
-    // Don't update anything but the cutscene if one is active.
-    if(current_cutscene && !current_cutscene->is_finished())
-    {
-        current_cutscene->update(delta);
+    /**
+    if(current_cutscene) {
+        // Update ongoing cutscene
+        if(current_cutscene->is_finished() == false)
+        {
+            current_cutscene->update(delta);
+        }
+        // The cutscene is over, delete it and continue the game normally
+        else if(current_cutscene->is_finished())
+        {
+            delete current_cutscene;
+            //delete current_dialogue;
+            current_cutscene = nullptr;
+            //current_dialogue = nullptr;
+        }
     }
-    // The cutscene is over, delete it and continue the game normally.
-    else if(current_cutscene && current_cutscene->is_finished())
-    {
-        delete current_cutscene;
-        current_cutscene = nullptr;
-    }
-    // No cutscene.
-    else
-    {
+    **/
+
+    //if(!current_cutscene) {
         add_stones();
         hud.update(delta, player.get_health());
-    }
-
+    //}
 
     for(auto o1: layer2)
     {
@@ -96,7 +103,11 @@ void Level::draw()
     player.draw();
     draw_layer(layer2);
     hud.draw();
-    dialogue.draw();
+
+    //std::cout << current_dialogue << " " << (current_dialogue == nullptr) << std::endl;
+    //if(current_dialogue != nullptr) current_dialogue->draw();
+
+    //if(current_dialogue != nullptr) current_dialogue->draw();
 
     //std::cout << "Level drawn" << std::endl;
 }

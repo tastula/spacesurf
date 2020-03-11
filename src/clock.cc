@@ -60,6 +60,10 @@ void Clock::stop()
     }
 }
 
+void Clock::reset() {
+    current_time = 0;
+}
+
 bool Clock::is_running()
 {
     return !paused;

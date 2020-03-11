@@ -38,9 +38,7 @@ class Dialogue: public Object
         std::vector<Label> line_labels;
         json information;
 
-        Label text;
-
-        std::vector<std::string> split_text(const std::string& text, int w);
+        std::vector<std::string> split_text(const std::string& text, unsigned w);
 };
 
 #endif

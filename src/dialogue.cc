@@ -7,7 +7,7 @@
 
 
 Dialogue::Dialogue(Resources& res, std::string path)
-:Object(res), text(res, "", res.font_s)
+:Object(res)
 {
     // Load dialogue information from file
     std::ifstream stream(path);
@@ -39,6 +39,7 @@ Dialogue::~Dialogue() {}
 
 void Dialogue::draw()
 {
+    //if(!is_showing) return;
 
     // A bit larger background box (borders)
     SDL_Rect back = { back_x, back_y, back_w, back_h };
@@ -68,7 +69,7 @@ void Dialogue::draw()
 
 }
 
-std::vector<std::string> Dialogue::split_text(const std::string& text, int w) {
+std::vector<std::string> Dialogue::split_text(const std::string& text, unsigned w) {
 
     std::vector<std::string> split_lines;
 
@@ -102,7 +103,7 @@ std::vector<std::string> Dialogue::split_text(const std::string& text, int w) {
         }
     }
 
-    //for(auto line: split_lines) std::cout << line << std::endl;
+    for(auto line: split_lines) std::cout << line << std::endl;
 
     return split_lines;
 }
